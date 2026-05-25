@@ -373,19 +373,12 @@ grep -n "artifactory\|private\|internal" bun.lock
 
 ### Workflow
 
-Never commit directly to `main`. Always use a short-lived feature branch:
+This is a solo project — commit directly to `main`. No feature branches, no pull requests.
 
 ```bash
-git checkout -b my-feature        # 1. Create feature branch
-# ... make changes ...
 git add <files>
-git commit -m "Add/Fix/Update X"  # 2. Commit
-git push -u origin my-feature     # 3. Push
-git checkout main
-git merge my-feature              # 4. Merge to main
-git push origin main              # 5. Push main
-git branch -d my-feature          # 6. Delete local branch
-git push origin --delete my-feature  # 7. Delete remote branch
+git commit -m "Add/Fix/Update X"
+git push origin main
 ```
 
-Use the `/cicd:commit-and-push` skill to automate steps 1–3.
+**Auth note:** pushes to `yermilov/pragmatic-vibe-clauding-en` require the personal `yermilov` GitHub account, not the EMU `yaroslav-yermilov_super` account. If a push returns 403, run `gh auth switch --user yermilov`, push, then switch back with `gh auth switch --user yaroslav-yermilov_super`.
