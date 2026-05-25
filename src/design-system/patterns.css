@@ -85,6 +85,16 @@
   text-shadow: 0 0 10px var(--terminal-blue-glow);
 }
 
+.section-header--orange {
+  color: var(--terminal-orange);
+  text-shadow: 0 0 10px var(--terminal-orange-glow);
+}
+
+.section-header--cyan {
+  color: var(--terminal-cyan);
+  text-shadow: 0 0 10px var(--terminal-cyan-glow);
+}
+
 /* === INLINE CODE VARIANTS (cyan default, orange, green) === */
 .code-inline {
   background: rgba(118, 228, 247, 0.1);
