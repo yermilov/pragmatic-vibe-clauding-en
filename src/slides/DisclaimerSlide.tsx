@@ -1,6 +1,6 @@
 import { SlideDefinition } from '../types/slides';
-import terminalFighter from '../assets/terminal-fighter.png?url';
-import ideFighter from '../assets/ide-fighter.png?url';
+import terminalFighter from '/terminal-fighter.png?url';
+import ideFighter from '/ide-fighter.png?url';
 
 type Level = 'high' | 'medium' | 'low';
 
@@ -30,16 +30,18 @@ function DisclaimerItem({ level, children }: { level: Level; children: React.Rea
 
   return (
     <div
-      className="disclaimer-item"
       style={{
         display: 'grid',
         gridTemplateColumns: '2.5rem 1fr',
         alignItems: 'start',
-        gap: 'var(--space-sm)',
+        gap: '0.75rem',
+        fontSize: '1.5rem',
         opacity: s.opacity,
+        marginBottom: '1.25rem',
+        lineHeight: 1.5,
       }}
     >
-      <span style={{ color: s.prefixColor, fontWeight: 'bold' }}>{s.prefix}</span>
+      <span style={{ color: s.prefixColor, fontWeight: 'bold', marginTop: '0.1em' }}>{s.prefix}</span>
       <span
         style={{
           color: 'var(--terminal-white)',
@@ -69,7 +71,6 @@ export const DisclaimerSlide: SlideDefinition = {
           src={terminalFighter}
           alt="Terminal CLI Fighter"
           className="vs-fighter-image"
-          loading="lazy"
         />
         <div className="vs-fighter-name">Terminal</div>
       </div>
@@ -79,27 +80,20 @@ export const DisclaimerSlide: SlideDefinition = {
         <div className="vs-badge">VS</div>
         <div className="vs-disclaimer-content">
           <DisclaimerItem level="high">
-            особисто мені найкраще зайшов флоу, коли працюю з{' '}
+            персонально для мене набагато краще заходить флоу у якому я працюю з{' '}
             <em style={{ color: 'var(--terminal-orange)', fontStyle: 'normal', fontWeight: 600 }}>
               Claude Code повністю в терміналі
             </em>
           </DisclaimerItem>
 
           <DisclaimerItem level="medium">
-            але можу відкрити IDE (зазвичай{' '}
-            <span style={{ color: 'var(--terminal-cyan)' }}>VS Code</span>) для невеликих
-            точкових правок, які хочеться зробити руками
-          </DisclaimerItem>
-
-          <DisclaimerItem level="medium">
-            Термінал швидше відучує від старої ментальної моделі{' '}
-            <em style={{ color: 'var(--terminal-white-dim)', fontStyle: 'normal' }}>«я редагую текст»</em>
-            {' '}і вчить нової:{' '}
-            <em style={{ color: 'var(--terminal-green)', fontStyle: 'normal', fontWeight: 600 }}>«я ставлю задачі агенту»</em>
+            але можу використати IDE (найчастіше{' '}
+            <span style={{ color: 'var(--terminal-cyan)' }}>VS Code</span>) для точкових невеликих
+            змін які я хочу зробити вручну
           </DisclaimerItem>
 
           <DisclaimerItem level="low">
-            якщо в терміналі некомфортно — є плагіни:{' '}
+            якщо ви не почуваєтеся впевнено в терміналі — використовуйте плагіни:{' '}
             <a
               href="https://marketplace.visualstudio.com/items?itemName=anthropic.claude-code"
               target="_blank"
@@ -127,12 +121,11 @@ export const DisclaimerSlide: SlideDefinition = {
           src={ideFighter}
           alt="IDE Code Editor Fighter"
           className="vs-fighter-image"
-          loading="lazy"
         />
         <div className="vs-fighter-name">IDE</div>
       </div>
 
     </div>
   ),
-  notes: 'Особистий дисклеймер про термінал vs IDE — у стилі Mortal Kombat',
+  notes: 'Personal disclaimer about terminal vs IDE workflow preferences - Mortal Kombat style!',
 };

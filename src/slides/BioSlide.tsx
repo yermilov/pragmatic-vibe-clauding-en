@@ -1,23 +1,28 @@
-import { ReactNode } from 'react';
 import { SlideDefinition } from '../types/slides';
-import yarikBadges from '../assets/yarik-badges.jpg?url';
+import yarikBadges from '/yarik-badges.jpg?url';
 
 type Level = 'high' | 'medium' | 'low';
 
-const levelStyles: Record<Level, { prefix: string; prefixColor: string; opacity: number }> = {
+const levelStyles = {
   high: {
     prefix: '>>',
     prefixColor: 'var(--terminal-orange)',
+    labelColor: 'var(--terminal-white)',
+    labelGlow: '0 0 20px rgba(240, 136, 62, 0.3)',
     opacity: 1,
   },
   medium: {
     prefix: '> ',
     prefixColor: 'var(--terminal-blue)',
+    labelColor: 'var(--terminal-white)',
+    labelGlow: 'none',
     opacity: 1,
   },
   low: {
     prefix: '--',
     prefixColor: 'var(--terminal-white-dim)',
+    labelColor: 'var(--terminal-white)',
+    labelGlow: 'none',
     opacity: 0.85,
   },
 };
@@ -26,43 +31,79 @@ function BioItem({ level, children }: { level: Level; children: React.ReactNode 
   const s = levelStyles[level];
 
   return (
-    <div className="bio-item" style={{ opacity: s.opacity }}>
-      <span className="bio-item__prefix" style={{ color: s.prefixColor }}>
-        {s.prefix}
+    <div
+      style={{
+        display: 'grid',
+        gridTemplateColumns: '2.5rem 1fr',
+        alignItems: 'center',
+        gap: '0.5rem',
+        fontSize: 'var(--slide-text-normal)',
+        opacity: s.opacity,
+        marginBottom: '0.35rem',
+      }}
+    >
+      <span style={{ color: s.prefixColor, fontWeight: 'bold' }}>{s.prefix}</span>
+      <span
+        style={{
+          color: s.labelColor,
+          textShadow: s.labelGlow,
+        }}
+      >
+        {children}
       </span>
-      <span style={{ color: 'var(--terminal-white)' }}>{children}</span>
     </div>
   );
 }
 
-const BIO_ITEMS: { level: Level; content: ReactNode }[] = [
-  { level: 'low',    content: <>починав як Java backend-інженер</> },
-  { level: 'medium', content: <>потім: техлідив продуктові фічі</> },
-  { level: 'medium', content: <>потім: техлід платформної організації</> },
-  { level: 'high',   content: <>зараз: AI-first розробка</> },
-];
+function BioSection({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div style={{ marginBottom: '1.5rem' }}>
+      <div
+        className="section-header section-header--blue"
+        style={{
+          borderBottom: '1px solid var(--terminal-border)',
+          paddingBottom: '0.2rem',
+        }}
+      >
+        {title}
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>{children}</div>
+    </div>
+  );
+}
 
 export const BioSlide: SlideDefinition = {
   id: 'bio',
-  title: (
-    <>
-      <span className="text-dim">&gt;</span> хто я
-    </>
-  ),
-  maxRevealStages: BIO_ITEMS.length - 1,
-  content: ({ revealStage }) => (
+  content: (
     <div className="bio-slide">
       <div className="bio-slide-content">
-        <p className="bio-subtitle">
-          9 років у компанії Superhuman (раніше відомої як Grammarly)
-        </p>
+        <h2 style={{ marginBottom: '1.5rem', textAlign: 'left' }}>
+          <span className="text-dim">$</span> whoami
+        </h2>
 
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-          {BIO_ITEMS.map((item, i) =>
-            revealStage >= i ? (
-              <BioItem key={i} level={item.level}>{item.content}</BioItem>
-            ) : null,
-          )}
+        <div style={{ textAlign: 'left' }}>
+          <BioSection title="8+ років в греммерлі / суперхьюмані">
+            <BioItem level="high">0 -&gt; 1 проєкти</BioItem>
+            <BioItem level="high">в 2025 році - впровадження АІ-кодінг агентів в компанії</BioItem>
+            <BioItem level="medium">до цього: техлідив платформену організацію</BioItem>
+            <BioItem level="medium">до цього: техлідив розробку фічевих фреймворків</BioItem>
+            <BioItem level="medium">до цього: лідив продуктові фічі</BioItem>
+            <BioItem level="low">до цього: працював на бекенді</BioItem>
+          </BioSection>
+
+          <BioSection title="connect">
+            <BioItem level="high">
+              пишу постійно в{' '}
+              <a
+                href="https://www.linkedin.com/in/yarik-yermilov/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="slide-link"
+              >
+                LinkedIn
+              </a>
+            </BioItem>
+          </BioSection>
         </div>
       </div>
       <img
@@ -70,7 +111,6 @@ export const BioSlide: SlideDefinition = {
         alt="Grammarly badges"
         className="bio-slide-image"
         style={{ maxWidth: '480px' }}
-        loading="lazy"
       />
     </div>
   ),

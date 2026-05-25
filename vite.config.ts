@@ -13,5 +13,5 @@ export default defineConfig({
       svgo: { plugins: [{ removeViewBox: false }] },
     }),
   ],
-  base: '/ai-first-code-review-agent-ua/',
+  base: '/pragmatic-vibe-clauding-en/',
 })

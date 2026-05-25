@@ -1,51 +1,90 @@
-import { ReactNode } from 'react';
 import { SlideDefinition } from '../types/slides';
-import { SlideItem, Emphasis } from '../components/SlideElements';
-import linkedinQr from '../assets/linkedin-qr.jpeg?url';
-
-const TAKEAWAYS: ReactNode[] = [
-  <>почніть із пошуку власного <Emphasis color="green">vibe coding flow</Emphasis></>,
-  <>далі виходьте за межі коду — використовуйте Клода для <Emphasis color="orange">всього, що робите</Emphasis>, особливо для закриття feedback loops</>,
-  <>скіли — ваш мультиплікатор для команди; побудуйте <Emphasis color="green">інфраструктуру</Emphasis>, щоб ними було легко ділитися й перевикористовувати</>,
-  <>напівавтономні агенти — наступний рубіж; починайте зі <Emphasis color="orange">спеціалізованих агентів</Emphasis>: тріажу тікетів, код-рев'ю, міграцій тощо</>,
-  <><Emphasis color="green">люди</Emphasis> — найбільша цінність: AI підсилює команду, а не замінює її</>,
-  <>пишіть мені в LinkedIn, я люблю поспілкуватися про AI</>,
-];
-
-// Final stage reveals both the last takeaway (LinkedIn bullet) and the QR.
-const TOTAL_STAGES = TAKEAWAYS.length;
+import { SlideItem, Emphasis, SlideLink } from '../components/SlideElements';
+import linkedinQr from '/linkedin-qr.jpeg?url';
 
 export const FinalSlide: SlideDefinition = {
   id: 'final',
-  content: ({ revealStage }) => (
+  content: (
     <>
-      <h2 className="final-slide__heading">
+      <h2 style={{ marginBottom: '2rem', textAlign: 'center', color: 'var(--terminal-blue)' }}>
         compacting the conversation...
       </h2>
 
-      <div className="final-slide">
-        <div className="final-slide__bullets">
-          {TAKEAWAYS.map((bullet, i) =>
-            revealStage >= i + 1 ? (
-              <SlideItem key={i} delay={0}>{bullet}</SlideItem>
-            ) : null,
-          )}
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: 'var(--space-3xl)',
+          width: '100%',
+          paddingBottom: 'var(--space-xl)',
+        }}
+      >
+        {/* Left column - bullets */}
+        <div
+          style={{
+            flex: 1,
+            maxWidth: '650px',
+            textAlign: 'left',
+          }}
+        >
+          <SlideItem delay={0.05}>
+            не обмежуйте себе образом автокомпліта чи код генератора,
+            імпровізуйте, спілкуйтеся наче з{' '}
+            <Emphasis color="green">партнером в чаті</Emphasis>
+          </SlideItem>
+
+          <SlideItem delay={0.10}>
+            зареєструйтеся в твіттері (хоч ілон маск і лох), слідкуйте за
+            важливими АІ-інженерами:{' '}
+            <SlideLink href="https://x.com/bcherny">@bcherny</SlideLink>,{' '}
+            <SlideLink href="https://x.com/trq212">@trq212</SlideLink>,{' '}
+            <SlideLink href="https://x.com/ClaudeCodeLog">@ClaudeCodeLog</SlideLink>,{' '}
+            <SlideLink href="https://x.com/mitchellh">@mitchellh</SlideLink>,{' '}
+            <SlideLink href="https://x.com/steipete">@steipete</SlideLink>
+          </SlideItem>
+
+          <SlideItem delay={0.15}>
+            лайкайте твіти про клод код щоб натренувати алгоритм, але фільтруйте
+            хайп і пустий трьоп
+          </SlideItem>
+
+          <SlideItem delay={0.20}>
+            пробуйте нові підходи, але адаптуйте їх до своїх потреб
+          </SlideItem>
+
+          <SlideItem delay={0.25}>
+            використовуйте клод код щоб збільшити свій{' '}
+            <Emphasis color="green">throughput</Emphasis> а не{' '}
+            <Emphasis color="orange">latency</Emphasis>
+          </SlideItem>
+
+          <SlideItem delay={0.30}>
+            пишіть мені в лінкедіні{' '}
+            <span style={{ color: 'var(--terminal-blue)' }}>→</span>
+          </SlideItem>
         </div>
 
-        {revealStage >= TOTAL_STAGES && (
-          <div className="final-slide__contact">
-            <img
-              className="final-slide__qr final-qr-reveal"
-              src={linkedinQr}
-              alt="LinkedIn QR code - Yarik Yermilov"
-              loading="lazy"
-            />
-          </div>
-        )}
+        {/* Right column - QR code */}
+        <img
+          src={linkedinQr}
+          alt="LinkedIn QR code - Yarik Yermilov"
+          style={{
+            flexShrink: 0,
+            maxWidth: '600px',
+            maxHeight: 'calc(100vh - 180px)',
+            objectFit: 'contain',
+            borderRadius: 'var(--input-border-radius)',
+            border: '2px solid var(--terminal-border)',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)',
+            opacity: 0,
+            animation: 'slideItemFadeIn 0.5s ease-out forwards',
+            animationDelay: '0.35s',
+          }}
+        />
       </div>
     </>
   ),
-  maxRevealStages: TOTAL_STAGES,
   notes:
-    "Фінальні висновки: vibe flow як фундамент, Клод поза кодом, інфраструктура для skills, спеціалізовані агенти, люди — найбільша цінність, LinkedIn-репліка. На фінальній стадії остання булет-репліка про LinkedIn з'являється в лівій колонці разом із QR-кодом справа.",
+    'Final slide - closing thoughts: think beyond autocomplete, follow AI engineers on Twitter, filter hype, adapt approaches to your needs, focus on throughput not latency, connect on LinkedIn',
 };

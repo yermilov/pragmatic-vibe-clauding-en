@@ -1,9 +1,9 @@
 {
-  "name": "ai-first-code-review-agent-ua",
+  "name": "pragmatic-vibe-clauding-en",
   "private": true,
   "version": "0.0.1",
   "type": "module",
-  "homepage": "https://yermilov.github.io/ai-first-code-review-agent-ua",
+  "homepage": "https://yermilov.github.io/pragmatic-vibe-clauding-en",
   "scripts": {
     "dev": "vite",
     "check:async-slides": "bun run scripts/check-async-slides.ts",

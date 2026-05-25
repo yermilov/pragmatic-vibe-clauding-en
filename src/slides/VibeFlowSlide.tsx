@@ -8,15 +8,14 @@ function Command({ children }: { children: string }) {
 
 export const VibeFlowSlide: SlideDefinition = {
   id: 'vibe-flow',
-  title: (
+  content: (
     <>
-      <span className="text-dim">&gt;</span>{' '}
-      <span className="text-green">вайб</span>{' '}
-      <span className="text-orange">flow</span>
-    </>
-  ),
-  content: ({ revealStage }) => (
-    <>
+      <h2 style={{ marginBottom: '2rem' }}>
+        <span className="text-dim">$</span>{' '}
+        <span className="text-green">vibe</span>{' '}
+        <span className="text-orange">--flow</span>
+      </h2>
+
       <div
         style={{
           textAlign: 'left',
@@ -26,52 +25,37 @@ export const VibeFlowSlide: SlideDefinition = {
         }}
       >
         <SlideItem delay={0.05}>
-          <Command>/clear</Command> чистимо сесію
+          <Command>/clear</Command> очищуємо сесію
         </SlideItem>
 
-        {revealStage >= 1 && (
-          <SlideItem delay={0}>
-            переходимо у <Code>plan mode</Code>
-          </SlideItem>
-        )}
+        <SlideItem delay={0.1}>
+          переходимо у <Code>plan mode</Code>
+        </SlideItem>
 
-        {revealStage >= 2 && (
-          <SlideItem delay={0}>описуємо фічу / баг, <span className="text-orange" style={{ textShadow: '0 0 8px rgba(240, 136, 62, 0.9), 0 0 20px rgba(240, 136, 62, 0.6), 0 0 40px rgba(240, 136, 62, 0.3)' }}>формуємо контекст</span></SlideItem>
-        )}
+        <SlideItem delay={0.15}>описуємо фічу / багу, формуємо контекст</SlideItem>
 
-        {revealStage >= 3 && (
-          <SlideItem delay={0}>
-            ітеруємося по плану
-          </SlideItem>
-        )}
+        <SlideItem delay={0.2}>
+          чекаємо і чекаємо план, вичитуємо його і ітеруємося
+        </SlideItem>
 
-        {revealStage >= 4 && (
-          <SlideItem delay={0}>
-            <Code>Yes, and use auto mode</Code>
-          </SlideItem>
-        )}
+        <SlideItem delay={0.25}>
+          <Code>Yes, and auto-accept edits</Code>
+        </SlideItem>
 
-        {revealStage >= 5 && (
-          <SlideItem delay={0}>
-            <Command>/commit-push-pr</Command>
-          </SlideItem>
-        )}
+        <SlideItem delay={0.3}>
+          <Command>/commit-push-pr</Command>
+        </SlideItem>
 
-        {revealStage >= 6 && (
-          <SlideItem delay={0}>
-            <Command>/clear</Command>
-          </SlideItem>
-        )}
+        <SlideItem delay={0.35}>
+          <Command>/clear</Command>
+        </SlideItem>
 
-        {revealStage >= 7 && (
-          <SlideItem delay={0}>
-            <Command>/simplify</Command> або <Command>/review</Command>
-          </SlideItem>
-        )}
+        <SlideItem delay={0.4}>
+          <Command>/review</Command> або <Command>take a look at the current pr - if you would have a chance to implement it from scratch what would you do differently? clean all ai artifacts, comments, code duplication, unoptimal structures, ...</Command>
+        </SlideItem>
       </div>
     </>
   ),
-  maxRevealStages: 7,
   notes:
-    'Воркфлоу: очистити сесію, plan mode, описати проблему, ітерувати по плану, auto-accept, коміт',
+    'The vibe flow workflow - clear session, plan mode, describe problem, iterate on plan, auto-accept, commit',
 };

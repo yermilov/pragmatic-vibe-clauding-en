@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-A custom terminal-themed presentation site built with React and TypeScript. Features a Claude Code-inspired aesthetic with command-based navigation. Hosted on GitHub Pages at https://yermilov.github.io/ai-first-code-review-agent-ua
+A custom terminal-themed presentation site built with React and TypeScript. Features a Claude Code-inspired aesthetic with command-based navigation. Hosted on GitHub Pages at https://yermilov.github.io/pragmatic-vibe-clauding-en
 
 ## Tech Stack
 
@@ -16,7 +16,7 @@ A custom terminal-themed presentation site built with React and TypeScript. Feat
 
 ```bash
 bun install      # Install dependencies (REQUIRED before first `bun run dev`)
-bun run dev      # Start dev server (http://localhost:5173/ai-first-code-review-agent-ua/)
+bun run dev      # Start dev server (http://localhost:5173/pragmatic-vibe-clauding-en/)
 bun run build    # Build for production
 bun run preview  # Preview production build
 bun run deploy   # Manual deploy to GitHub Pages
@@ -129,7 +129,7 @@ import myImage from '/my-image.png?url';
 <img src={myImage} alt="Description" loading="lazy" />
 ```
 
-**Important:** Do NOT use direct paths like `src="/image.png"` — they break on GitHub Pages due to the base URL (`/ai-first-code-review-agent-ua`).
+**Important:** Do NOT use direct paths like `src="/image.png"` — they break on GitHub Pages due to the base URL (`/pragmatic-vibe-clauding-en`).
 
 **Build-time compression:** `vite-plugin-imagemin` is configured in `vite.config.ts` and automatically compresses PNGs/JPEGs at build time (71–86% size reduction). No manual compression needed.
 
@@ -300,7 +300,7 @@ This ensures:
 Workflow:
 1. Make the change
 2. Confirm dev server is running (`bun run dev`)
-3. Use Chrome extension to navigate to `http://localhost:5173/ai-first-code-review-agent-ua/`
+3. Use Chrome extension to navigate to `http://localhost:5173/pragmatic-vibe-clauding-en/`
 4. Take a screenshot and confirm the change looks correct before declaring done
 
 ### Code Style

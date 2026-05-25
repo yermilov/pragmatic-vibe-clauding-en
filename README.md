@@ -1,3 +1,3 @@
-# AI-first розробка: кейс створення code review агента
+# Прагматичний вайб клодінг
 
-[View Presentation](https://yermilov.github.io/ai-first-code-review-agent-ua/)
+[View Presentation](https://yermilov.github.io/pragmatic-vibe-clauding-en/)

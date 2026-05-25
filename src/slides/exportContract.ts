@@ -8,27 +8,13 @@
  *
  * Every slide that grep matches MUST be classified into exactly one set,
  * or the build fails with a hint to come here and classify it.
- *
- * If you're adding a new slide that does runtime async work:
- *   - Mark it `asyncSettle: true` in the slide definition.
- *   - Add it to KNOWN_RUNTIME_ASYNC_SLIDES below.
- *   - Have it call `exportRegistry.markSlideSettled(slideId)` once loaded.
- *
- * If you're adding a new slide whose code-example string includes await/fetch:
- *   - Add it to ASYNC_LITERAL_FALSE_POSITIVES below.
- *   - Do NOT mark it asyncSettle.
  */
-export const KNOWN_RUNTIME_ASYNC_SLIDES = new Set<string>([
-  'IndustryPatternsSlide',
-  'MetaSkillsSlide',
-  'StartHereSlide',
-]);
+export const KNOWN_RUNTIME_ASYNC_SLIDES = new Set<string>([]);
 
 /**
- * Slides that contain await/fetch only inside displayed code-example strings.
- * The literal text triggers the audit grep but is not actual runtime work.
+ * Slides that contain await/fetch only inside displayed code-example strings,
+ * OR fire-and-forget runtime fetches we don't need to wait for in export mode.
  */
 export const ASYNC_LITERAL_FALSE_POSITIVES = new Set<string>([
-  'AgentTracesSlide',
-  'AgentWorkflowSlide',
+  'SystemPromptSlide',
 ]);

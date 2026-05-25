@@ -1,238 +1,127 @@
-import { SECTIONS } from '../data/sections';
 import { SlideDefinition } from '../types/slides';
-import { useNavigation } from '../context/NavigationContext';
 
-const PART_ORDINAL_UK: Record<number, string> = {
-  1: 'перша',
-  2: 'друга',
-  3: 'третя',
+type Level = 'high' | 'medium' | 'low';
+
+const levelStyles = {
+  high: {
+    prefix: '>>',
+    prefixColor: 'var(--terminal-orange)',
+    labelColor: 'var(--terminal-white)',
+    labelGlow: '0 0 20px rgba(240, 136, 62, 0.3)',
+    descColor: 'var(--terminal-green)',
+    opacity: 1,
+  },
+  medium: {
+    prefix: '> ',
+    prefixColor: 'var(--terminal-blue)',
+    labelColor: 'var(--terminal-white)',
+    labelGlow: 'none',
+    descColor: 'var(--terminal-green-dim)',
+    opacity: 1,
+  },
+  low: {
+    prefix: '--',
+    prefixColor: 'var(--terminal-white-dim)',
+    labelColor: 'var(--terminal-white)',
+    labelGlow: 'none',
+    descColor: 'var(--terminal-white-dim)',
+    opacity: 0.85,
+  },
 };
 
-function AgendaSlideContent() {
-  const { goToSlideById } = useNavigation();
-  const subsections = SECTIONS.flatMap(s => s.subsections ?? []);
+function AgendaItem({ level, label, desc }: { level: Level; label: string; desc: string }) {
+  const s = levelStyles[level];
 
   return (
-    <div className="agenda-slide">
-      <style>{`
-        .agenda-slide {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: var(--space-sm);
-          width: 100%;
-          padding: 0 var(--space-md);
-        }
+    <div
+      style={{
+        display: 'grid',
+        gridTemplateColumns: '2.5rem 1fr auto',
+        alignItems: 'center',
+        gap: '0.75rem',
+        fontSize: '1.6rem',
+        opacity: s.opacity,
+      }}
+    >
+      <span style={{ color: s.prefixColor, fontWeight: 'bold' }}>{s.prefix}</span>
+      <span
+        style={{
+          color: s.labelColor,
+          textShadow: s.labelGlow,
+        }}
+      >
+        {label}
+      </span>
+      <span
+        style={{
+          color: s.descColor,
+          fontSize: '1.35rem',
+          fontStyle: 'italic',
+        }}
+      >
+        {desc}
+      </span>
+    </div>
+  );
+}
 
-        .agenda-header {
-          text-align: center;
-          line-height: 1.3;
-        }
-
-        .agenda-command { font-size: var(--font-size-h3); }
-        .agenda-subtitle { font-size: var(--slide-text-compact); margin-top: var(--space-xs); }
-
-        /* ── Top row: 3 main section cards ── */
-        .agenda-sections-row {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: var(--space-md);
-          width: 100%;
-          max-width: 1400px;
-        }
-
-        /* ── Connector: label + divider between rows ── */
-        .agenda-connector {
-          display: flex;
-          align-items: center;
-          gap: var(--space-sm);
-          width: 100%;
-          max-width: 1400px;
-        }
-
-        .agenda-connector-line {
-          flex: 1;
-          height: 1px;
-          background: linear-gradient(
-            to right,
-            transparent,
-            color-mix(in srgb, var(--terminal-orange) 40%, var(--terminal-border)),
-            transparent
-          );
-        }
-
-        .agenda-connector-label {
-          font-size: var(--slide-text-dense);
-          color: var(--terminal-orange);
-          opacity: 0.65;
-          white-space: nowrap;
-          letter-spacing: 0.05em;
-        }
-
-        /* ── Bottom row: subsections ── */
-        .agenda-subs-row {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: var(--space-md);
-          width: 100%;
-          max-width: 1400px;
-        }
-
-        /* ── Cards ── */
-        .agenda-card {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: var(--space-sm);
-          padding: var(--space-sm) var(--space-sm);
-          border: 1px solid var(--terminal-border);
-          border-radius: 8px;
-          background: var(--terminal-bg-elevated);
-          cursor: pointer;
-          transition: border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease;
-        }
-
-        .agenda-card:hover {
-          border-color: var(--terminal-green-dim);
-          box-shadow: 0 0 18px var(--terminal-green-glow);
-          transform: translateY(-2px);
-        }
-
-        .agenda-subcard {
-          border-color: color-mix(in srgb, var(--terminal-orange) 30%, var(--terminal-border));
-          border-left: 2px solid color-mix(in srgb, var(--terminal-orange) 55%, transparent);
-        }
-
-        .agenda-subcard:hover {
-          border-color: var(--terminal-orange);
-          border-left-color: var(--terminal-orange);
-          box-shadow: 0 0 18px rgba(240, 136, 62, 0.2);
-        }
-
-        .agenda-card-command {
-          font-size: var(--slide-text-dense);
-          text-align: center;
-        }
-
-        .agenda-subcard .agenda-card-command {
-          font-size: var(--slide-text-dense);
-        }
-
-        .agenda-img-wrap {
-          width: 100%;
-          max-height: calc(var(--vh-full) * 0.13);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          overflow: hidden;
-        }
-
-        .agenda-sub-img-wrap {
-          max-height: calc(var(--vh-full) * 0.07);
-        }
-
-        .agenda-card-image {
-          width: 100%;
-          max-height: inherit;
-          object-fit: contain;
-          border-radius: 4px;
-          border: 1px solid var(--terminal-border);
-        }
-
-        .agenda-card-desc {
-          font-size: var(--slide-text-dense);
-          text-align: center;
-        }
-
-        .agenda-subcard .agenda-card-desc {
-          font-size: var(--slide-text-dense);
-        }
-
-        /* Preview wrapper for cards whose body is a live mini-preview. */
-        .agenda-preview-wrap {
-          width: 100%;
-          aspect-ratio: 16 / 9;
-          max-height: calc(var(--vh-full) * 0.22);
-          border-radius: 4px;
-          overflow: hidden;
-        }
-      `}</style>
-
-      {/* Row 1: main sections */}
-      <div className="agenda-sections-row">
-        {SECTIONS.map((section) => (
-          <div
-            key={section.part}
-            className="agenda-card"
-            onClick={() => goToSlideById(section.slideId)}
-          >
-            <div className="agenda-card-command">
-              <span className="text-dim">&gt;</span>{' '}
-              <span className="text-green">частина {PART_ORDINAL_UK[section.part] ?? section.part}</span>
-            </div>
-            <div className="agenda-img-wrap">
-              <img src={section.image} alt={section.alt} loading="lazy" className="agenda-card-image" />
-            </div>
-            <div className="agenda-card-desc text-muted">{section.desc}</div>
-          </div>
-        ))}
+function AgendaSection({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div style={{ marginBottom: '1.75rem' }}>
+      <div
+        style={{
+          color: 'var(--terminal-blue)',
+          fontSize: '1.1rem',
+          letterSpacing: '0.15em',
+          marginBottom: '0.75rem',
+          borderBottom: '1px solid var(--terminal-border)',
+          paddingBottom: '0.25rem',
+          textTransform: 'uppercase',
+        }}
+      >
+        {title}
       </div>
-
-      {/* Connector */}
-      {subsections.length > 0 && (
-        <div className="agenda-connector">
-          <div className="agenda-connector-line" />
-          <span className="agenda-connector-label">// кейс створення code review агента</span>
-          <div className="agenda-connector-line" />
-        </div>
-      )}
-
-      {/* Row 2: subsections */}
-      {subsections.length > 0 && (
-        <div className="agenda-subs-row">
-          {subsections.map((sub) => (
-            <div
-              key={sub.slideId}
-              className="agenda-card agenda-subcard"
-              onClick={() => goToSlideById(sub.slideId)}
-            >
-              {sub.previewNode ? (
-                <div className="agenda-preview-wrap">{sub.previewNode}</div>
-              ) : (
-                <>
-                  {sub.labelNode && (
-                    <div className="agenda-card-command">{sub.labelNode}</div>
-                  )}
-                  {sub.image && (
-                    <div className="agenda-img-wrap agenda-sub-img-wrap">
-                      <img
-                        src={sub.image}
-                        alt={sub.alt ?? ''}
-                        loading="lazy"
-                        className="agenda-card-image"
-                      />
-                    </div>
-                  )}
-                  {sub.desc && (
-                    <div className="agenda-card-desc text-muted">{sub.desc}</div>
-                  )}
-                </>
-              )}
-            </div>
-          ))}
-        </div>
-      )}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>{children}</div>
     </div>
   );
 }
 
 export const AgendaSlide: SlideDefinition = {
   id: 'agenda',
-  title: (
+  content: (
     <>
-      <span className="text-dim">&gt;</span>{' '}
-      <span className="text-green">про що сьогодні говоримо</span>
+      <h2 style={{ marginBottom: '2rem' }}>
+        <span className="text-dim">$</span> ./talk <span className="text-orange">--help</span>
+      </h2>
+
+      <p style={{ marginBottom: '1.5rem', fontSize: '1.5rem' }}>
+        про що ми сьогодні будемо і не будемо говорити?
+      </p>
+
+      <div
+        style={{
+          textAlign: 'left',
+          display: 'inline-block',
+          maxWidth: '900px',
+          width: '100%',
+        }}
+      >
+        <AgendaSection title="tools">
+          <AgendaItem level="high" label="claude code" desc="будемо багато" />
+          <AgendaItem level="medium" label="codex, cursor" desc="будемо мало" />
+          <AgendaItem level="low" label="інші тули" desc="майже не будемо" />
+        </AgendaSection>
+
+        <AgendaSection title="scope">
+          <AgendaItem level="high" label="як прагматично використати claude code в хакатон режимі?" desc="будемо" />
+          <AgendaItem level="medium" label="як довгостроково розвивати продукт використовуючи claude code?" desc="будемо трохи" />
+        </AgendaSection>
+
+        <AgendaSection title="audience">
+          <AgendaItem level="high" label="claude code для інженерів" desc="будемо" />
+          <AgendaItem level="low" label="claude code для не-інженерів" desc="майже не будемо" />
+        </AgendaSection>
+      </div>
     </>
   ),
-  content: <AgendaSlideContent />,
 };

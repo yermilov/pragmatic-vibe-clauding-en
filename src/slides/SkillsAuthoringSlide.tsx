@@ -1,6 +1,31 @@
 import React from 'react';
 import { SlideDefinition } from '../types/slides';
-import { SlideItem } from '../components/SlideElements';
+import { SlideItem, Emphasis } from '../components/SlideElements';
+
+// Section header with animation for this slide
+function AnimatedSectionHeader({
+  children,
+  color,
+  delay,
+}: {
+  children: string;
+  color: 'green' | 'purple' | 'blue';
+  delay: number;
+}) {
+  return (
+    <div
+      className={`section-header section-header--${color}`}
+      style={{
+        opacity: 0,
+        animation: 'slideItemFadeIn 0.35s ease-out forwards',
+        animationDelay: `${delay}s`,
+      }}
+    >
+      {'// '}
+      {children}
+    </div>
+  );
+}
 
 // Quoted prompt text (orange with italic styling)
 function Prompt({ children }: { children: React.ReactNode }) {
@@ -19,15 +44,14 @@ function Prompt({ children }: { children: React.ReactNode }) {
 
 export const SkillsAuthoringSlide: SlideDefinition = {
   id: 'skills-authoring',
-  title: (
-    <>
-      <span className="text-dim">&gt;</span>{' '}
-      <span className="text-green">teach</span>{' '}
-      <span className="text-orange">--skills</span>
-    </>
-  ),
   content: (
     <>
+      <h2 style={{ marginBottom: '2rem' }}>
+        <span className="text-dim">$</span>{' '}
+        <span className="text-green">teach</span>{' '}
+        <span className="text-orange">--skills</span>
+      </h2>
+
       <div
         style={{
           textAlign: 'left',
@@ -36,13 +60,26 @@ export const SkillsAuthoringSlide: SlideDefinition = {
           margin: '0 auto',
         }}
       >
+        <AnimatedSectionHeader color="green" delay={0.03}>
+          коли це робити
+        </AnimatedSectionHeader>
+
         <SlideItem delay={0.08}>
-          as always, start a fresh session, plan mode, and go:{' '}
+          якщо ви бачите що інструктуєте клод робити одне і те саме раз за
+          разом — навчіть його цьому <Emphasis color="green">скілу</Emphasis>
+        </SlideItem>
+
+        <AnimatedSectionHeader color="purple" delay={0.14}>
+          як це робити
+        </AnimatedSectionHeader>
+
+        <SlideItem delay={0.20}>
+          як завжди, запускаємо пусту сессію, план мод, і погнали:{' '}
           <Prompt>please read https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices and create a skill that will ...</Prompt>
         </SlideItem>
 
         <SlideItem delay={0.26}>
-          or like this: once{' '}
+          або так: один раз{' '}
           <Prompt>
             please read https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices and create a skill that will explain how to
             create a well crafted skill, name it skills-authorship
@@ -50,16 +87,20 @@ export const SkillsAuthoringSlide: SlideDefinition = {
         </SlideItem>
 
         <SlideItem delay={0.32}>
-          and then you can <strong>after</strong> some action
-          write{' '}
+          а далі ви можете <Emphasis color="orange">після</Emphasis> якоїсь дії
+          написати{' '}
           <Prompt>use skills-authorship skill to turn ... into skill</Prompt>{' '}
-          or{' '}
+          або{' '}
           <Prompt>use skills-authorship skill to update ... skill to ...</Prompt>
         </SlideItem>
 
-        <SlideItem delay={0.40}>
-          every time claude uses a skill and something wasn't perfect — finish the session with{' '}
-          <Prompt>reflect on the current session and update the skill files to avoid mistakes you made and streamline experience next time</Prompt>
+        <AnimatedSectionHeader color="blue" delay={0.38}>
+          приклади
+        </AnimatedSectionHeader>
+
+        <SlideItem delay={0.44}>
+          пошук в логах, дебагінг проблем, перформенс оптимізації, генерація
+          картинок, написання документації, ...
         </SlideItem>
       </div>
     </>

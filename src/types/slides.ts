@@ -15,6 +15,8 @@ export interface SlideDefinition {
   title?: ReactNode;
   notes?: string;
   background?: string;
+  /** Optional contextual tooltip shown next to the slide (ported from pragmatic-vibe-clauding-ua). */
+  tooltip?: ReactNode;
   maxRevealStages?: number;
   initialRevealStage?: number;
   /**
