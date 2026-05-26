@@ -1,40 +1,67 @@
 import { SlideDefinition } from '../types/slides';
 
-// Import images with ?url suffix for GitHub Pages
+import copilotAutocomplete from '/timeline-copilot-autocomplete.png?url';
 import cursorFrontend from '/timeline-cursor-frontend.png?url';
 import mentoringLlm from '/timeline-mentoring-llm.png?url';
 import aiTechDebt from '/timeline-ai-tech-debt.png?url';
-import claudeCodeEmail from '/timeline-claude-code-email.png?url';
 
 interface TimelineItem {
-  time: string;
+  anchorDate: Date | null;
   text: string;
+  bullets?: string[];
   image: string | null;
+  imageClassName?: string;
   emphasis?: boolean;
 }
 
+function timeLabel(anchorDate: Date | null): string {
+  if (!anchorDate) return 'since then';
+  const now = new Date();
+  const months =
+    (now.getFullYear() - anchorDate.getFullYear()) * 12 +
+    (now.getMonth() - anchorDate.getMonth());
+  return `${months} month${months === 1 ? '' : 's'} ago`;
+}
+
 const timelineItems: TimelineItem[] = [
-  { time: '15 місяців тому', text: 'cursor? прикольний автокомпліт', image: null },
-  { time: '14 місяців тому', text: 'я не вмію у фронтенд, cursor допоможи', image: cursorFrontend },
-  { time: '10 місяців тому', text: 'а що якщо це не тільки про код генерацію а про парне програмування?', image: mentoringLlm },
-  { time: '9 місяців тому', text: 'але це все ще іграшкова технологія, так?', image: aiTechDebt },
-  { time: '8 місяців тому', text: 'клод код? давайте спробуємо', image: claudeCodeEmail },
-  { time: 'з тих пір', text: 'жодного рядка коду я не написав руками', image: null, emphasis: true },
+  { anchorDate: new Date(2024, 9),  text: 'copilot? nice autocomplete', image: copilotAutocomplete },
+  { anchorDate: new Date(2024, 10), text: "I don't do frontend, cursor, help me out", image: cursorFrontend },
+  { anchorDate: new Date(2025, 2),  text: 'what if this is not just code generation but pair programming?', image: mentoringLlm },
+  { anchorDate: new Date(2025, 3),  text: 'but it is still toy tech, right?', image: aiTechDebt, imageClassName: 'timeline-panel__image--zoom-anim' },
+  {
+    anchorDate: new Date(2025, 4),
+    text: 'Claude Code proof of concept with Anthropic',
+    bullets: [
+      'saw the potential and consciously stopped writing code by hand',
+      'found my comfortable AI agentic coding workflow',
+      'championed Claude Code at Superhuman',
+      'built internal tooling: plugins, skills, agents',
+    ],
+    image: null,
+  },
 ];
+
+const lastIdx = timelineItems.length - 1;
+const lastBulletsCount = timelineItems[lastIdx].bullets?.length ?? 0;
 
 export const TimelineSlide: SlideDefinition = {
   id: 'timeline',
-  maxRevealStages: 5,
+  maxRevealStages: lastIdx + lastBulletsCount,
+  title: (
+    <>
+      <span className="text-dim">&gt;</span> AI-first timeline
+    </>
+  ),
   content: ({ revealStage }) => {
-    const currentStage = Math.min(revealStage, timelineItems.length - 1);
+    const currentStage = Math.min(revealStage, lastIdx);
     const currentItem = timelineItems[currentStage];
+    const visibleBulletCount =
+      currentStage === lastIdx
+        ? Math.min(lastBulletsCount, Math.max(0, revealStage - lastIdx))
+        : currentItem.bullets?.length ?? 0;
 
     return (
       <div className="timeline-slide-v2">
-        <h2 className="timeline-title-v2">
-          <span className="text-dim">$</span> мій таймлайн
-        </h2>
-
         <div className="timeline-layout">
           {/* LEFT: Git log - time markers only */}
           <div className="timeline-log">
@@ -50,24 +77,11 @@ export const TimelineSlide: SlideDefinition = {
                     className={`timeline-log__item ${isActive ? 'timeline-log__item--active' : ''} ${isPast ? 'timeline-log__item--past' : ''} ${isEmphasis && isActive ? 'timeline-log__item--emphasis' : ''}`}
                   >
                     <div className={`timeline-log__time ${isEmphasis ? 'timeline-log__time--emphasis' : ''}`}>
-                      {item.time}
+                      {timeLabel(item.anchorDate)}
                     </div>
                   </div>
                 );
               })}
-            </div>
-
-            {/* Hint - styled like tooltip */}
-            <div className="timeline-hint-box">
-              <div className="timeline-hint-box__header">
-                <span className="timeline-hint-box__icon">{'>'}</span>
-                <span className="timeline-hint-box__title">Таймлайн</span>
-              </div>
-              <ul className="timeline-hint-box__list">
-                <li>
-                  <code>move</code> або <code>m</code> — Наступний пункт
-                </li>
-              </ul>
             </div>
           </div>
 
@@ -75,16 +89,32 @@ export const TimelineSlide: SlideDefinition = {
           <div className="timeline-panel">
             <div className="timeline-panel__content" key={currentStage}>
               {/* Text */}
-              <div className={`timeline-panel__text ${currentItem.emphasis ? 'timeline-panel__text--emphasis' : ''}`}>
-                {currentItem.text}
-              </div>
+              {currentItem.bullets ? (
+                <>
+                  <div className="timeline-panel__text timeline-panel__text--emphasis">
+                    {currentItem.text}
+                  </div>
+                  {visibleBulletCount > 0 && (
+                    <ul className="timeline-panel__list">
+                      {currentItem.bullets.slice(0, visibleBulletCount).map((b, i) => (
+                        <li key={i}>{b}</li>
+                      ))}
+                    </ul>
+                  )}
+                </>
+              ) : (
+                <div className={`timeline-panel__text ${currentItem.emphasis ? 'timeline-panel__text--emphasis' : ''}`}>
+                  {currentItem.text}
+                </div>
+              )}
 
               {/* Image if available */}
               {currentItem.image && (
                 <img
                   src={currentItem.image}
                   alt={currentItem.text}
-                  className="timeline-panel__image"
+                  className={`timeline-panel__image ${currentItem.imageClassName ?? ''}`}
+                  loading="lazy"
                 />
               )}
             </div>
