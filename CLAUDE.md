@@ -245,7 +245,6 @@ Type in the input box:
 Timer commands:
 - `start` or `go` → Start timer
 - `pause` or `stop` → Pause timer
-- `reset` → Reset timer and clear IntroSlide tool selections
 
 Keyboard (when not typing):
 - Arrow keys, Space, PageDown/Up → Navigate

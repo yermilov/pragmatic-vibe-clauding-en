@@ -46,29 +46,6 @@ function getInitialTheme(): Theme {
   return localStorage.getItem(THEME_KEY) === 'light' ? 'light' : 'dark';
 }
 
-// Tool keywords for activation persistence
-const TOOL_KEYWORDS: Record<string, string[]> = {
-  claude: ['claude', 'claude code', 'anthropic'],
-  codex: ['codex', 'openai'],
-  cursor: ['cursor'],
-  amp: ['amp', 'sourcegraph'],
-  gemini: ['gemini', 'gemini-cli', 'google'],
-  copilot: ['copilot', 'github copilot'],
-  lovable: ['lovable'],
-  other: ['?', 'other', 'else', 'something'],
-};
-
-// Find which tool IDs match the input
-function getMatchingToolIds(input: string): string[] {
-  const normalizedInput = input.toLowerCase().trim();
-  if (normalizedInput.length < 3) return [];
-  return Object.entries(TOOL_KEYWORDS)
-    .filter(([, keywords]) =>
-      keywords.some(kw => normalizedInput.includes(kw) || kw.includes(normalizedInput))
-    )
-    .map(([id]) => id);
-}
-
 function getInitialTimerState(): { seconds: number; running: boolean } {
   const startedAt = localStorage.getItem(TIMER_STARTED_AT_KEY);
   const accumulated = parseInt(localStorage.getItem(TIMER_ACCUMULATED_KEY) || '0', 10);
@@ -118,9 +95,6 @@ export function Presentation({ slides, initialSlide = 0 }: PresentationProps) {
 
   // Track current input text for interactive slides
   const [inputText, setInputText] = useState('');
-
-  // Track activated tools (persists after Enter)
-  const [activatedTools, setActivatedTools] = useState<Set<string>>(new Set());
 
   // Warm the HTTP cache for every downstream slide asset while the title
   // slide is on screen. Deferred to idle so the first paint is unblocked.
@@ -172,30 +146,8 @@ export function Presentation({ slides, initialSlide = 0 }: PresentationProps) {
     }
   }, [currentSlide]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const handleToolsReset = useCallback(() => {
-    setActivatedTools(new Set());
-  }, []);
-
-  // Command handler that activates tools and delegates navigation
   const handleCommand = useCallback((command: string) => {
     const trimmed = command.trim().toLowerCase();
-
-    // Only activate tools when on the IntroSlide
-    if (slides[currentSlide]?.id === 'intro') {
-      const matchingTools = getMatchingToolIds(command);
-      if (matchingTools.length > 0) {
-        setActivatedTools(prev => {
-          const next = new Set(prev);
-          matchingTools.forEach(id => next.add(id));
-          return next;
-        });
-      }
-    }
-
-    if (trimmed === 'reset') {
-      handleToolsReset();
-      return;
-    }
 
     if (trimmed === 'dark' || trimmed === 'light') {
       setTheme(trimmed);
@@ -203,7 +155,7 @@ export function Presentation({ slides, initialSlide = 0 }: PresentationProps) {
     }
 
     handleNavCommand(command);
-  }, [handleNavCommand, handleToolsReset, currentSlide, slides]);
+  }, [handleNavCommand]);
 
   const activeSlide = slides[currentSlide];
 
@@ -213,7 +165,7 @@ export function Presentation({ slides, initialSlide = 0 }: PresentationProps) {
 
   const slideContent =
     typeof activeSlide.content === 'function'
-      ? activeSlide.content({ revealStage, inputText, activatedTools })
+      ? activeSlide.content({ revealStage, inputText })
       : activeSlide.content;
 
   return (

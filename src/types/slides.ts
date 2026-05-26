@@ -3,7 +3,6 @@ import { ReactNode } from 'react';
 export interface SlideContentProps {
   revealStage: number;
   inputText: string;
-  activatedTools: Set<string>;
 }
 
 export interface SlideDefinition {
