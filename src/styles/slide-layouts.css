@@ -462,6 +462,14 @@
   overflow: hidden;
 }
 
+/* When the slide has a fixed title band, let the battle fill the remaining
+ * height instead of reserving a fixed offset against the full viewport. */
+.slide--titled .vs-battle-slide {
+  flex: 1;
+  min-height: 0;
+  height: auto;
+}
+
 
 /* Fighter containers */
 .vs-fighter {
@@ -586,10 +594,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   position: relative;
   z-index: 3;
-  padding: var(--space-md);
+  padding: 0 var(--space-md);
+  height: 100%;
 }
 
 /* VS Badge */
@@ -603,7 +612,7 @@
     0 0 80px rgba(240, 136, 62, 0.6),
     0 0 120px rgba(121, 192, 255, 0.4);
   letter-spacing: 0.3em;
-  margin-bottom: var(--space-md);
+  margin-bottom: var(--space-sm);
   position: relative;
   animation: vsPulse 1.5s ease-in-out infinite;
 }

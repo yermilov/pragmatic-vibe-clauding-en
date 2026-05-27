@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import { SlideDefinition } from '../types/slides';
 import terminalFighter from '/terminal-fighter.png?url';
 import ideFighter from '/ide-fighter.png?url';
@@ -34,11 +35,11 @@ function DisclaimerItem({ level, children }: { level: Level; children: React.Rea
         display: 'grid',
         gridTemplateColumns: '2.5rem 1fr',
         alignItems: 'start',
-        gap: '0.75rem',
-        fontSize: '1.5rem',
+        gap: '0.6rem',
+        fontSize: 'var(--slide-text-normal)',
         opacity: s.opacity,
-        marginBottom: '1.25rem',
-        lineHeight: 1.5,
+        marginBottom: '0.5rem',
+        lineHeight: 1.35,
       }}
     >
       <span style={{ color: s.prefixColor, fontWeight: 'bold', marginTop: '0.1em' }}>{s.prefix}</span>
@@ -61,9 +62,64 @@ const linkStyle: React.CSSProperties = {
   transition: 'all 0.2s ease',
 };
 
+const BULLETS: { level: Level; content: ReactNode }[] = [
+  {
+    level: 'high',
+    content: (
+      <>
+        personally, I much prefer the flow where I work with{' '}
+        <em style={{ color: 'var(--terminal-orange)', fontStyle: 'normal', fontWeight: 600 }}>
+          Claude Code entirely in the terminal
+        </em>
+      </>
+    ),
+  },
+  {
+    level: 'medium',
+    content: (
+      <>
+        but I do reach for an IDE (usually{' '}
+        <span style={{ color: 'var(--terminal-cyan)' }}>VS Code</span>) for small targeted changes I want to
+        make by hand
+      </>
+    ),
+  },
+  {
+    level: 'low',
+    content: (
+      <>
+        not a terminal person? grab the{' '}
+        <a
+          href="https://marketplace.visualstudio.com/items?itemName=anthropic.claude-code"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={linkStyle}
+        >
+          VS Code
+        </a>
+        {' '}or{' '}
+        <a
+          href="https://plugins.jetbrains.com/plugin/27310-claude-code-beta-"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={linkStyle}
+        >
+          JetBrains
+        </a>{' '}plugin
+      </>
+    ),
+  },
+];
+
 export const DisclaimerSlide: SlideDefinition = {
   id: 'disclaimer',
-  content: (
+  title: (
+    <>
+      <span className="text-dim">&gt;</span> terminal or IDE?
+    </>
+  ),
+  maxRevealStages: BULLETS.length,
+  content: ({ revealStage }) => (
     <div className="vs-battle-slide">
       {/* Left Fighter - Terminal */}
       <div className="vs-fighter vs-fighter--left">
@@ -79,39 +135,11 @@ export const DisclaimerSlide: SlideDefinition = {
       <div className="vs-center-content">
         <div className="vs-badge">VS</div>
         <div className="vs-disclaimer-content">
-          <DisclaimerItem level="high">
-            персонально для мене набагато краще заходить флоу у якому я працюю з{' '}
-            <em style={{ color: 'var(--terminal-orange)', fontStyle: 'normal', fontWeight: 600 }}>
-              Claude Code повністю в терміналі
-            </em>
-          </DisclaimerItem>
-
-          <DisclaimerItem level="medium">
-            але можу використати IDE (найчастіше{' '}
-            <span style={{ color: 'var(--terminal-cyan)' }}>VS Code</span>) для точкових невеликих
-            змін які я хочу зробити вручну
-          </DisclaimerItem>
-
-          <DisclaimerItem level="low">
-            якщо ви не почуваєтеся впевнено в терміналі — використовуйте плагіни:{' '}
-            <a
-              href="https://marketplace.visualstudio.com/items?itemName=anthropic.claude-code"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={linkStyle}
-            >
-              VS Code
-            </a>
-            {' '}або{' '}
-            <a
-              href="https://plugins.jetbrains.com/plugin/27310-claude-code-beta-"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={linkStyle}
-            >
-              JetBrains IDE
-            </a>
-          </DisclaimerItem>
+          {BULLETS.map((item, i) =>
+            revealStage >= i + 1 ? (
+              <DisclaimerItem key={i} level={item.level}>{item.content}</DisclaimerItem>
+            ) : null,
+          )}
         </div>
       </div>
 
