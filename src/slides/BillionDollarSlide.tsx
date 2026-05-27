@@ -3,6 +3,11 @@ import billionDollarTweet from '/billion-dollar-tweet.png?url';
 
 export const BillionDollarSlide: SlideDefinition = {
   id: 'billion-dollar',
+  title: (
+    <>
+      <span className="text-dim">&gt;</span> let's start
+    </>
+  ),
   content: (
     <div className="image-slide">
       <img src={billionDollarTweet} alt="Tweet: ok claude, make a billion dollar b2b todo app" />
