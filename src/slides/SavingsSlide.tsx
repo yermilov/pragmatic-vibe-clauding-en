@@ -50,9 +50,7 @@ export const SavingsSlide: SlideDefinition = {
   id: 'savings',
   title: (
     <>
-      <span className="text-dim">$</span>{' '}
-      <span className="text-green">budget</span>{' '}
-      <span className="text-orange">--optimize</span>
+      <span className="text-dim">&gt;</span> save on tokens
     </>
   ),
   content: (

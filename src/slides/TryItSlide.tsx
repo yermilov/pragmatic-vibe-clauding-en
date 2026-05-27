@@ -10,9 +10,7 @@ export const TryItSlide: SlideDefinition = {
   id: 'try-it',
   title: (
     <>
-      <span className="text-dim">$</span>{' '}
-      <span className="text-green">bootstrap</span>{' '}
-      <span className="text-orange">--try</span>
+      <span className="text-dim">&gt;</span> try it yourself
     </>
   ),
   content: (

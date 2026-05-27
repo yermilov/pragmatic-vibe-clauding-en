@@ -11,9 +11,7 @@ export const ClaudeMdSlide: SlideDefinition = {
   id: 'claude-md',
   title: (
     <>
-      <span className="text-dim">$</span>{' '}
-      <span className="text-green">cat</span>{' '}
-      <span className="text-orange">CLAUDE.md</span>
+      <span className="text-dim">&gt;</span> what goes into CLAUDE.md?
     </>
   ),
   content: (

@@ -4,7 +4,11 @@ import linkedinQr from '/linkedin-qr.jpeg?url';
 
 export const FinalSlide: SlideDefinition = {
   id: 'final',
-  title: <>compacting the conversation...</>,
+  title: (
+    <>
+      <span className="text-dim">&gt;</span> compacting the conversation...
+    </>
+  ),
   content: (
     <>
       <div

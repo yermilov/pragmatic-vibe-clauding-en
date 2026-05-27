@@ -127,7 +127,7 @@ export const ContextSlide: SlideDefinition = {
   id: 'context',
   title: (
     <>
-      <span className="text-dim">$</span> що в контексті<span className="text-orange">?</span>
+      <span className="text-dim">&gt;</span> what's in the context?
     </>
   ),
   content: (

@@ -46,9 +46,7 @@ export const SkillsAuthoringSlide: SlideDefinition = {
   id: 'skills-authoring',
   title: (
     <>
-      <span className="text-dim">$</span>{' '}
-      <span className="text-green">teach</span>{' '}
-      <span className="text-orange">--skills</span>
+      <span className="text-dim">&gt;</span> teach Claude new skills
     </>
   ),
   content: (

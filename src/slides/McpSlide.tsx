@@ -7,9 +7,7 @@ export const McpSlide: SlideDefinition = {
   id: 'mcp',
   title: (
     <>
-      <span className="text-dim">$</span>{' '}
-      <span className="text-green">mcp</span>{' '}
-      <span className="text-orange">--list</span>
+      <span className="text-dim">&gt;</span> what is MCP?
     </>
   ),
   content: (

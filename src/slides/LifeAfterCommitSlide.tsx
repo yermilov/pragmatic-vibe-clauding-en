@@ -30,9 +30,7 @@ export const LifeAfterCommitSlide: SlideDefinition = {
   id: 'life-after-commit',
   title: (
     <>
-      <span className="text-dim">$</span>{' '}
-      <span className="text-green">deploy</span>{' '}
-      <span className="text-orange">--aftercare</span>
+      <span className="text-dim">&gt;</span> life after the commit
     </>
   ),
   content: (

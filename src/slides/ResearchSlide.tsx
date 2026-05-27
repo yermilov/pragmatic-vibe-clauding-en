@@ -10,9 +10,7 @@ export const ResearchSlide: SlideDefinition = {
   id: 'research',
   title: (
     <>
-      <span className="text-dim">$</span>{' '}
-      <span className="text-green">research</span>{' '}
-      <span className="text-orange">--start</span>
+      <span className="text-dim">&gt;</span> start with research
     </>
   ),
   content: (

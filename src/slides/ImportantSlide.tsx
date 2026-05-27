@@ -4,7 +4,12 @@ import importantImage from '/important-slide.png?url';
 
 export const ImportantSlide: SlideDefinition = {
   id: 'important',
-  title: <span className="text-orange">ВАЖЛИВО!</span>,
+  title: (
+    <>
+      <span className="text-dim">&gt;</span>{' '}
+      <span className="text-orange">important!</span>
+    </>
+  ),
   content: (
     <div className="bg-image-slide">
       <img

@@ -6,9 +6,7 @@ export const ContextToolsSlide: SlideDefinition = {
   id: 'context-tools',
   title: (
     <>
-      <span className="text-dim">$</span>{' '}
-      <span className="text-green">context</span>{' '}
-      <span className="text-orange">--tools</span>
+      <span className="text-dim">&gt;</span> tools for gathering context
     </>
   ),
   content: (

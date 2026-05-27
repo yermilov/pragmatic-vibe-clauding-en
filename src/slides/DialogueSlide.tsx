@@ -7,7 +7,7 @@ export const DialogueSlide: SlideDefinition = {
   id: 'dialogue',
   title: (
     <>
-      <span className="text-dim">$</span> діалог
+      <span className="text-dim">&gt;</span> have a dialogue
     </>
   ),
   content: (

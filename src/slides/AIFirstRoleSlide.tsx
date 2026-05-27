@@ -31,9 +31,7 @@ export const AIFirstRoleSlide: SlideDefinition = {
   id: 'ai-first-role',
   title: (
     <>
-      <span className="text-dim">$</span>{' '}
-      <span className="text-green">mindset</span>{' '}
-      <span className="text-orange">--ai-first</span>
+      <span className="text-dim">&gt;</span> your AI-first role
     </>
   ),
   content: (

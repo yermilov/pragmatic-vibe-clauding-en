@@ -5,9 +5,7 @@ export const TechnicalSlide: SlideDefinition = {
   id: 'technical',
   title: (
     <>
-      <span className="text-dim">$</span>{' '}
-      <span className="text-green">setup</span>{' '}
-      <span className="text-orange">--technical</span>
+      <span className="text-dim">&gt;</span> set up your environment
     </>
   ),
   content: (

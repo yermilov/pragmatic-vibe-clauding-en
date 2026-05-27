@@ -90,7 +90,7 @@ export const AgendaSlide: SlideDefinition = {
   id: 'agenda',
   title: (
     <>
-      <span className="text-dim">$</span> ./talk <span className="text-orange">--help</span>
+      <span className="text-dim">&gt;</span> what's on the agenda?
     </>
   ),
   content: (

@@ -326,7 +326,7 @@ export const SystemPromptSlide: SlideDefinition = {
   id: 'system-prompt',
   title: (
     <>
-      <span className="text-dim">$</span> системний промпт
+      <span className="text-dim">&gt;</span> show me Claude's system prompt
     </>
   ),
   content: (

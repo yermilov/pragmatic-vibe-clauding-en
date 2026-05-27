@@ -48,9 +48,7 @@ export const AIFirstWorkflowSlide: SlideDefinition = {
   id: 'ai-first-workflow',
   title: (
     <>
-      <span className="text-dim">$</span>{' '}
-      <span className="text-green">mindset</span>{' '}
-      <span className="text-orange">--ai-first</span>
+      <span className="text-dim">&gt;</span> AI-first workflow
     </>
   ),
   content: (

@@ -154,7 +154,7 @@ export const ContextPrinciplesSlide: SlideDefinition = {
   id: 'context-principles',
   title: (
     <>
-      <span className="text-dim">$</span> принципи роботи з контекстом
+      <span className="text-dim">&gt;</span> how to work with context
     </>
   ),
   content: (

@@ -158,7 +158,7 @@ export const ModelsSlide: SlideDefinition = {
   id: 'models',
   title: (
     <>
-      <span className="text-dim">$</span> якщо вже заговорили за моделі
+      <span className="text-dim">&gt;</span> pick the right model
     </>
   ),
   content: (
