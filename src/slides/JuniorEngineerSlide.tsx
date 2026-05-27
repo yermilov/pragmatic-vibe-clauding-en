@@ -1,5 +1,7 @@
+import { ReactNode } from 'react';
 import { SlideDefinition } from '../types/slides';
-import comparisonImage from '/junior-engineer-comparison.png?url';
+import slackImage from '/junior-engineer-slack.png?url';
+import terminalImage from '/junior-engineer-terminal.png?url';
 
 type Level = 'high' | 'medium' | 'low';
 
@@ -7,21 +9,18 @@ const levelStyles = {
   high: {
     prefix: '>>',
     prefixColor: 'var(--terminal-orange)',
-    labelColor: 'var(--terminal-white)',
     labelGlow: '0 0 20px rgba(240, 136, 62, 0.3)',
     opacity: 1,
   },
   medium: {
     prefix: '> ',
     prefixColor: 'var(--terminal-blue)',
-    labelColor: 'var(--terminal-white)',
     labelGlow: 'none',
     opacity: 1,
   },
   low: {
     prefix: '--',
     prefixColor: 'var(--terminal-white-dim)',
-    labelColor: 'var(--terminal-white)',
     labelGlow: 'none',
     opacity: 0.85,
   },
@@ -39,35 +38,11 @@ function ContentItem({ level, children }: { level: Level; children: React.ReactN
         gap: '0.5rem',
         fontSize: 'var(--slide-text-normal)',
         opacity: s.opacity,
-        marginBottom: '0.35rem',
+        marginBottom: '0.6rem',
       }}
     >
       <span style={{ color: s.prefixColor, fontWeight: 'bold' }}>{s.prefix}</span>
-      <span
-        style={{
-          color: s.labelColor,
-          textShadow: s.labelGlow,
-        }}
-      >
-        {children}
-      </span>
-    </div>
-  );
-}
-
-function ContentSection({ title, children }: { title: string; children: React.ReactNode }) {
-  return (
-    <div style={{ marginBottom: '1.5rem' }}>
-      <div
-        className="section-header section-header--blue"
-        style={{
-          borderBottom: '1px solid var(--terminal-border)',
-          paddingBottom: '0.2rem',
-        }}
-      >
-        {title}
-      </div>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>{children}</div>
+      <span style={{ color: 'var(--terminal-white)', textShadow: s.labelGlow }}>{children}</span>
     </div>
   );
 }
@@ -102,90 +77,62 @@ function KeyInsightArrow() {
   );
 }
 
+const BULLETS: { level: Level; content: ReactNode }[] = [
+  { level: 'high',   content: <>treat Claude Code as a <em className="text-emphasis text-emphasis--orange">very talented junior engineer</em> hired in your team</> },
+  { level: 'high',   content: <>it is <em className="text-emphasis text-emphasis--orange">(always) their first day</em> and you are their mentor</> },
+  { level: 'medium', content: <>they have no industry experience</> },
+  { level: 'high',   content: <>terminal interface = your <em className="text-emphasis text-emphasis--green">chat application</em></> },
+  { level: 'medium', content: <>you can give them your tasks but need to help with <em className="text-emphasis text-emphasis--green">context</em> and <em className="text-emphasis text-emphasis--green">reviews</em></> },
+];
+
 export const JuniorEngineerSlide: SlideDefinition = {
   id: 'junior-engineer',
-  content: (
+  maxRevealStages: BULLETS.length + 1,
+  content: ({ revealStage }) => (
     <div className="junior-engineer-slide">
-      {/* Inline keyframes */}
       <style>{`
         @keyframes arrowPulse {
-          0%, 100% {
-            opacity: 1;
-            transform: translateX(0);
-          }
-          50% {
-            opacity: 0.7;
-            transform: translateX(4px);
-          }
-        }
-        @keyframes imageFloat {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-8px); }
-        }
-        @keyframes glowBreath {
-          0%, 100% {
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4),
-                        0 0 0 1px var(--terminal-border);
-          }
-          50% {
-            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5),
-                        0 0 0 1px var(--terminal-orange-dim),
-                        0 0 40px rgba(240, 136, 62, 0.1);
-          }
+          0%, 100% { opacity: 1; transform: translateX(0); }
+          50%       { opacity: 0.7; transform: translateX(4px); }
         }
       `}</style>
 
+      {/* Left: Slack image */}
+      <div className="junior-engineer-image-col">
+        <img src={slackImage} alt="Slack chat interface" className="junior-engineer-image" loading="lazy" />
+        <div className="junior-engineer-image-label">Slack</div>
+      </div>
+
+      {/* Center: text */}
       <div className="junior-engineer-content">
-        {/* Command header */}
-        <h2 style={{
-          marginBottom: '1.5rem',
-          textAlign: 'left',
-          fontSize: '2rem',
-        }}>
+        <h2 style={{ marginBottom: '1.5rem', textAlign: 'left', fontSize: '2rem' }}>
           <span className="text-dim">$</span>{' '}
           <span className="text-green">think</span>{' '}
           <span className="text-orange">--model</span>{' '}
           <span className="text-cyan">lawful-chaotic-engineer</span>
         </h2>
 
-        <ContentSection title="ключова метафора">
-          <ContentItem level="high">
-            Ставтеся до Claude Code як до <em className="text-emphasis text-emphasis--orange">дуже талановитого але хаотичного партнера</em>, а ви — їх ментор
-          </ContentItem>
-        </ContentSection>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          {BULLETS.map((item, i) =>
+            revealStage >= i + 1 ? (
+              <ContentItem key={i} level={item.level}>{item.content}</ContentItem>
+            ) : null,
+          )}
+        </div>
 
-        <ContentSection title="інтерфейс">
-          <ContentItem level="high">
-            термінальний інтерфейс = ваш чат-застосунок
-          </ContentItem>
-          <ContentItem level="medium">
-            ви можете давати їм завдання, але потрібно допомагати з <em className="text-emphasis text-emphasis--green">контекстом</em> та <em className="text-emphasis text-emphasis--green">не давати все поламати</em>
-          </ContentItem>
-        </ContentSection>
-
+        {revealStage >= BULLETS.length + 1 && (
+          <div className="key-insight" style={{ marginTop: '1.25rem', fontSize: 'var(--slide-text-normal)' }}>
+            what you would write to a human?
+            <KeyInsightArrow />
+            <span className="text-emphasis text-emphasis--orange">write it to Claude Code</span>
+          </div>
+        )}
       </div>
 
-      {/* Image section */}
-      <div className="junior-engineer-image-wrapper">
-        <img
-          src={comparisonImage}
-          alt="Чат інтерфейс з'єднується з терміналом — однакова взаємодія, різний інтерфейс"
-          className="junior-engineer-image"
-          style={{
-            maxWidth: '520px',
-            animation: 'imageFloat 6s ease-in-out infinite, glowBreath 4s ease-in-out infinite',
-          }}
-        />
-        <div style={{
-          marginTop: '1.25rem',
-          textAlign: 'center',
-          fontSize: 'var(--slide-text-normal)',
-          color: 'var(--terminal-white)',
-        }}>
-          Що б ви написали людині?
-          <KeyInsightArrow />
-          <span className="text-emphasis text-emphasis--orange">Пишіть Claude Code</span>
-        </div>
+      {/* Right: Terminal image */}
+      <div className="junior-engineer-image-col">
+        <img src={terminalImage} alt="Terminal Claude Code interface" className="junior-engineer-image" loading="lazy" />
+        <div className="junior-engineer-image-label">Claude Code</div>
       </div>
     </div>
   ),
