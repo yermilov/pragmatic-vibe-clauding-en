@@ -111,11 +111,14 @@ export const JuniorEngineerSlide: SlideDefinition = {
       {/* Center: text */}
       <div className="junior-engineer-content">
         <div style={{ display: 'flex', flexDirection: 'column' }}>
-          {BULLETS.map((item, i) =>
-            revealStage >= i + 1 ? (
+          {BULLETS.map((item, i) => {
+            const isCloserStage = revealStage >= BULLETS.length + 1;
+            // On the closer stage, drop the first bullet to make room.
+            const shouldShow = revealStage >= i + 1 && !(isCloserStage && i === 0);
+            return shouldShow ? (
               <ContentItem key={i} level={item.level}>{item.content}</ContentItem>
-            ) : null,
-          )}
+            ) : null;
+          })}
         </div>
 
         {revealStage >= BULLETS.length + 1 && (
