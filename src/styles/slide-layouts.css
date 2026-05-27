@@ -1772,7 +1772,7 @@
  * (use --space-*, --terminal-*, --input-border-radius, --transition-normal).
  * ============================================================================= */
 
-/* === OVERLAY SLIDE (PeterMobileSlide — centered gif on top of content) ===== */
+/* === BILLION-DOLLAR SLIDE (tweet + lock-on reveal + gif overlay) =========== */
 .overlay-slide {
   position: relative;
 }
@@ -1786,6 +1786,35 @@
   max-height: 95%;
   border: none !important;
   box-shadow: none !important;
+  animation: billionDollarGifLand 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.billion-dollar-tweet {
+  transition:
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.5s ease-out,
+    filter 0.5s ease-out;
+}
+
+.billion-dollar-tweet--locked {
+  transform: scale(1.1);
+  box-shadow:
+    0 0 0 2px var(--terminal-orange),
+    0 0 48px var(--terminal-orange-glow);
+  filter: brightness(1.05) saturate(1.1);
+}
+
+@keyframes billionDollarGifLand {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(2.4);
+    filter: blur(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(2);
+    filter: blur(0);
+  }
 }
 
 /* === THEORY SLIDE (h2 + image container) =================================== */
