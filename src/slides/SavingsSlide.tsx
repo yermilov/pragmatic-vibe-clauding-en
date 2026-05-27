@@ -48,6 +48,13 @@ function AnimatedSectionHeader({
 
 export const SavingsSlide: SlideDefinition = {
   id: 'savings',
+  title: (
+    <>
+      <span className="text-dim">$</span>{' '}
+      <span className="text-green">budget</span>{' '}
+      <span className="text-orange">--optimize</span>
+    </>
+  ),
   content: (
     <div className="mcp-slide">
       <img
@@ -57,12 +64,6 @@ export const SavingsSlide: SlideDefinition = {
       />
 
       <div className="mcp-slide-content">
-        <h2 style={{ marginBottom: '1.5rem' }}>
-          <span className="text-dim">$</span>{' '}
-          <span className="text-green">budget</span>{' '}
-          <span className="text-orange">--optimize</span>
-        </h2>
-
         <AnimatedSectionHeader color="green" delay={0.03}>
           pricing tiers
         </AnimatedSectionHeader>

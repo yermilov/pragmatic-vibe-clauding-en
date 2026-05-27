@@ -87,6 +87,14 @@ const BULLETS: { level: Level; content: ReactNode }[] = [
 
 export const JuniorEngineerSlide: SlideDefinition = {
   id: 'junior-engineer',
+  title: (
+    <>
+      <span className="text-dim">$</span>{' '}
+      <span className="text-green">think</span>{' '}
+      <span className="text-orange">--model</span>{' '}
+      <span className="text-cyan">lawful-chaotic-engineer</span>
+    </>
+  ),
   maxRevealStages: BULLETS.length + 1,
   content: ({ revealStage }) => (
     <div className="junior-engineer-slide">
@@ -105,13 +113,6 @@ export const JuniorEngineerSlide: SlideDefinition = {
 
       {/* Center: text */}
       <div className="junior-engineer-content">
-        <h2 style={{ marginBottom: '1.5rem', textAlign: 'left', fontSize: '2rem' }}>
-          <span className="text-dim">$</span>{' '}
-          <span className="text-green">think</span>{' '}
-          <span className="text-orange">--model</span>{' '}
-          <span className="text-cyan">lawful-chaotic-engineer</span>
-        </h2>
-
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           {BULLETS.map((item, i) =>
             revealStage >= i + 1 ? (

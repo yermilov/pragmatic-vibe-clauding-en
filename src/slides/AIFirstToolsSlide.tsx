@@ -29,6 +29,13 @@ function AnimatedSectionHeader({
 
 export const AIFirstToolsSlide: SlideDefinition = {
   id: 'ai-first-tools',
+  title: (
+    <>
+      <span className="text-dim">$</span>{' '}
+      <span className="text-green">mindset</span>{' '}
+      <span className="text-orange">--ai-first</span>
+    </>
+  ),
   content: (
     <div className="bg-image-slide">
       <img
@@ -38,12 +45,6 @@ export const AIFirstToolsSlide: SlideDefinition = {
       />
 
       <div className="bg-image-slide__content">
-        <h2 style={{ marginBottom: '2rem' }}>
-          <span className="text-dim">$</span>{' '}
-          <span className="text-green">mindset</span>{' '}
-          <span className="text-orange">--ai-first</span>
-        </h2>
-
         <AnimatedSectionHeader color="purple" delay={0.03}>
           подумайте над тим
         </AnimatedSectionHeader>

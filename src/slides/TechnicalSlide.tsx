@@ -3,14 +3,15 @@ import { Code, SlideItem, SlideLink } from '../components/SlideElements';
 
 export const TechnicalSlide: SlideDefinition = {
   id: 'technical',
+  title: (
+    <>
+      <span className="text-dim">$</span>{' '}
+      <span className="text-green">setup</span>{' '}
+      <span className="text-orange">--technical</span>
+    </>
+  ),
   content: (
     <>
-      <h2 style={{ marginBottom: '2rem' }}>
-        <span className="text-dim">$</span>{' '}
-        <span className="text-green">setup</span>{' '}
-        <span className="text-orange">--technical</span>
-      </h2>
-
       <div
         style={{
           textAlign: 'left',

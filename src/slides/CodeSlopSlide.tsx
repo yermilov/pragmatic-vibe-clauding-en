@@ -3,14 +3,15 @@ import { Code, Quote, Emphasis, SlideItem } from '../components/SlideElements';
 
 export const CodeSlopSlide: SlideDefinition = {
   id: 'code-slop',
+  title: (
+    <>
+      <span className="text-dim">$</span>{' '}
+      <span className="text-green">code</span>{' '}
+      <span className="text-orange">--no-slop</span>
+    </>
+  ),
   content: (
     <>
-      <h2 style={{ marginBottom: '2rem' }}>
-        <span className="text-dim">$</span>{' '}
-        <span className="text-green">code</span>{' '}
-        <span className="text-orange">--no-slop</span>
-      </h2>
-
       <div
         style={{
           textAlign: 'left',

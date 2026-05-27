@@ -324,6 +324,11 @@ function SystemPromptContent() {
 
 export const SystemPromptSlide: SlideDefinition = {
   id: 'system-prompt',
+  title: (
+    <>
+      <span className="text-dim">$</span> системний промпт
+    </>
+  ),
   content: (
     <>
       <style>
@@ -371,10 +376,6 @@ export const SystemPromptSlide: SlideDefinition = {
           }
         `}
       </style>
-
-      <h2 style={{ marginBottom: '1.5rem' }}>
-        <span className="text-dim">$</span> системний промпт
-      </h2>
 
       <SystemPromptContent />
     </>

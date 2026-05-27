@@ -5,6 +5,13 @@ import mcpContextPollution from '/mcp-context-pollution.png?url';
 
 export const McpSlide: SlideDefinition = {
   id: 'mcp',
+  title: (
+    <>
+      <span className="text-dim">$</span>{' '}
+      <span className="text-green">mcp</span>{' '}
+      <span className="text-orange">--list</span>
+    </>
+  ),
   content: (
     <div className="mcp-slide">
       <img
@@ -14,12 +21,6 @@ export const McpSlide: SlideDefinition = {
       />
 
       <div className="mcp-slide-content">
-        <h2 style={{ marginBottom: '2rem' }}>
-          <span className="text-dim">$</span>{' '}
-          <span className="text-green">mcp</span>{' '}
-          <span className="text-orange">--list</span>
-        </h2>
-
         <SlideItem delay={0.05}>
           <Code>MCP</Code> (Model Context Protocol) — хайповий стандарт інтеграції
           LLM-застосунків з інструментами

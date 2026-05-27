@@ -4,6 +4,13 @@ import contextToolsGathering from '/context-tools-gathering.png?url';
 
 export const ContextToolsSlide: SlideDefinition = {
   id: 'context-tools',
+  title: (
+    <>
+      <span className="text-dim">$</span>{' '}
+      <span className="text-green">context</span>{' '}
+      <span className="text-orange">--tools</span>
+    </>
+  ),
   content: (
     <div className="bg-image-slide">
       <img
@@ -13,12 +20,6 @@ export const ContextToolsSlide: SlideDefinition = {
       />
 
       <div className="bg-image-slide__content">
-        <h2 style={{ marginBottom: '2rem' }}>
-          <span className="text-dim">$</span>{' '}
-          <span className="text-green">context</span>{' '}
-          <span className="text-orange">--tools</span>
-        </h2>
-
         <SlideItem delay={0.05}>
           опишіть свою задачу максимально детально наскільки тільки можете (або
           використовуйте <SlideLink href="https://handy.computer/">handy.computer</SlideLink>{' '}

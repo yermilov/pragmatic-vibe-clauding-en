@@ -125,6 +125,11 @@ function ContextLayer({
 
 export const ContextSlide: SlideDefinition = {
   id: 'context',
+  title: (
+    <>
+      <span className="text-dim">$</span> що в контексті<span className="text-orange">?</span>
+    </>
+  ),
   content: (
     <>
       <style>
@@ -141,10 +146,6 @@ export const ContextSlide: SlideDefinition = {
           }
         `}
       </style>
-
-      <h2 style={{ marginBottom: '2rem' }}>
-        <span className="text-dim">$</span> що в контексті<span className="text-orange">?</span>
-      </h2>
 
       <div
         style={{

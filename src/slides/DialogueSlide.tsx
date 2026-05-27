@@ -5,6 +5,11 @@ import dialogueMemory from '/dialogue-memory.png?url';
 
 export const DialogueSlide: SlideDefinition = {
   id: 'dialogue',
+  title: (
+    <>
+      <span className="text-dim">$</span> діалог
+    </>
+  ),
   content: (
     <div className="mcp-slide">
       <img
@@ -14,10 +19,6 @@ export const DialogueSlide: SlideDefinition = {
       />
 
       <div className="mcp-slide-content">
-        <h2 style={{ marginBottom: '2rem' }}>
-          <span className="text-dim">$</span> діалог
-        </h2>
-
         <SlideItem delay={0.05}>
           використовуйте принцип <Quote>сім раз відмір - один раз відріж</Quote>
         </SlideItem>

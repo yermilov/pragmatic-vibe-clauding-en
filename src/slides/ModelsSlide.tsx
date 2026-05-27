@@ -156,6 +156,11 @@ function TokenNum({ children }: { children: string }) {
 
 export const ModelsSlide: SlideDefinition = {
   id: 'models',
+  title: (
+    <>
+      <span className="text-dim">$</span> якщо вже заговорили за моделі
+    </>
+  ),
   content: (
     <>
       <style>
@@ -182,10 +187,6 @@ export const ModelsSlide: SlideDefinition = {
           }
         `}
       </style>
-
-      <h2 style={{ marginBottom: '1.5rem' }}>
-        <span className="text-dim">$</span> якщо вже заговорили за моделі
-      </h2>
 
       <div
         style={{

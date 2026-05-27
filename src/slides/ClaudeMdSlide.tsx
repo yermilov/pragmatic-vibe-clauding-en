@@ -9,6 +9,13 @@ function Command({ children }: { children: string }) {
 
 export const ClaudeMdSlide: SlideDefinition = {
   id: 'claude-md',
+  title: (
+    <>
+      <span className="text-dim">$</span>{' '}
+      <span className="text-green">cat</span>{' '}
+      <span className="text-orange">CLAUDE.md</span>
+    </>
+  ),
   content: (
     <div className="bg-image-slide">
       <img
@@ -18,12 +25,6 @@ export const ClaudeMdSlide: SlideDefinition = {
       />
 
       <div className="bg-image-slide__content">
-        <h2 style={{ marginBottom: '2rem' }}>
-          <span className="text-dim">$</span>{' '}
-          <span className="text-green">cat</span>{' '}
-          <span className="text-orange">CLAUDE.md</span>
-        </h2>
-
         <SlideItem delay={0.05}>
           <Code>CLAUDE.md</Code> для Claude Code — те саме, що{' '}
           <Code>README.md</Code> для людей-розробників

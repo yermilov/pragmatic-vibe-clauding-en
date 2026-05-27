@@ -28,14 +28,15 @@ function AnimatedSectionHeader({
 
 export const LifeAfterCommitSlide: SlideDefinition = {
   id: 'life-after-commit',
+  title: (
+    <>
+      <span className="text-dim">$</span>{' '}
+      <span className="text-green">deploy</span>{' '}
+      <span className="text-orange">--aftercare</span>
+    </>
+  ),
   content: (
     <>
-      <h2 style={{ marginBottom: '2rem' }}>
-        <span className="text-dim">$</span>{' '}
-        <span className="text-green">deploy</span>{' '}
-        <span className="text-orange">--aftercare</span>
-      </h2>
-
       <div
         style={{
           textAlign: 'left',

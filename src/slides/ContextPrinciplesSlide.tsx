@@ -152,6 +152,11 @@ function TokenNum({ children }: { children: string }) {
 
 export const ContextPrinciplesSlide: SlideDefinition = {
   id: 'context-principles',
+  title: (
+    <>
+      <span className="text-dim">$</span> принципи роботи з контекстом
+    </>
+  ),
   content: (
     <>
       <style>
@@ -168,10 +173,6 @@ export const ContextPrinciplesSlide: SlideDefinition = {
           }
         `}
       </style>
-
-      <h2 style={{ marginBottom: '2rem' }}>
-        <span className="text-dim">$</span> принципи роботи з контекстом
-      </h2>
 
       <div
         style={{

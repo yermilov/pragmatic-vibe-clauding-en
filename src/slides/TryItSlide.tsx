@@ -8,14 +8,15 @@ function Command({ children }: { children: string }) {
 
 export const TryItSlide: SlideDefinition = {
   id: 'try-it',
+  title: (
+    <>
+      <span className="text-dim">$</span>{' '}
+      <span className="text-green">bootstrap</span>{' '}
+      <span className="text-orange">--try</span>
+    </>
+  ),
   content: (
     <>
-      <h2 style={{ marginBottom: '2rem' }}>
-        <span className="text-dim">$</span>{' '}
-        <span className="text-green">bootstrap</span>{' '}
-        <span className="text-orange">--try</span>
-      </h2>
-
       <div
         style={{
           textAlign: 'left',

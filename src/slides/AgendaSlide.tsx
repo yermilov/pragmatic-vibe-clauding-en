@@ -88,12 +88,13 @@ function AgendaSection({ title, children }: { title: string; children: React.Rea
 
 export const AgendaSlide: SlideDefinition = {
   id: 'agenda',
+  title: (
+    <>
+      <span className="text-dim">$</span> ./talk <span className="text-orange">--help</span>
+    </>
+  ),
   content: (
     <>
-      <h2 style={{ marginBottom: '2rem' }}>
-        <span className="text-dim">$</span> ./talk <span className="text-orange">--help</span>
-      </h2>
-
       <p style={{ marginBottom: '1.5rem', fontSize: '1.5rem' }}>
         про що ми сьогодні будемо і не будемо говорити?
       </p>
