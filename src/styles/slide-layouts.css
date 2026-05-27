@@ -1772,7 +1772,7 @@
  * (use --space-*, --terminal-*, --input-border-radius, --transition-normal).
  * ============================================================================= */
 
-/* === BILLION-DOLLAR SLIDE (tweet + lock-on reveal + gif overlay) =========== */
+/* === BILLION-DOLLAR SLIDE (tweet + gif overlay) ============================ */
 .overlay-slide {
   position: relative;
 }
@@ -1787,21 +1787,6 @@
   border: none !important;
   box-shadow: none !important;
   animation: billionDollarGifLand 0.45s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.billion-dollar-tweet {
-  transition:
-    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
-    box-shadow 0.5s ease-out,
-    filter 0.5s ease-out;
-}
-
-.billion-dollar-tweet--locked {
-  transform: scale(1.1);
-  box-shadow:
-    0 0 0 2px var(--terminal-orange),
-    0 0 48px var(--terminal-orange-glow);
-  filter: brightness(1.05) saturate(1.1);
 }
 
 @keyframes billionDollarGifLand {

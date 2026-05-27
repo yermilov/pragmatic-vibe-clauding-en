@@ -9,15 +9,11 @@ export const BillionDollarSlide: SlideDefinition = {
       <span className="text-dim">&gt;</span> let's start
     </>
   ),
-  maxRevealStages: 2,
+  maxRevealStages: 1,
   content: ({ revealStage }) => (
     <div className="image-slide overlay-slide">
-      <img
-        src={billionDollarTweet}
-        alt="Tweet: ok claude, make a billion dollar b2b todo app"
-        className={`billion-dollar-tweet${revealStage >= 1 ? ' billion-dollar-tweet--locked' : ''}`}
-      />
-      {revealStage >= 2 && (
+      <img src={billionDollarTweet} alt="Tweet: ok claude, make a billion dollar b2b todo app" />
+      {revealStage >= 1 && (
         <img
           src={peterMobileGif}
           alt="Peter Griffin reaction"
