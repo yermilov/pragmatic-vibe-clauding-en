@@ -1,16 +1,18 @@
 import { useEffect, useState, useRef } from 'react';
 import { SlideDefinition } from '../types/slides';
+// Offline fallback: a bundled snapshot of the prompt, used when the live
+// fetch fails (no network / blocked) so the slide still works on stage Wi-Fi.
+import fallbackPrompt from '../assets/cc-system-prompt.md?raw';
 
 const PROMPT_URL = 'https://raw.githubusercontent.com/marckrenn/claude-code-changelog/refs/heads/main/cc-prompt.md';
 
 function SystemPromptContent() {
   const [content, setContent] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
   const [isScrolling, setIsScrolling] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Fetch content on mount
+  // Fetch the latest prompt on mount; fall back to the bundled copy on failure.
   useEffect(() => {
     fetch(PROMPT_URL)
       .then((res) => {
@@ -21,7 +23,7 @@ function SystemPromptContent() {
         setContent(text);
       })
       .catch(() => {
-        setError('CONNECTION_REFUSED: Unable to establish link');
+        setContent(fallbackPrompt);
       });
   }, []);
 
@@ -38,7 +40,7 @@ function SystemPromptContent() {
   }, [content]);
 
   // Loading state - terminal boot sequence
-  if (!content && !error) {
+  if (!content) {
     return (
       <div
         style={{
@@ -97,41 +99,11 @@ function SystemPromptContent() {
     );
   }
 
-  // Error state
-  if (error) {
-    return (
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          height: '60vh',
-          gap: '1rem',
-        }}
-      >
-        <div
-          style={{
-            fontFamily: 'var(--font-mono)',
-            fontSize: '1.2rem',
-            color: 'var(--terminal-red)',
-            textShadow: '0 0 10px var(--terminal-red-glow)',
-          }}
-        >
-          ERROR
-        </div>
-        <div
-          style={{
-            fontFamily: 'var(--font-mono)',
-            fontSize: '0.9rem',
-            color: 'var(--terminal-white-muted)',
-          }}
-        >
-          {error}
-        </div>
-      </div>
-    );
-  }
+
+  // Pull the version straight out of the fetched prompt's title line
+  // (e.g. "# Claude Code Version 2.1.156") so the header never goes stale.
+  const versionMatch = content?.match(/Claude Code Version\s+([0-9][0-9.]*)/i);
+  const versionLabel = versionMatch ? `v${versionMatch[1]}` : 'LIVE';
 
   return (
     <div
@@ -227,7 +199,7 @@ function SystemPromptContent() {
         >
           {'═'.repeat(60)}
           <br />
-          ░░░ SYSTEM PROMPT - CLAUDE CODE v1.0.33 ░░░
+          ░░░ SYSTEM PROMPT - CLAUDE CODE {versionLabel} ░░░
           <br />
           {'═'.repeat(60)}
         </div>

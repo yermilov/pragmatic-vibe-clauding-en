@@ -11,11 +11,13 @@
 /* === BIO SLIDE LAYOUT === */
 .bio-slide {
   display: flex;
-  align-items: center;
+  align-items: flex-start; /* text stays top-aligned under the title */
   justify-content: center;
   gap: var(--space-3xl);
   text-align: left;
   width: 100%;
+  flex: 1; /* fill the content area so the photo can center vertically */
+  min-height: 0;
   padding-bottom: var(--space-xl); /* Clear timer/progress bar */
 }
 
@@ -72,8 +74,9 @@
 
 .bio-slide-image {
   flex-shrink: 0;
-  max-width: 380px;
-  max-height: calc(var(--vh-full) - 280px);
+  align-self: center; /* center the photo vertically in the right column */
+  max-width: 540px;
+  max-height: calc(var(--vh-full) - 250px);
   object-fit: contain;
   border-radius: var(--input-border-radius);
   border: 2px solid var(--terminal-border);
@@ -1250,9 +1253,12 @@
   width: 100vw;
   height: var(--vh-full);
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
-  padding-top: var(--space-xl);
+  /* Center the card in the clear band between the fixed top-left title
+   * and the bottom input bar so it never collides with either. */
+  padding-top: 150px;
+  padding-bottom: var(--space-3xl);
   box-sizing: border-box;
   z-index: 0;
 }
@@ -1273,7 +1279,7 @@
   position: relative;
   z-index: 1;
   max-width: 900px;
-  max-height: calc(var(--vh-full) - 160px);
+  max-height: calc(var(--vh-full) - 260px);
   overflow-y: auto;
   padding: var(--space-xl);
   background: rgba(10, 14, 20, 0.85);
@@ -1282,6 +1288,11 @@
   border-radius: var(--input-border-radius);
   border: 1px solid var(--terminal-border);
   text-align: left;
+}
+
+/* Before the first reveal the card has no bullets — don't show an empty box. */
+.bg-image-slide__content:empty {
+  display: none;
 }
 
 /* === CONTEXT ADVICE CARD ===
@@ -1839,73 +1850,63 @@
 }
 
 /* === JUNIOR ENGINEER SLIDE (three-column: Slack | content | Claude Code) === */
-.junior-engineer-slide {
-  display: flex;
-  align-items: stretch;
-  justify-content: center;
-  gap: var(--space-2xl);
-  width: 100%;
+/* Build-up: text-only, vertically centered, bullets left-aligned. */
+.junior-engineer-text {
   height: 100%;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  text-align: left;
   padding-bottom: var(--space-xl);
 }
 
-.junior-engineer-image-col {
-  flex: 0 0 auto;
+/* Final reveal: punchline above the single screenshot, centered. */
+/* Final reveal: two columns — punchline on the left, screenshot on the right. */
+.junior-engineer-final {
+  height: 100%;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  justify-content: flex-end;
-  gap: var(--space-sm);
+  justify-content: center;
+  gap: var(--space-3xl);
+  padding-bottom: var(--space-xl);
 }
 
-.junior-engineer-image-label {
-  font-family: var(--font-mono);
-  font-size: 1.4rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--terminal-white);
-  text-align: center;
-  padding: 0.4rem 1.5rem;
-  border-bottom: 2px solid var(--terminal-orange);
-}
-
-.junior-engineer-content {
-  flex: 1;
-  max-width: 600px;
+.junior-engineer-punchline {
+  flex: 0 1 440px;
   text-align: left;
+  font-size: var(--font-size-h3);
+  line-height: 1.35;
 }
 
-.junior-engineer-content h2 {
-  text-align: left;
-}
-
-.junior-engineer-image {
-  height: calc(var(--vh-full) - 220px);
-  width: 300px;
-  object-fit: cover;
+/* Single combined screenshot (Slack + Claude Code, same request) — the hero. */
+.junior-engineer-combined {
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 840px;
+  max-height: calc(var(--vh-full) - 250px);
+  object-fit: contain;
   border-radius: var(--input-border-radius);
   border: 1px solid var(--terminal-border);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
 @media (max-width: 1200px) {
-  .junior-engineer-slide {
+  .junior-engineer-final {
     flex-direction: column;
-    gap: var(--space-xl);
+    gap: var(--space-lg);
   }
-  .junior-engineer-image-col {
+  .junior-engineer-punchline {
     flex: none;
-    width: 100%;
+    text-align: center;
+    font-size: var(--slide-text-normal);
   }
-  .junior-engineer-image {
-    height: 200px;
+  .junior-engineer-combined {
     max-width: 100%;
-  }
-}
-
-@media (max-width: 640px) {
-  .junior-engineer-image {
-    height: 150px;
   }
 }
 

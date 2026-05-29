@@ -64,8 +64,29 @@
   letter-spacing: var(--letter-spacing-tight);
   line-height: var(--line-height-tight);
   text-shadow: var(--glow-text-green);
+  width: max-content;
   max-width: 100%;
   z-index: 3;
+}
+
+/* Frosted scrim behind the title so it stays legible over busy image
+ * backdrops. Feathered radial edges + matching dark tint make it invisible
+ * on plain #0a0e14 slides and a soft blurred panel over artwork. */
+.slide h2.slide-title::before {
+  content: '';
+  position: absolute;
+  inset: -0.3em -0.9em;
+  z-index: -1;
+  border-radius: 1em;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(10, 14, 20, 0.82) 0%,
+    rgba(10, 14, 20, 0.55) 55%,
+    transparent 100%
+  );
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  pointer-events: none;
 }
 
 /* Second-line "code comment" descriptor inside a slide title.

@@ -1,7 +1,7 @@
 {
   "filename": "junior-engineer-comparison.png",
-  "prompt": "Split-screen comparison illustration showing two equivalent ways to communicate with AI: Left side shows a Slack-like chat interface with message bubbles, human avatar icon, and a coding request message. Right side shows a dark terminal/CLI interface like Claude Code with command prompt '>' and code output. A double-headed arrow or visual connector in the middle emphasizes they are equivalent interactions. Minimalist tech aesthetic, dark background (#0a0e14), with orange (#f0883e) and green (#7ee787) accent colors. Clean, modern, professional.",
-  "ratio": "4:3",
-  "timestamp": "2026-01-06T14:39:16.085Z",
-  "model": "gemini-3-pro-image-preview"
+  "prompt": "A realistic screenshot of a single computer desktop on a dark wallpaper, showing two application windows open side by side on the same screen, like a real screen capture. The left window is the Slack desktop app in dark mode showing a direct message: a round person avatar, a display name, and a chat message bubble reading: hey, can you add retry logic to the API client and cover it with tests? The right window is a dark terminal running Claude Code, with its own title bar, a glowing green prompt arrow, and the exact same text typed as a command: hey, can you add retry logic to the API client and cover it with tests, followed by a few faint lines of code output. Both windows have realistic macOS style title bars with the three traffic-light buttons, and they sit neatly tiled on the same desktop. Crisp legible monospace text in the terminal and a friendly modern UI in the Slack window, subtle orange hex f0883e and green hex 7ee787 accents, 16:9 widescreen. No arrows, no equals signs, no connectors between the windows, and no extra text anywhere.",
+  "ratio": "16:9",
+  "timestamp": "2026-05-29T16:17:00.000Z",
+  "model": "gemini (3.1 Pro / Nano Banana 2, via research:generate-image, browser)"
 }

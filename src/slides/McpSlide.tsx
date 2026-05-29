@@ -22,10 +22,13 @@ const MCP_BULLETS: React.ReactNode[] = [
     example: instead of the GitHub MCP, use the gh cli
   </>,
   <>
+    for some cases, you can use Claude Chrome extension
+  </>,
+  <>
     the one MCP server I can recommend almost without hesitation is{' '}
     <SlideLink href="https://github.com/ChromeDevTools/chrome-devtools-mcp">
       chrome-devtools-mcp
-    </SlideLink>
+    </SlideLink> (and Slack connector to some extent)
   </>,
   <>
     don't forget to hint to Claude that you'd like it to use a particular MCP
@@ -41,8 +44,8 @@ export const McpSlide: SlideDefinition = {
   ),
   maxRevealStages: MCP_BULLETS.length,
   content: ({ revealStage }) => {
-    // rolling window: overflow slide
-    const WINDOW = 3;
+    // rolling window: overflow slide — show at most 4 bullets at a time
+    const WINDOW = 4;
     const firstVisible = Math.max(0, revealStage - WINDOW);
 
     return (

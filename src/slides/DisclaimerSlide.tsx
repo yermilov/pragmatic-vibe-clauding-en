@@ -67,7 +67,7 @@ const BULLETS: { level: Level; content: ReactNode }[] = [
     level: 'high',
     content: (
       <>
-        personally, I much prefer the flow where I work with{' '}
+        personally, the flow that works best for me is working with{' '}
         <em style={{ color: 'var(--terminal-orange)', fontStyle: 'normal', fontWeight: 600 }}>
           Claude Code entirely in the terminal
         </em>
@@ -78,9 +78,20 @@ const BULLETS: { level: Level; content: ReactNode }[] = [
     level: 'medium',
     content: (
       <>
-        but I do reach for an IDE (usually{' '}
-        <span style={{ color: 'var(--terminal-cyan)' }}>VS Code</span>) for small targeted changes I want to
+        but I'll open an IDE (usually{' '}
+        <span style={{ color: 'var(--terminal-cyan)' }}>VS Code</span>) for small, targeted edits I want to
         make by hand
+      </>
+    ),
+  },
+  {
+    level: 'medium',
+    content: (
+      <>
+        the terminal weans you off the old mental model{' '}
+        <em style={{ color: 'var(--terminal-white-dim)', fontStyle: 'normal' }}>"I'm editing text"</em>
+        {' '}faster, and teaches the new one:{' '}
+        <em style={{ color: 'var(--terminal-green)', fontStyle: 'normal', fontWeight: 600 }}>"I'm assigning tasks to an agent"</em>
       </>
     ),
   },
@@ -88,7 +99,7 @@ const BULLETS: { level: Level; content: ReactNode }[] = [
     level: 'low',
     content: (
       <>
-        not a terminal person? grab the{' '}
+        not comfortable in the terminal? there are plugins:{' '}
         <a
           href="https://marketplace.visualstudio.com/items?itemName=anthropic.claude-code"
           target="_blank"
@@ -104,8 +115,8 @@ const BULLETS: { level: Level; content: ReactNode }[] = [
           rel="noopener noreferrer"
           style={linkStyle}
         >
-          JetBrains
-        </a>{' '}plugin
+          JetBrains IDE
+        </a>
       </>
     ),
   },
@@ -119,7 +130,12 @@ export const DisclaimerSlide: SlideDefinition = {
     </>
   ),
   maxRevealStages: BULLETS.length,
-  content: ({ revealStage }) => (
+  content: ({ revealStage }) => {
+    // one bullet at a time — each reveal replaces the previous one, so the
+    // narrow center column between the fighters never overflows.
+    const activeBullet = revealStage - 1;
+
+    return (
     <div className="vs-battle-slide">
       {/* Left Fighter - Terminal */}
       <div className="vs-fighter vs-fighter--left">
@@ -136,7 +152,7 @@ export const DisclaimerSlide: SlideDefinition = {
         <div className="vs-badge">VS</div>
         <div className="vs-disclaimer-content">
           {BULLETS.map((item, i) =>
-            revealStage >= i + 1 ? (
+            i === activeBullet ? (
               <DisclaimerItem key={i} level={item.level}>{item.content}</DisclaimerItem>
             ) : null,
           )}
@@ -154,6 +170,7 @@ export const DisclaimerSlide: SlideDefinition = {
       </div>
 
     </div>
-  ),
+    );
+  },
   notes: 'Personal disclaimer about terminal vs IDE workflow preferences - Mortal Kombat style!',
 };

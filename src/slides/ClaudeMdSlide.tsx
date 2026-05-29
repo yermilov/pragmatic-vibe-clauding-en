@@ -1,5 +1,5 @@
 import { SlideDefinition } from '../types/slides';
-import { Code, Quote, SlideItem } from '../components/SlideElements';
+import { Code, Quote, SlideItem, SlideLink } from '../components/SlideElements';
 import claudeMdVsReadme from '/claude-md-vs-readme.png?url';
 
 // Command styling (orange code)
@@ -19,18 +19,27 @@ const CLAUDE_MD_BULLETS: React.ReactNode[] = [
     auto-generated via the <Command>/init</Command> command
   </>,
   <>
-    you can edit it by hand to fix incorrect conclusions
-  </>,
-  <>
-    if Claude makes systematic mistakes — tell it{' '}
-    <Quote>instead do X and remember this information in CLAUDE.md</Quote>
+    you can put a <Code>CLAUDE.md</Code> in any subfolder for local
+    instructions in monorepos
   </>,
   <>
     commit <Code>CLAUDE.md</Code> to git to share best practices
   </>,
   <>
-    you can put a <Code>CLAUDE.md</Code> in any subfolder for local
-    instructions in monorepos
+    you can edit it by hand to fix incorrect conclusions, but better don't do it
+  </>,
+  <>
+    periodically regenerate it via{' '}
+    <SlideLink href="https://github.com/anthropics/claude-plugins-official/tree/main/plugins/claude-md-management">
+      claude-md-management
+    </SlideLink>{' '}plugin
+  </>,
+  <>
+    good: if Claude makes systematic mistakes — tell it{' '}
+    <Quote>instead do X and remember this information in CLAUDE.md</Quote>
+  </>,
+  <>
+    much better: keep CLAUDE.md trim and lean, areas to cover: Vision, Folder Structure, Build/Deploy Commands, Architecture, Principles
   </>,
 ];
 

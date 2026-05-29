@@ -1,7 +1,6 @@
 import { ReactNode } from 'react';
 import { SlideDefinition } from '../types/slides';
-import slackImage from '/junior-engineer-slack.png?url';
-import terminalImage from '/junior-engineer-terminal.png?url';
+import chatComparison from '/junior-engineer-comparison.png?url';
 
 type Level = 'high' | 'medium' | 'low';
 
@@ -89,52 +88,50 @@ export const JuniorEngineerSlide: SlideDefinition = {
   id: 'junior-engineer',
   title: (
     <>
-      <span className="text-dim">&gt;</span> treat Claude as a junior engineer
+      <span className="text-dim">&gt;</span> what to type in that terminal?
     </>
   ),
   maxRevealStages: BULLETS.length + 1,
-  content: ({ revealStage }) => (
-    <div className="junior-engineer-slide">
-      <style>{`
-        @keyframes arrowPulse {
-          0%, 100% { opacity: 1; transform: translateX(0); }
-          50%       { opacity: 0.7; transform: translateX(4px); }
-        }
-      `}</style>
+  content: ({ revealStage }) => {
+    const showInsight = revealStage >= BULLETS.length + 1;
 
-      {/* Left: Slack image */}
-      <div className="junior-engineer-image-col">
-        <img src={slackImage} alt="Slack chat interface" className="junior-engineer-image" loading="lazy" />
-        <div className="junior-engineer-image-label">Slack</div>
-      </div>
+    // Final reveal: drop all the bullets and show only the punchline + the
+    // one screenshot (Slack and Claude Code carrying the same request).
+    if (showInsight) {
+      return (
+        <div className="junior-engineer-final">
+          <style>{`
+            @keyframes arrowPulse {
+              0%, 100% { opacity: 1; transform: translateX(0); }
+              50%       { opacity: 0.7; transform: translateX(4px); }
+            }
+          `}</style>
 
-      {/* Center: text */}
-      <div className="junior-engineer-content">
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-          {BULLETS.map((item, i) => {
-            const isCloserStage = revealStage >= BULLETS.length + 1;
-            // On the closer stage, drop the first bullet to make room.
-            const shouldShow = revealStage >= i + 1 && !(isCloserStage && i === 0);
-            return shouldShow ? (
-              <ContentItem key={i} level={item.level}>{item.content}</ContentItem>
-            ) : null;
-          })}
-        </div>
-
-        {revealStage >= BULLETS.length + 1 && (
-          <div className="key-insight" style={{ marginTop: '1.25rem', fontSize: 'var(--slide-text-normal)' }}>
+          <div className="key-insight junior-engineer-punchline">
             what you would write to a human?
             <KeyInsightArrow />
             <span className="text-emphasis text-emphasis--orange">write it to Claude Code</span>
           </div>
+
+          <img
+            src={chatComparison}
+            alt="The same request sent in Slack and in the Claude Code terminal"
+            className="junior-engineer-combined"
+            loading="lazy"
+          />
+        </div>
+      );
+    }
+
+    // Build-up: text only, revealed one bullet at a time.
+    return (
+      <div className="junior-engineer-text">
+        {BULLETS.map((item, i) =>
+          revealStage >= i + 1 ? (
+            <ContentItem key={i} level={item.level}>{item.content}</ContentItem>
+          ) : null,
         )}
       </div>
-
-      {/* Right: Terminal image */}
-      <div className="junior-engineer-image-col">
-        <img src={terminalImage} alt="Terminal Claude Code interface" className="junior-engineer-image" loading="lazy" />
-        <div className="junior-engineer-image-label">Claude Code</div>
-      </div>
-    </div>
-  ),
+    );
+  },
 };

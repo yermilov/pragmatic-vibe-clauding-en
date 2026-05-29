@@ -69,7 +69,6 @@ export const BioSlide: SlideDefinition = {
         src={yarikBadges}
         alt="Grammarly badges"
         className="bio-slide-image"
-        style={{ maxWidth: '480px' }}
         loading="lazy"
       />
     </div>

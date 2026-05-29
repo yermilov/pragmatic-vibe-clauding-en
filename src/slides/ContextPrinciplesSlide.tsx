@@ -129,27 +129,6 @@ function Highlight({ children, color = 'cyan' }: { children: React.ReactNode; co
   );
 }
 
-// Token number component with special formatting
-function TokenNum({ children }: { children: string }) {
-  return (
-    <code
-      style={{
-        background: 'rgba(118, 228, 247, 0.1)',
-        padding: '0.1rem 0.4rem',
-        borderRadius: '4px',
-        color: 'var(--terminal-cyan)',
-        fontFamily: 'var(--font-mono)',
-        fontSize: '0.95em',
-        fontWeight: 600,
-        border: '1px solid rgba(118, 228, 247, 0.3)',
-        textShadow: '0 0 8px var(--terminal-cyan-glow)',
-      }}
-    >
-      {children}
-    </code>
-  );
-}
-
 const PRINCIPLES: { color: ColorKey; content: React.ReactNode }[] = [
   {
     color: 'green',
@@ -163,7 +142,7 @@ const PRINCIPLES: { color: ColorKey; content: React.ReactNode }[] = [
     color: 'orange',
     content: (
       <>
-        context has a <Highlight color="orange">limited size</Highlight> (<TokenNum>200_000</TokenNum> tokens for Opus, <TokenNum>1_000_000</TokenNum> tokens for Sonnet)
+        remember that context has a <Highlight color="orange">limited size</Highlight>
       </>
     ),
   },
