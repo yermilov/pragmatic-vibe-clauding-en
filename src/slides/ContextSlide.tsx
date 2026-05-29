@@ -123,6 +123,13 @@ function ContextLayer({
   );
 }
 
+const LAYERS: { label: string; color: ColorKey }[] = [
+  { label: 'system prompt and tool descriptions', color: 'orange' },
+  { label: 'MCP server descriptions', color: 'cyan' },
+  { label: 'contents of the CLAUDE.md file', color: 'purple' },
+  { label: 'the entire dialogue since the session started', color: 'blue' },
+];
+
 export const ContextSlide: SlideDefinition = {
   id: 'context',
   title: (
@@ -130,7 +137,8 @@ export const ContextSlide: SlideDefinition = {
       <span className="text-dim">&gt;</span> what's in the context?
     </>
   ),
-  content: (
+  maxRevealStages: LAYERS.length,
+  content: ({ revealStage }) => (
     <>
       <style>
         {`
@@ -155,30 +163,17 @@ export const ContextSlide: SlideDefinition = {
           margin: '0 auto',
         }}
       >
-        <ContextLayer
-          index={1}
-          label="системний промпт і опис тулів"
-          color="orange"
-          delay={0.1}
-        />
-        <ContextLayer
-          index={2}
-          label="опис MCP серверів"
-          color="cyan"
-          delay={0.2}
-        />
-        <ContextLayer
-          index={3}
-          label="зміст CLAUDE.md файлу"
-          color="purple"
-          delay={0.3}
-        />
-        <ContextLayer
-          index={4}
-          label="весь діалог з початку сесії"
-          color="blue"
-          delay={0.4}
-        />
+        {LAYERS.map((layer, i) =>
+          revealStage >= i + 1 ? (
+            <ContextLayer
+              key={i}
+              index={i + 1}
+              label={layer.label}
+              color={layer.color}
+              delay={0}
+            />
+          ) : null,
+        )}
       </div>
     </>
   ),

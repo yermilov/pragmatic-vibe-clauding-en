@@ -7,6 +7,33 @@ function Command({ children }: { children: string }) {
   return <code className="code-inline code-inline--orange">{children}</code>;
 }
 
+const CLAUDE_MD_BULLETS: React.ReactNode[] = [
+  <>
+    <Code>CLAUDE.md</Code> is to Claude Code what{' '}
+    <Code>README.md</Code> is to human developers
+  </>,
+  <>
+    Claude re-reads it every time it does something in the repository
+  </>,
+  <>
+    auto-generated via the <Command>/init</Command> command
+  </>,
+  <>
+    you can edit it by hand to fix incorrect conclusions
+  </>,
+  <>
+    if Claude makes systematic mistakes — tell it{' '}
+    <Quote>instead do X and remember this information in CLAUDE.md</Quote>
+  </>,
+  <>
+    commit <Code>CLAUDE.md</Code> to git to share best practices
+  </>,
+  <>
+    you can put a <Code>CLAUDE.md</Code> in any subfolder for local
+    instructions in monorepos
+  </>,
+];
+
 export const ClaudeMdSlide: SlideDefinition = {
   id: 'claude-md',
   title: (
@@ -14,47 +41,31 @@ export const ClaudeMdSlide: SlideDefinition = {
       <span className="text-dim">&gt;</span> what goes into CLAUDE.md?
     </>
   ),
-  content: (
-    <div className="bg-image-slide">
-      <img
-        src={claudeMdVsReadme}
-        alt="CLAUDE.md vs README.md"
-        className="bg-image-slide__background"
-      />
+  maxRevealStages: CLAUDE_MD_BULLETS.length,
+  content: ({ revealStage }) => {
+    // rolling window: overflow slide
+    const WINDOW = 3;
+    const firstVisible = Math.max(0, revealStage - WINDOW);
 
-      <div className="bg-image-slide__content">
-        <SlideItem delay={0.05}>
-          <Code>CLAUDE.md</Code> для Claude Code — те саме, що{' '}
-          <Code>README.md</Code> для людей-розробників
-        </SlideItem>
+    return (
+      <div className="bg-image-slide">
+        <img
+          src={claudeMdVsReadme}
+          alt="CLAUDE.md vs README.md"
+          className="bg-image-slide__background"
+        />
 
-        <SlideItem delay={0.1}>
-          Claude перечитує його кожного разу, коли робить щось в репозиторії
-        </SlideItem>
-
-        <SlideItem delay={0.15}>
-          автоматично генерується через команду <Command>/init</Command>
-        </SlideItem>
-
-        <SlideItem delay={0.2}>
-          можна редагувати вручну, щоб виправити неправильні висновки
-        </SlideItem>
-
-        <SlideItem delay={0.25}>
-          якщо Claude робить систематичні помилки — скажіть йому{' '}
-          <Quote>instead do X and remember this information in CLAUDE.md</Quote>
-        </SlideItem>
-
-        <SlideItem delay={0.3}>
-          комітьте <Code>CLAUDE.md</Code> в git, щоб ділитися best practices
-        </SlideItem>
-
-        <SlideItem delay={0.35}>
-          можна класти <Code>CLAUDE.md</Code> в будь-яку підпапку для локальних
-          інструкцій в монорепозиторіях
-        </SlideItem>
+        <div className="bg-image-slide__content">
+          {CLAUDE_MD_BULLETS.map((bullet, i) =>
+            revealStage >= i + 1 && i >= firstVisible ? (
+              <SlideItem key={i} delay={0}>
+                {bullet}
+              </SlideItem>
+            ) : null,
+          )}
+        </div>
       </div>
-    </div>
-  ),
+    );
+  },
   notes: 'How to work with CLAUDE.md files - best practices and configuration options',
 };

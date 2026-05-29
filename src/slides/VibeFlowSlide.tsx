@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import { SlideDefinition } from '../types/slides';
 import { Code, SlideItem } from '../components/SlideElements';
 
@@ -6,6 +7,30 @@ function Command({ children }: { children: string }) {
   return <code className="code-inline code-inline--orange">{children}</code>;
 }
 
+const BULLETS: ReactNode[] = [
+  <>
+    <Command>/clear</Command> clear the session
+  </>,
+  <>
+    switch into <Code>plan mode</Code>
+  </>,
+  <>describe the feature / bug, build up the context</>,
+  <>wait for the plan, read it through, and iterate</>,
+  <>
+    <Code>Yes, and auto-accept edits</Code>
+  </>,
+  <>
+    <Command>/commit-push-pr</Command>
+  </>,
+  <>
+    <Command>/clear</Command>
+  </>,
+  <>
+    <Command>/review</Command> or{' '}
+    <Command>take a look at the current pr - if you would have a chance to implement it from scratch what would you do differently? clean all ai artifacts, comments, code duplication, unoptimal structures, ...</Command>
+  </>,
+];
+
 export const VibeFlowSlide: SlideDefinition = {
   id: 'vibe-flow',
   title: (
@@ -13,8 +38,12 @@ export const VibeFlowSlide: SlideDefinition = {
       <span className="text-dim">&gt;</span> find your vibe flow
     </>
   ),
-  content: (
-    <>
+  maxRevealStages: BULLETS.length,
+  // rolling window: overflow slide (8 steps, last bullet is long)
+  content: ({ revealStage }) => {
+    const WINDOW = 3;
+    const firstVisible = Math.max(0, revealStage - WINDOW);
+    return (
       <div
         style={{
           textAlign: 'left',
@@ -23,38 +52,16 @@ export const VibeFlowSlide: SlideDefinition = {
           margin: '0 auto',
         }}
       >
-        <SlideItem delay={0.05}>
-          <Command>/clear</Command> очищуємо сесію
-        </SlideItem>
-
-        <SlideItem delay={0.1}>
-          переходимо у <Code>plan mode</Code>
-        </SlideItem>
-
-        <SlideItem delay={0.15}>описуємо фічу / багу, формуємо контекст</SlideItem>
-
-        <SlideItem delay={0.2}>
-          чекаємо і чекаємо план, вичитуємо його і ітеруємося
-        </SlideItem>
-
-        <SlideItem delay={0.25}>
-          <Code>Yes, and auto-accept edits</Code>
-        </SlideItem>
-
-        <SlideItem delay={0.3}>
-          <Command>/commit-push-pr</Command>
-        </SlideItem>
-
-        <SlideItem delay={0.35}>
-          <Command>/clear</Command>
-        </SlideItem>
-
-        <SlideItem delay={0.4}>
-          <Command>/review</Command> або <Command>take a look at the current pr - if you would have a chance to implement it from scratch what would you do differently? clean all ai artifacts, comments, code duplication, unoptimal structures, ...</Command>
-        </SlideItem>
+        {BULLETS.map((bullet, i) =>
+          revealStage >= i + 1 && i >= firstVisible ? (
+            <SlideItem key={i} delay={0}>
+              {bullet}
+            </SlideItem>
+          ) : null,
+        )}
       </div>
-    </>
-  ),
+    );
+  },
   notes:
     'The vibe flow workflow - clear session, plan mode, describe problem, iterate on plan, auto-accept, commit',
 };

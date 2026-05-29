@@ -1,6 +1,37 @@
+import { ReactNode } from 'react';
 import { SlideDefinition } from '../types/slides';
 import { SlideItem, Emphasis, SlideLink } from '../components/SlideElements';
 import linkedinQr from '/linkedin-qr.jpeg?url';
+
+const BULLETS: ReactNode[] = [
+  <>
+    don't box yourself into thinking of it as autocomplete or a code generator —
+    improvise, talk to it like a{' '}
+    <Emphasis color="green">partner in a chat</Emphasis>
+  </>,
+  <>
+    get on Twitter (yeah, even if Elon's a tool) and follow the people who
+    matter in AI engineering:{' '}
+    <SlideLink href="https://x.com/bcherny">@bcherny</SlideLink>,{' '}
+    <SlideLink href="https://x.com/trq212">@trq212</SlideLink>,{' '}
+    <SlideLink href="https://x.com/ClaudeCodeLog">@ClaudeCodeLog</SlideLink>,{' '}
+    <SlideLink href="https://x.com/mitchellh">@mitchellh</SlideLink>,{' '}
+    <SlideLink href="https://x.com/steipete">@steipete</SlideLink>
+  </>,
+  <>
+    like the Claude Code tweets to train the algorithm — but filter out the hype
+    and the empty noise
+  </>,
+  <>try new approaches, but adapt them to your own needs</>,
+  <>
+    use Claude Code to boost your <Emphasis color="green">throughput</Emphasis>,
+    not your <Emphasis color="orange">latency</Emphasis>
+  </>,
+  <>
+    reach out to me on LinkedIn{' '}
+    <span style={{ color: 'var(--terminal-blue)' }}>→</span>
+  </>,
+];
 
 export const FinalSlide: SlideDefinition = {
   id: 'final',
@@ -9,7 +40,8 @@ export const FinalSlide: SlideDefinition = {
       <span className="text-dim">&gt;</span> compacting the conversation...
     </>
   ),
-  content: (
+  maxRevealStages: BULLETS.length,
+  content: ({ revealStage }) => (
     <>
       <div
         style={{
@@ -29,41 +61,18 @@ export const FinalSlide: SlideDefinition = {
             textAlign: 'left',
           }}
         >
-          <SlideItem delay={0.05}>
-            не обмежуйте себе образом автокомпліта чи код генератора,
-            імпровізуйте, спілкуйтеся наче з{' '}
-            <Emphasis color="green">партнером в чаті</Emphasis>
-          </SlideItem>
-
-          <SlideItem delay={0.10}>
-            зареєструйтеся в твіттері (хоч ілон маск і лох), слідкуйте за
-            важливими АІ-інженерами:{' '}
-            <SlideLink href="https://x.com/bcherny">@bcherny</SlideLink>,{' '}
-            <SlideLink href="https://x.com/trq212">@trq212</SlideLink>,{' '}
-            <SlideLink href="https://x.com/ClaudeCodeLog">@ClaudeCodeLog</SlideLink>,{' '}
-            <SlideLink href="https://x.com/mitchellh">@mitchellh</SlideLink>,{' '}
-            <SlideLink href="https://x.com/steipete">@steipete</SlideLink>
-          </SlideItem>
-
-          <SlideItem delay={0.15}>
-            лайкайте твіти про клод код щоб натренувати алгоритм, але фільтруйте
-            хайп і пустий трьоп
-          </SlideItem>
-
-          <SlideItem delay={0.20}>
-            пробуйте нові підходи, але адаптуйте їх до своїх потреб
-          </SlideItem>
-
-          <SlideItem delay={0.25}>
-            використовуйте клод код щоб збільшити свій{' '}
-            <Emphasis color="green">throughput</Emphasis> а не{' '}
-            <Emphasis color="orange">latency</Emphasis>
-          </SlideItem>
-
-          <SlideItem delay={0.30}>
-            пишіть мені в лінкедіні{' '}
-            <span style={{ color: 'var(--terminal-blue)' }}>→</span>
-          </SlideItem>
+          {(() => {
+            // rolling window: overflow slide
+            const WINDOW = 3;
+            const firstVisible = Math.max(0, revealStage - WINDOW);
+            return BULLETS.map((bullet, i) =>
+              revealStage >= i + 1 && i >= firstVisible ? (
+                <SlideItem key={i} delay={0}>
+                  {bullet}
+                </SlideItem>
+              ) : null,
+            );
+          })()}
         </div>
 
         {/* Right column - QR code */}

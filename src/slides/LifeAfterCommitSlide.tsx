@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import { SlideDefinition } from '../types/slides';
 import { Code, SlideItem, SlideLink } from '../components/SlideElements';
 
@@ -5,11 +6,9 @@ import { Code, SlideItem, SlideLink } from '../components/SlideElements';
 function AnimatedSectionHeader({
   children,
   color,
-  delay,
 }: {
   children: string;
   color: 'green' | 'purple' | 'blue';
-  delay: number;
 }) {
   return (
     <div
@@ -17,7 +16,6 @@ function AnimatedSectionHeader({
       style={{
         opacity: 0,
         animation: 'slideItemFadeIn 0.35s ease-out forwards',
-        animationDelay: `${delay}s`,
       }}
     >
       {'// '}
@@ -26,6 +24,76 @@ function AnimatedSectionHeader({
   );
 }
 
+type Step =
+  | { kind: 'header'; color: 'green' | 'purple' | 'blue'; text: string; section: number }
+  | { kind: 'bullet'; content: ReactNode; section: number };
+
+const STEPS: Step[] = [
+  { kind: 'header', color: 'green', text: 'logging', section: 0 },
+  {
+    kind: 'bullet',
+    section: 0,
+    content: (
+      <>
+        ask Claude to add lots of logging and explain how to access it (in{' '}
+        <Code>CLAUDE.md</Code>)
+      </>
+    ),
+  },
+  {
+    kind: 'bullet',
+    section: 0,
+    content: <>running locally? tell it where the log file lives</>,
+  },
+  {
+    kind: 'bullet',
+    section: 0,
+    content: (
+      <>
+        running in the cloud? set up shipping logs to{' '}
+        <SlideLink href="https://betterstack.com/">betterstack.com</SlideLink>{' '}
+        and configure the <Code>cli</Code> so it can read them
+      </>
+    ),
+  },
+  { kind: 'header', color: 'purple', text: 'web testing', section: 1 },
+  {
+    kind: 'bullet',
+    section: 1,
+    content: (
+      <>
+        install the Chrome extension{' '}
+        <SlideLink href="https://claude.com/chrome">claude.com/chrome</SlideLink>{' '}
+        and set it up with <Code>/chrome</Code>
+      </>
+    ),
+  },
+  {
+    kind: 'bullet',
+    section: 1,
+    content: (
+      <>
+        explain to Claude how to "click through your service" so it can test it
+        (in <Code>CLAUDE.md</Code>)
+      </>
+    ),
+  },
+  { kind: 'header', color: 'blue', text: 'mcp', section: 2 },
+  {
+    kind: 'bullet',
+    section: 2,
+    content: (
+      <>
+        <SlideLink href="https://github.com/anthropics/anthropic-quickstarts/tree/main/mcp-chrome-devtools">
+          chrome-devtools-mcp
+        </SlideLink>{' '}
+        — probably the most useful <Code>MCP</Code> server right now, though it
+        has its limits too
+      </>
+    ),
+  },
+];
+
 export const LifeAfterCommitSlide: SlideDefinition = {
   id: 'life-after-commit',
   title: (
@@ -33,8 +101,14 @@ export const LifeAfterCommitSlide: SlideDefinition = {
       <span className="text-dim">&gt;</span> life after the commit
     </>
   ),
-  content: (
-    <>
+  maxRevealStages: STEPS.length,
+  content: ({ revealStage }) => {
+    // rolling window: overflow slide — only show the currently active section
+    const lastRevealed = revealStage - 1;
+    const activeSection =
+      lastRevealed >= 0 ? STEPS[Math.min(lastRevealed, STEPS.length - 1)].section : -1;
+
+    return (
       <div
         style={{
           textAlign: 'left',
@@ -43,54 +117,22 @@ export const LifeAfterCommitSlide: SlideDefinition = {
           margin: '0 auto',
         }}
       >
-        <AnimatedSectionHeader color="green" delay={0.03}>
-          logging
-        </AnimatedSectionHeader>
-
-        <SlideItem delay={0.08}>
-          попросіть клод додавати багато логів і поясніть як отримати до них
-          доступ (в <Code>CLAUDE.md</Code>)
-        </SlideItem>
-
-        <SlideItem delay={0.14}>
-          якщо запускаєте локально — вкажіть де лежить лог файл
-        </SlideItem>
-
-        <SlideItem delay={0.20}>
-          якщо в клауді — налаштуйте відправку логів в{' '}
-          <SlideLink href="https://betterstack.com/">betterstack.com</SlideLink> і
-          налаштуйте <Code>cli</Code> щоб мати до них доступ
-        </SlideItem>
-
-        <AnimatedSectionHeader color="purple" delay={0.26}>
-          web testing
-        </AnimatedSectionHeader>
-
-        <SlideItem delay={0.32}>
-          встановіть хром плагін{' '}
-          <SlideLink href="https://claude.com/chrome">claude.com/chrome</SlideLink> і
-          налаштуйте його за допомогою <Code>/chrome</Code>
-        </SlideItem>
-
-        <SlideItem delay={0.38}>
-          поясніть клод як "проклацати ваш сервіс" щоб він міг його потестувати
-          (в <Code>CLAUDE.md</Code>)
-        </SlideItem>
-
-        <AnimatedSectionHeader color="blue" delay={0.44}>
-          mcp
-        </AnimatedSectionHeader>
-
-        <SlideItem delay={0.50}>
-          <SlideLink href="https://github.com/anthropics/anthropic-quickstarts/tree/main/mcp-chrome-devtools">
-            chrome-devtools-mcp
-          </SlideLink>{' '}
-          — мабуть найбільш корисний <Code>MCP</Code> сервер зараз, але і він
-          має свої обмеження
-        </SlideItem>
+        {STEPS.map((step, i) => {
+          const visible = revealStage >= i + 1 && step.section === activeSection;
+          if (!visible) return null;
+          return step.kind === 'header' ? (
+            <AnimatedSectionHeader key={i} color={step.color}>
+              {step.text}
+            </AnimatedSectionHeader>
+          ) : (
+            <SlideItem key={i} delay={0}>
+              {step.content}
+            </SlideItem>
+          );
+        })}
       </div>
-    </>
-  ),
+    );
+  },
   notes:
     'Life after commit - logging setup (local vs cloud with BetterStack), web testing with Chrome plugin and /chrome command, MCP Chrome DevTools server',
 };

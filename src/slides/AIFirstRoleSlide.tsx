@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import { SlideDefinition } from '../types/slides';
 import { SlideItem, Emphasis } from '../components/SlideElements';
 import aiFirstRoleBg from '/ai-first-role.png?url';
@@ -27,6 +28,24 @@ function AnimatedSectionHeader({
   );
 }
 
+const BULLETS: ReactNode[] = [
+  <>
+    think of yourself more as a{' '}
+    <Emphasis color="orange">product owner</Emphasis>,{' '}
+    <Emphasis color="orange">tech lead</Emphasis>,{' '}
+    <Emphasis color="orange">architect</Emphasis>
+  </>,
+  <>
+    instead of hiring engineers onto your team, you're hiring{' '}
+    <Emphasis color="green">Claude Code</Emphasis>
+  </>,
+  <>
+    set things up so Claude Code is as comfortable as possible working on the
+    tasks you hand it — and so you're as comfortable as possible handing those
+    tasks out and keeping an eye on how they get done
+  </>,
+];
+
 export const AIFirstRoleSlide: SlideDefinition = {
   id: 'ai-first-role',
   title: (
@@ -34,7 +53,8 @@ export const AIFirstRoleSlide: SlideDefinition = {
       <span className="text-dim">&gt;</span> your AI-first role
     </>
   ),
-  content: (
+  maxRevealStages: BULLETS.length,
+  content: ({ revealStage }) => (
     <div className="bg-image-slide">
       <img
         src={aiFirstRoleBg}
@@ -44,26 +64,16 @@ export const AIFirstRoleSlide: SlideDefinition = {
 
       <div className="bg-image-slide__content">
         <AnimatedSectionHeader color="green" delay={0.03}>
-          ваша роль
+          your role
         </AnimatedSectionHeader>
 
-        <SlideItem delay={0.08}>
-          думайте про себе більше як про{' '}
-          <Emphasis color="orange">продакт овнера</Emphasis>,{' '}
-          <Emphasis color="orange">техліда</Emphasis>,{' '}
-          <Emphasis color="orange">архітектора</Emphasis>
-        </SlideItem>
-
-        <SlideItem delay={0.14}>
-          замість найму інженерів в команду, ви наймаєте{' '}
-          <Emphasis color="green">клод код</Emphasis>
-        </SlideItem>
-
-        <SlideItem delay={0.20}>
-          створюйте умови для того щоб клод коду було максимально комфортно
-          працювати над задачами які ви йому даєте, а вам було максимально
-          комфортно задачі давати і контролювати їх виконання
-        </SlideItem>
+        {BULLETS.map((bullet, i) =>
+          revealStage >= i + 1 ? (
+            <SlideItem key={i} delay={0}>
+              {bullet}
+            </SlideItem>
+          ) : null,
+        )}
       </div>
     </div>
   ),

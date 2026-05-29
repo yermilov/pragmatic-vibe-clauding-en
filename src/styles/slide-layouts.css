@@ -1912,7 +1912,7 @@
 /* === MCP SLIDE (content sandwiched between two side images) ================ */
 .mcp-slide {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   gap: var(--space-lg);
   width: 100%;
@@ -1924,6 +1924,7 @@
 .mcp-slide-image-right {
   flex: 1;
   min-width: 0;
+  align-self: center;
   height: calc(var(--vh-full) - 200px);
   object-fit: cover;
   object-position: center;

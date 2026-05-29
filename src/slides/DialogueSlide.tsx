@@ -3,6 +3,24 @@ import { Quote, SlideItem } from '../components/SlideElements';
 import dialogueFlow from '/dialogue-flow.png?url';
 import dialogueMemory from '/dialogue-memory.png?url';
 
+const DIALOGUE_BULLETS: React.ReactNode[] = [
+  <>
+    follow the principle <Quote>measure seven times, cut once</Quote>
+  </>,
+  <>
+    steer Claude in the right direction with a step-by-step dialogue
+  </>,
+  <>
+    <Quote>now think about ...</Quote>, <Quote>read this ...</Quote>,{' '}
+    <Quote>consider this ...</Quote>
+  </>,
+  <>
+    for LLMs the <Quote>freshest</Quote> <Quote>memories</Quote> are the{' '}
+    <Quote>most vivid</Quote> — shape its worldview correctly first, then
+    give it the task to solve in the final prompt
+  </>,
+];
+
 export const DialogueSlide: SlideDefinition = {
   id: 'dialogue',
   title: (
@@ -10,7 +28,8 @@ export const DialogueSlide: SlideDefinition = {
       <span className="text-dim">&gt;</span> have a dialogue
     </>
   ),
-  content: (
+  maxRevealStages: DIALOGUE_BULLETS.length,
+  content: ({ revealStage }) => (
     <div className="mcp-slide">
       <img
         src={dialogueFlow}
@@ -19,24 +38,13 @@ export const DialogueSlide: SlideDefinition = {
       />
 
       <div className="mcp-slide-content">
-        <SlideItem delay={0.05}>
-          використовуйте принцип <Quote>сім раз відмір - один раз відріж</Quote>
-        </SlideItem>
-
-        <SlideItem delay={0.1}>
-          за допомогою покрокового діалогу направляйте клод у правильний напрямок
-        </SlideItem>
-
-        <SlideItem delay={0.15}>
-          <Quote>а подумай про ...</Quote>, <Quote>почитай тут ...</Quote>,{' '}
-          <Quote>розглянь це ...</Quote>
-        </SlideItem>
-
-        <SlideItem delay={0.2}>
-          для ллм-ок <Quote>найсвіжіші</Quote> <Quote>спогади</Quote>{' '}
-          <Quote>найякравіші</Quote> — сформуйте їй правильне світосприйняття і
-          тоді дайте задачу на вирішення останнім промптом
-        </SlideItem>
+        {DIALOGUE_BULLETS.map((bullet, i) =>
+          revealStage >= i + 1 ? (
+            <SlideItem key={i} delay={0}>
+              {bullet}
+            </SlideItem>
+          ) : null,
+        )}
       </div>
 
       <img

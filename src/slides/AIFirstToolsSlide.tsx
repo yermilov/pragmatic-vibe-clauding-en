@@ -34,7 +34,9 @@ export const AIFirstToolsSlide: SlideDefinition = {
       <span className="text-dim">&gt;</span> think 10x
     </>
   ),
-  content: (
+  // reveal stages: opening bullet, the 4 questions (as a group), closing bullet
+  maxRevealStages: 3,
+  content: ({ revealStage }) => (
     <div className="bg-image-slide">
       <img
         src={aiFirstToolsBg}
@@ -44,31 +46,39 @@ export const AIFirstToolsSlide: SlideDefinition = {
 
       <div className="bg-image-slide__content">
         <AnimatedSectionHeader color="purple" delay={0.03}>
-          подумайте над тим
+          think about this
         </AnimatedSectionHeader>
 
-        <SlideItem delay={0.08}>
-          якщо ви збільшите кількість коду в 10 разів — чи будуть встигати інші
-          процеси? <Emphasis color="orange">якщо ні, то ви не отримали жодної користі від АІ</Emphasis>
-        </SlideItem>
+        {revealStage >= 1 && (
+          <SlideItem delay={0}>
+            if you produce 10x more code — will the rest of your processes keep
+            up? <Emphasis color="orange">if not, you got nothing out of AI</Emphasis>
+          </SlideItem>
+        )}
 
-        <SlideItem delay={0.14} size="compact">
-          чи можете ви придумувати в 10 разів більше фічей?
-        </SlideItem>
-        <SlideItem delay={0.17} size="compact">
-          чи можете ви приймати в 10 разів більше рішень?
-        </SlideItem>
-        <SlideItem delay={0.20} size="compact">
-          чи можете ви запускати в 10 разів більше експериментів?
-        </SlideItem>
-        <SlideItem delay={0.23} size="compact">
-          чи можете ви рев'ювати в 10 разів більше коду?
-        </SlideItem>
+        {revealStage >= 2 && (
+          <>
+            <SlideItem delay={0} size="compact">
+              can you come up with 10x more features?
+            </SlideItem>
+            <SlideItem delay={0.03} size="compact">
+              can you make 10x more decisions?
+            </SlideItem>
+            <SlideItem delay={0.06} size="compact">
+              can you run 10x more experiments?
+            </SlideItem>
+            <SlideItem delay={0.09} size="compact">
+              can you review 10x more code?
+            </SlideItem>
+          </>
+        )}
 
-        <SlideItem delay={0.30}>
-          подумайте на що вам варто виділити більше власного часу, а{' '}
-          <Emphasis color="green">які задачі можна відправити АІ</Emphasis>
-        </SlideItem>
+        {revealStage >= 3 && (
+          <SlideItem delay={0}>
+            think about what's worth spending more of your own time on, and{' '}
+            <Emphasis color="green">which tasks you can send off to AI</Emphasis>
+          </SlideItem>
+        )}
       </div>
     </div>
   ),

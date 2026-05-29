@@ -150,6 +150,49 @@ function TokenNum({ children }: { children: string }) {
   );
 }
 
+const PRINCIPLES: { color: ColorKey; content: React.ReactNode }[] = [
+  {
+    color: 'green',
+    content: (
+      <>
+        put information (<Highlight color="green">elephants</Highlight>) into context that does the most to steer the model down the <Highlight color="white">right path</Highlight>
+      </>
+    ),
+  },
+  {
+    color: 'orange',
+    content: (
+      <>
+        context has a <Highlight color="orange">limited size</Highlight> (<TokenNum>200_000</TokenNum> tokens for Opus, <TokenNum>1_000_000</TokenNum> tokens for Sonnet)
+      </>
+    ),
+  },
+  {
+    color: 'cyan',
+    content: (
+      <>
+        if context overflows, Claude automatically runs compaction, effectively summarizing the existing context into a smaller footprint
+      </>
+    ),
+  },
+  {
+    color: 'blue',
+    content: (
+      <>
+        try to put in fewer pieces of information (<Highlight color="blue">elephants</Highlight>) that will <Highlight color="white">knock</Highlight> the model off the right path
+      </>
+    ),
+  },
+  {
+    color: 'purple',
+    content: (
+      <>
+        <Highlight color="purple">one task</Highlight> per <Highlight color="purple">one session</Highlight>
+      </>
+    ),
+  },
+];
+
 export const ContextPrinciplesSlide: SlideDefinition = {
   id: 'context-principles',
   title: (
@@ -157,7 +200,8 @@ export const ContextPrinciplesSlide: SlideDefinition = {
       <span className="text-dim">&gt;</span> how to work with context
     </>
   ),
-  content: (
+  maxRevealStages: PRINCIPLES.length,
+  content: ({ revealStage }) => (
     <>
       <style>
         {`
@@ -182,25 +226,13 @@ export const ContextPrinciplesSlide: SlideDefinition = {
           margin: '0 auto',
         }}
       >
-        <PrincipleDirective ruleNumber={1} color="green" delay={0.1}>
-          покладіть в контекст інформацію (<Highlight color="green">слонів</Highlight>) яка максимально допоможе направити модель на <Highlight color="white">правильний шлях</Highlight>
-        </PrincipleDirective>
-
-        <PrincipleDirective ruleNumber={2} color="orange" delay={0.25}>
-          контекст має <Highlight color="orange">обмежений розмір</Highlight> (<TokenNum>200_000</TokenNum> токенів для Opus, <TokenNum>1_000_000</TokenNum> токенів для Sonnet)
-        </PrincipleDirective>
-
-        <PrincipleDirective ruleNumber={3} color="cyan" delay={0.4}>
-          якщо контекст переповнюється, клод автоматично проганяє compaction, фактично сумаризуючи існуючий контекст в менший об'єм
-        </PrincipleDirective>
-
-        <PrincipleDirective ruleNumber={4} color="blue" delay={0.55}>
-          старайтеся класти поменше інформації (<Highlight color="blue">слонів</Highlight>) які <Highlight color="white">зіб'ють</Highlight> модель з правильного шляху
-        </PrincipleDirective>
-
-        <PrincipleDirective ruleNumber={5} color="purple" delay={0.7}>
-          <Highlight color="purple">одна задача</Highlight> за <Highlight color="purple">одну сесію</Highlight>
-        </PrincipleDirective>
+        {PRINCIPLES.map((p, i) =>
+          revealStage >= i + 1 ? (
+            <PrincipleDirective key={i} ruleNumber={i + 1} color={p.color} delay={0}>
+              {p.content}
+            </PrincipleDirective>
+          ) : null,
+        )}
       </div>
     </>
   ),

@@ -154,6 +154,56 @@ function TokenNum({ children }: { children: string }) {
   );
 }
 
+const MODEL_POINTS: { tier?: ModelTier; content: React.ReactNode }[] = [
+  {
+    tier: 'haiku',
+    content: (
+      <>
+        <Accent tier="haiku">haiku</Accent> — fast and understands code well
+      </>
+    ),
+  },
+  {
+    tier: 'sonnet',
+    content: (
+      <>
+        <Accent tier="sonnet">sonnet</Accent> — not as fast, but has a large context (up to <TokenNum>1_000_000</TokenNum> tokens)
+      </>
+    ),
+  },
+  {
+    tier: 'opus',
+    content: (
+      <>
+        <Accent tier="opus">opus</Accent> — the best model in the world for writing code, <TokenNum>200_000</TokenNum> tokens
+      </>
+    ),
+  },
+  {
+    content: (
+      <>
+        <Accent tier="sonnet">sonnet</Accent>'s performance drops around the <TokenNum>250_000</TokenNum>–<TokenNum>300_000</TokenNum> token mark; its only upside — no model "fear" starting from the <TokenNum>150_000</TokenNum> mark
+      </>
+    ),
+  },
+  {
+    tier: 'opus',
+    content: (
+      <>
+        honestly, just always use <Accent tier="opus">opus</Accent> — the price is higher, but thanks to its better "brains" it works out cheaper in the end
+      </>
+    ),
+  },
+  {
+    tier: 'haiku',
+    content: (
+      <>
+        <Accent tier="haiku">haiku</Accent> is useful for studying code; Claude knows how to switch to it on its own when needed
+      </>
+    ),
+  },
+];
+
 export const ModelsSlide: SlideDefinition = {
   id: 'models',
   title: (
@@ -161,7 +211,8 @@ export const ModelsSlide: SlideDefinition = {
       <span className="text-dim">&gt;</span> pick the right model
     </>
   ),
-  content: (
+  maxRevealStages: MODEL_POINTS.length,
+  content: ({ revealStage }) => (
     <>
       <style>
         {`
@@ -208,29 +259,18 @@ export const ModelsSlide: SlideDefinition = {
           margin: '0 auto',
         }}
       >
-        <ModelPoint tier="haiku" delay={0.5}>
-          <Accent tier="haiku">haiku</Accent> — швидка і гарно розуміє код
-        </ModelPoint>
-
-        <ModelPoint tier="sonnet" delay={0.6}>
-          <Accent tier="sonnet">sonnet</Accent> — не така швидка, але має великий контекст (до <TokenNum>1_000_000</TokenNum> токенів)
-        </ModelPoint>
-
-        <ModelPoint tier="opus" delay={0.7}>
-          <Accent tier="opus">opus</Accent> — найкраща модель для написання коду в світі, <TokenNum>200_000</TokenNum> токенів
-        </ModelPoint>
-
-        <ModelPoint delay={0.8}>
-          перформенс <Accent tier="sonnet">sonnet</Accent> падає на відмітці <TokenNum>250_000</TokenNum>-<TokenNum>300_000</TokenNum> токенів, єдиний плюс — відсутність "страху" моделі починаючи з відмітки <TokenNum>150_000</TokenNum>
-        </ModelPoint>
-
-        <ModelPoint tier="opus" delay={0.9}>
-          насправді просто завжди користуйтеся <Accent tier="opus">opus</Accent> — ціна дорожче, але за рахунок кращих "мізків" вартість вийде дешевше в кінці кінців
-        </ModelPoint>
-
-        <ModelPoint tier="haiku" delay={1.0}>
-          <Accent tier="haiku">haiku</Accent> корисна для вивчення коду, клод уміє сам переключатися на неї коли треба
-        </ModelPoint>
+        {/* rolling window: overflow slide */}
+        {(() => {
+          const WINDOW = 3;
+          const firstVisible = Math.max(0, revealStage - WINDOW);
+          return MODEL_POINTS.map((p, i) =>
+            revealStage >= i + 1 && i >= firstVisible ? (
+              <ModelPoint key={i} tier={p.tier} delay={0}>
+                {p.content}
+              </ModelPoint>
+            ) : null,
+          );
+        })()}
       </div>
     </>
   ),

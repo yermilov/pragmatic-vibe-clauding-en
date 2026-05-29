@@ -1,26 +1,17 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { SlideDefinition } from '../types/slides';
 import { SlideItem, Emphasis } from '../components/SlideElements';
 
-// Section header with animation for this slide
-function AnimatedSectionHeader({
+// Section header for this slide
+function SectionHeader({
   children,
   color,
-  delay,
 }: {
   children: string;
   color: 'green' | 'purple' | 'blue';
-  delay: number;
 }) {
   return (
-    <div
-      className={`section-header section-header--${color}`}
-      style={{
-        opacity: 0,
-        animation: 'slideItemFadeIn 0.35s ease-out forwards',
-        animationDelay: `${delay}s`,
-      }}
-    >
+    <div className={`section-header section-header--${color}`}>
       {'// '}
       {children}
     </div>
@@ -42,6 +33,67 @@ function Prompt({ children }: { children: React.ReactNode }) {
   );
 }
 
+type RevealItem =
+  | { kind: 'header'; color: 'green' | 'purple' | 'blue'; content: string }
+  | { kind: 'bullet'; content: ReactNode };
+
+const ITEMS: RevealItem[] = [
+  { kind: 'header', color: 'green', content: 'when to do it' },
+  {
+    kind: 'bullet',
+    content: (
+      <>
+        if you catch yourself instructing Claude to do the same thing over and over —
+        teach it that <Emphasis color="green">skill</Emphasis>
+      </>
+    ),
+  },
+  { kind: 'header', color: 'purple', content: 'how to do it' },
+  {
+    kind: 'bullet',
+    content: (
+      <>
+        as always, spin up an empty session, plan mode, and go:{' '}
+        <Prompt>please read https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices and create a skill that will ...</Prompt>
+      </>
+    ),
+  },
+  {
+    kind: 'bullet',
+    content: (
+      <>
+        or like this: once,{' '}
+        <Prompt>
+          please read https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices and create a skill that will explain how to
+          create a well crafted skill, name it skills-authorship
+        </Prompt>
+      </>
+    ),
+  },
+  {
+    kind: 'bullet',
+    content: (
+      <>
+        and from then on you can, <Emphasis color="orange">after</Emphasis> some
+        action, just write{' '}
+        <Prompt>use skills-authorship skill to turn ... into skill</Prompt>{' '}
+        or{' '}
+        <Prompt>use skills-authorship skill to update ... skill to ...</Prompt>
+      </>
+    ),
+  },
+  { kind: 'header', color: 'blue', content: 'examples' },
+  {
+    kind: 'bullet',
+    content: (
+      <>
+        searching logs, debugging issues, performance optimization, image generation,
+        writing documentation, ...
+      </>
+    ),
+  },
+];
+
 export const SkillsAuthoringSlide: SlideDefinition = {
   id: 'skills-authoring',
   title: (
@@ -49,8 +101,12 @@ export const SkillsAuthoringSlide: SlideDefinition = {
       <span className="text-dim">&gt;</span> teach Claude new skills
     </>
   ),
-  content: (
-    <>
+  maxRevealStages: ITEMS.length,
+  // rolling window: overflow slide
+  content: ({ revealStage }) => {
+    const WINDOW = 3;
+    const firstVisible = Math.max(0, revealStage - WINDOW);
+    return (
       <div
         style={{
           textAlign: 'left',
@@ -59,51 +115,22 @@ export const SkillsAuthoringSlide: SlideDefinition = {
           margin: '0 auto',
         }}
       >
-        <AnimatedSectionHeader color="green" delay={0.03}>
-          коли це робити
-        </AnimatedSectionHeader>
-
-        <SlideItem delay={0.08}>
-          якщо ви бачите що інструктуєте клод робити одне і те саме раз за
-          разом — навчіть його цьому <Emphasis color="green">скілу</Emphasis>
-        </SlideItem>
-
-        <AnimatedSectionHeader color="purple" delay={0.14}>
-          як це робити
-        </AnimatedSectionHeader>
-
-        <SlideItem delay={0.20}>
-          як завжди, запускаємо пусту сессію, план мод, і погнали:{' '}
-          <Prompt>please read https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices and create a skill that will ...</Prompt>
-        </SlideItem>
-
-        <SlideItem delay={0.26}>
-          або так: один раз{' '}
-          <Prompt>
-            please read https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices and create a skill that will explain how to
-            create a well crafted skill, name it skills-authorship
-          </Prompt>
-        </SlideItem>
-
-        <SlideItem delay={0.32}>
-          а далі ви можете <Emphasis color="orange">після</Emphasis> якоїсь дії
-          написати{' '}
-          <Prompt>use skills-authorship skill to turn ... into skill</Prompt>{' '}
-          або{' '}
-          <Prompt>use skills-authorship skill to update ... skill to ...</Prompt>
-        </SlideItem>
-
-        <AnimatedSectionHeader color="blue" delay={0.38}>
-          приклади
-        </AnimatedSectionHeader>
-
-        <SlideItem delay={0.44}>
-          пошук в логах, дебагінг проблем, перформенс оптимізації, генерація
-          картинок, написання документації, ...
-        </SlideItem>
+        {ITEMS.map((item, i) =>
+          revealStage >= i + 1 && i >= firstVisible ? (
+            item.kind === 'header' ? (
+              <SectionHeader key={i} color={item.color}>
+                {item.content}
+              </SectionHeader>
+            ) : (
+              <SlideItem key={i} delay={0}>
+                {item.content}
+              </SlideItem>
+            )
+          ) : null,
+        )}
       </div>
-    </>
-  ),
+    );
+  },
   notes:
     'Skills authoring - teach Claude reusable skills when you find yourself repeating instructions. Start new session with plan mode, read docs, create skill. Or create a meta-skill for skill authoring itself.',
 };

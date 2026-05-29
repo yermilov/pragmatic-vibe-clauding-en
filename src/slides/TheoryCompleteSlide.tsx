@@ -5,7 +5,7 @@ export const TheoryCompleteSlide: SlideDefinition = {
   id: 'theory-complete',
   content: (
     <div className="image-slide">
-      <img src={chalkboardImage} alt="Це вся теорія, переходимо до практики" />
+      <img src={chalkboardImage} alt="That's all the theory, now let's get to practice" />
     </div>
   ),
   notes: 'Transition from theory to practice section.',

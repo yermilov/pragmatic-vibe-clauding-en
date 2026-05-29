@@ -1,5 +1,30 @@
+import { ReactNode } from 'react';
 import { SlideDefinition } from '../types/slides';
 import { Code, SlideItem, SlideLink } from '../components/SlideElements';
+
+const BULLETS: ReactNode[] = [
+  <>
+    lean toward choices that make <Code>Claude Code</Code>'s life (and therefore
+    yours) easier
+  </>,
+  <>
+    keep all your code in a single monorepo on <Code>GitHub</Code>
+  </>,
+  <>set up (i.e. ask Claude) a pipeline with unit tests</>,
+  <>
+    run locally, or wire a cloud service straight to <Code>GitHub</Code> (e.g.{' '}
+    <SlideLink href="https://render.com/">render.com</SlideLink> — but again,
+    talk this through during your <Code>Deep Research</Code> stage)
+  </>,
+  <>
+    unless there's a reason not to — go full-stack <Code>TypeScript</Code>,{' '}
+    <Code>React</Code>, the most popular and battle-tested technologies
+  </>,
+  <>
+    prefer working in branches, commit after every session, and merge working
+    code into main as often as you can
+  </>,
+];
 
 export const TechnicalSlide: SlideDefinition = {
   id: 'technical',
@@ -8,47 +33,33 @@ export const TechnicalSlide: SlideDefinition = {
       <span className="text-dim">&gt;</span> set up your environment
     </>
   ),
-  content: (
-    <>
-      <div
-        style={{
-          textAlign: 'left',
-          maxWidth: '1000px',
-          width: '100%',
-          margin: '0 auto',
-        }}
-      >
-        <SlideItem delay={0.05}>
-          робіть вибір на користь рішень які зроблять життя{' '}
-          <Code>Claude Code</Code> (а значить і ваше) зручнішим
-        </SlideItem>
+  maxRevealStages: BULLETS.length,
+  content: ({ revealStage }) => {
+    // rolling window: overflow slide
+    const WINDOW = 4;
+    const firstVisible = Math.max(0, revealStage - WINDOW);
 
-        <SlideItem delay={0.1}>
-          зберігайте весь код в одній монорепі на <Code>GitHub</Code>
-        </SlideItem>
-
-        <SlideItem delay={0.15}>
-          насетапте (тобто попросіть клод) пайплайн з юніт тестами
-        </SlideItem>
-
-        <SlideItem delay={0.2}>
-          запускайтеся локально, або підключіть клаудний сервіс напряму до{' '}
-          <Code>GitHub</Code> (наприклад <SlideLink href="https://render.com/">render.com</SlideLink> і, але знову ж таки проговоріть це на першому етапі{' '}
-          <Code>Deep Research</Code>)
-        </SlideItem>
-
-        <SlideItem delay={0.25}>
-          якщо немає протипоказань — використовуйте full-stack{' '}
-          <Code>TypeScript</Code>, <Code>React</Code>, максимально популярні і
-          перевірені технології
-        </SlideItem>
-
-        <SlideItem delay={0.3}>
-          краще працюйте в бранчах, комітьтеся після кожної сесії а робочий код почастіше мержіть в мейн
-        </SlideItem>
-      </div>
-    </>
-  ),
+    return (
+      <>
+        <div
+          style={{
+            textAlign: 'left',
+            maxWidth: '1000px',
+            width: '100%',
+            margin: '0 auto',
+          }}
+        >
+          {BULLETS.map((bullet, i) =>
+            revealStage >= i + 1 && i >= firstVisible ? (
+              <SlideItem key={i} delay={0}>
+                {bullet}
+              </SlideItem>
+            ) : null,
+          )}
+        </div>
+      </>
+    );
+  },
   notes:
     'Technical setup recommendations - monorepo, CI/CD, TypeScript/React stack',
 };

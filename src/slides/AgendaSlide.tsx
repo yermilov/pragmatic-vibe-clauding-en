@@ -93,10 +93,11 @@ export const AgendaSlide: SlideDefinition = {
       <span className="text-dim">&gt;</span> what's on the agenda?
     </>
   ),
-  content: (
+  maxRevealStages: 3,
+  content: ({ revealStage }) => (
     <>
       <p style={{ marginBottom: '1.5rem', fontSize: '1.5rem' }}>
-        про що ми сьогодні будемо і не будемо говорити?
+        what we will and won't talk about today?
       </p>
 
       <div
@@ -107,21 +108,27 @@ export const AgendaSlide: SlideDefinition = {
           width: '100%',
         }}
       >
-        <AgendaSection title="tools">
-          <AgendaItem level="high" label="claude code" desc="будемо багато" />
-          <AgendaItem level="medium" label="codex, cursor" desc="будемо мало" />
-          <AgendaItem level="low" label="інші тули" desc="майже не будемо" />
-        </AgendaSection>
+        {revealStage >= 1 && (
+          <AgendaSection key={0} title="tools">
+            <AgendaItem level="high" label="claude code" desc="a lot" />
+            <AgendaItem level="medium" label="codex, cursor" desc="a little" />
+            <AgendaItem level="low" label="everything else" desc="barely at all" />
+          </AgendaSection>
+        )}
 
-        <AgendaSection title="scope">
-          <AgendaItem level="high" label="як прагматично використати claude code в хакатон режимі?" desc="будемо" />
-          <AgendaItem level="medium" label="як довгостроково розвивати продукт використовуючи claude code?" desc="будемо трохи" />
-        </AgendaSection>
+        {revealStage >= 2 && (
+          <AgendaSection key={1} title="scope">
+            <AgendaItem level="high" label="how to pragmatically use claude code in hackathon mode?" desc="yes" />
+            <AgendaItem level="medium" label="how to grow a product long-term with claude code?" desc="a bit" />
+          </AgendaSection>
+        )}
 
-        <AgendaSection title="audience">
-          <AgendaItem level="high" label="claude code для інженерів" desc="будемо" />
-          <AgendaItem level="low" label="claude code для не-інженерів" desc="майже не будемо" />
-        </AgendaSection>
+        {revealStage >= 3 && (
+          <AgendaSection key={2} title="audience">
+            <AgendaItem level="high" label="claude code for engineers" desc="yes" />
+            <AgendaItem level="low" label="claude code for non-engineers" desc="barely at all" />
+          </AgendaSection>
+        )}
       </div>
     </>
   ),
