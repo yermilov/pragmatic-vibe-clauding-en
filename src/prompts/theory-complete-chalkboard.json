@@ -1,7 +1,7 @@
 {
   "filename": "theory-complete-chalkboard.png",
-  "prompt": "A dark green chalkboard that has been partially erased/cleaned with visible chalk residue and smudges where content used to be. Large handwritten chalk text in Ukrainian Cyrillic letters in the center: 'ЦЕ ВСЯ ТЕОРІЯ' on the first line and 'ПЕРЕХОДИМО ДО ПРАКТИКИ' on the second line. The text should look like it was written with white and yellow chalk in a casual handwritten style. Some faded mathematical formulas and ghostly outlines of the previous content (including faint outlines of winged elephants) visible in the erased areas. The chalkboard has a wooden frame and the overall mood is like a teacher just erased the lesson and wrote a transition message.",
+  "prompt": "A dark green chalkboard that has been partially erased and cleaned, with visible chalk residue and smudges where content used to be, and a wooden frame. Large handwritten chalk text in English centered on the board, the first line reading THAT'S ALL THE THEORY and the second line reading NOW LET'S GET TO PRACTICE, written with white and yellow chalk in a casual handwritten style. Some faded mathematical formulas and ghostly erased outlines of previous content, including faint outlines of little winged elephants, still visible in the smudged areas. The overall mood is like a teacher just wiped the lesson off the board and scribbled a transition message. 16:9 widescreen.",
   "ratio": "16:9",
-  "timestamp": "2026-01-07T15:29:51.589Z",
-  "model": "gemini-3-pro-image-preview"
+  "timestamp": "2026-05-29T12:17:00.000Z",
+  "model": "gemini (3.1 Pro / Nano Banana 2, via research:generate-image, browser)"
 }
