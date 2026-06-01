@@ -27,6 +27,7 @@ const PROMPTS: ReactNode[] = [
   <Prompt>hey claude, open github in chrome and generate ssh key for me</Prompt>,
   <Prompt>hey claude, configure dev environment for me</Prompt>,
   <Prompt>hey claude, here is a bug report I've received mycompany.slack.com/archives/p1778239</Prompt>,
+  <Prompt>hey claude, monitor CI jobs in my PR and fix failing tests until pipeline is green</Prompt>,
 ];
 
 export const BreakOutOfCodingSlide: SlideDefinition = {
