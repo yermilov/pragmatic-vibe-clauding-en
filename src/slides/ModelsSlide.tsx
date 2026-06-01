@@ -261,7 +261,7 @@ export const ModelsSlide: SlideDefinition = {
       >
         {/* rolling window: overflow slide */}
         {(() => {
-          const WINDOW = 3;
+          const WINDOW = 4;
           const firstVisible = Math.max(0, revealStage - WINDOW);
           return MODEL_POINTS.map((p, i) =>
             revealStage >= i + 1 && i >= firstVisible ? (
