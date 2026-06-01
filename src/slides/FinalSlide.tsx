@@ -26,6 +26,11 @@ const BULLETS: ReactNode[] = [
     not your <Emphasis color="orange">latency</Emphasis>
   </>,
   <>
+    watch out for <Emphasis color="orange">AI-FOMO</Emphasis> and{' '}
+    <Emphasis color="orange">burnout</Emphasis>: AI shifts the bottleneck from
+    mechanical tasks to <Emphasis color="green">actual thinking</Emphasis>
+  </>,
+  <>
     I'll answer all your questions now, but you can also reach out to me on LinkedIn any time{' '}
     <span style={{ color: 'var(--terminal-blue)' }}>→</span>
   </>,
