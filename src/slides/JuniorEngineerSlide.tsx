@@ -78,8 +78,9 @@ function KeyInsightArrow() {
 
 const BULLETS: { level: Level; content: ReactNode }[] = [
   { level: 'high',   content: <>treat Claude Code as a <em className="text-emphasis text-emphasis--orange">very talented junior engineer</em> hired in your team</> },
-  { level: 'high',   content: <>it is <em className="text-emphasis text-emphasis--orange">(always) their first day</em> and you are their mentor</> },
-  { level: 'medium', content: <>they have no industry experience</> },
+  { level: 'high',   content: <>actually, <em className="text-emphasis text-emphasis--orange">it is a team</em> of very talented junior engineers</> },
+  { level: 'medium', content: <>they have vast "book" knowledge, but know nothing about your company processes and codebase</> },
+  { level: 'high',   content: <>it is <em className="text-emphasis text-emphasis--orange">their first day</em> and you are tech lead that needs to organize their work</> },
   { level: 'high',   content: <>terminal interface = your <em className="text-emphasis text-emphasis--green">chat application</em></> },
   { level: 'medium', content: <>you can give them your tasks but need to help with <em className="text-emphasis text-emphasis--green">context</em> and <em className="text-emphasis text-emphasis--green">reviews</em></> },
 ];

@@ -90,22 +90,18 @@ export const AgendaSlide: SlideDefinition = {
   id: 'agenda',
   title: (
     <>
-      <span className="text-dim">&gt;</span> what's on the agenda?
+      <span className="text-dim">&gt;</span> what we will and won't talk about today?
     </>
   ),
   maxRevealStages: 3,
   content: ({ revealStage }) => (
     <>
-      <p style={{ marginBottom: '1.5rem', fontSize: '1.5rem' }}>
-        what we will and won't talk about today?
-      </p>
-
       <div
         style={{
           textAlign: 'left',
-          display: 'inline-block',
           maxWidth: '900px',
           width: '100%',
+          margin: '0 auto',
         }}
       >
         {revealStage >= 1 && (
@@ -118,8 +114,8 @@ export const AgendaSlide: SlideDefinition = {
 
         {revealStage >= 2 && (
           <AgendaSection key={1} title="scope">
-            <AgendaItem level="high" label="how to pragmatically use claude code in hackathon mode?" desc="yes" />
-            <AgendaItem level="medium" label="how to grow a product long-term with claude code?" desc="a bit" />
+            <AgendaItem level="high" label="how to become more productive with Claude Code?" desc="yes" />
+            <AgendaItem level="medium" label="how to make your team AI-first?" desc="next time" />
           </AgendaSection>
         )}
 

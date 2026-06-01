@@ -20,12 +20,17 @@ function timeLabel(anchorDate: Date | null): string {
   const months =
     (now.getFullYear() - anchorDate.getFullYear()) * 12 +
     (now.getMonth() - anchorDate.getMonth());
-  return `${months} month${months === 1 ? '' : 's'} ago`;
+  const monthPart = (m: number) => `${m} month${m === 1 ? '' : 's'}`;
+  if (months < 12) return `${monthPart(months)} ago`;
+  const years = Math.floor(months / 12);
+  const rem = months % 12;
+  const yearPart = `${years} year${years === 1 ? '' : 's'}`;
+  return `${rem === 0 ? yearPart : `${yearPart} ${monthPart(rem)}`} ago`;
 }
 
 const timelineItems: TimelineItem[] = [
   { anchorDate: new Date(2024, 9),  text: 'copilot? nice autocomplete', image: copilotAutocomplete },
-  { anchorDate: new Date(2024, 10), text: "I don't do frontend, cursor, help me out", image: cursorFrontend },
+  { anchorDate: new Date(2024, 10), text: "I don't do frontend, cursor, help me out", image: cursorFrontend, imageClassName: 'timeline-panel__image--zoom-down-anim' },
   { anchorDate: new Date(2025, 2),  text: 'what if this is not just code generation but pair programming?', image: mentoringLlm },
   { anchorDate: new Date(2025, 3),  text: 'but it is still toy tech, right?', image: aiTechDebt, imageClassName: 'timeline-panel__image--zoom-anim' },
   {

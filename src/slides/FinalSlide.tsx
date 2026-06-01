@@ -10,25 +10,23 @@ const BULLETS: ReactNode[] = [
     <Emphasis color="green">partner in a chat</Emphasis>
   </>,
   <>
-    get on Twitter (yeah, even if Elon's a tool) and follow the people who
+    get on Twitter (yeah, I don't like Elon as well) and follow the people who
     matter in AI engineering:{' '}
     <SlideLink href="https://x.com/bcherny">@bcherny</SlideLink>,{' '}
     <SlideLink href="https://x.com/trq212">@trq212</SlideLink>,{' '}
     <SlideLink href="https://x.com/ClaudeCodeLog">@ClaudeCodeLog</SlideLink>,{' '}
     <SlideLink href="https://x.com/mitchellh">@mitchellh</SlideLink>,{' '}
-    <SlideLink href="https://x.com/steipete">@steipete</SlideLink>
-  </>,
-  <>
-    like the Claude Code tweets to train the algorithm — but filter out the hype
-    and the empty noise
+    <SlideLink href="https://x.com/steipete">@steipete</SlideLink>{' '}
+    — but filter out the hype and the empty noise
   </>,
   <>try new approaches, but adapt them to your own needs</>,
+  <>not sure about something - just ask "@claude-code-guide"</>,
   <>
     use Claude Code to boost your <Emphasis color="green">throughput</Emphasis>,
     not your <Emphasis color="orange">latency</Emphasis>
   </>,
   <>
-    reach out to me on LinkedIn{' '}
+    I will answer all your questions now, but you can also reach out to me on LinkedIn any time{' '}
     <span style={{ color: 'var(--terminal-blue)' }}>→</span>
   </>,
 ];
@@ -75,23 +73,24 @@ export const FinalSlide: SlideDefinition = {
           })()}
         </div>
 
-        {/* Right column - QR code */}
-        <img
-          src={linkedinQr}
-          alt="LinkedIn QR code - Yarik Yermilov"
-          style={{
-            flexShrink: 0,
-            maxWidth: '600px',
-            maxHeight: 'calc(100vh - 180px)',
-            objectFit: 'contain',
-            borderRadius: 'var(--input-border-radius)',
-            border: '2px solid var(--terminal-border)',
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)',
-            opacity: 0,
-            animation: 'slideItemFadeIn 0.5s ease-out forwards',
-            animationDelay: '0.35s',
-          }}
-        />
+        {/* Right column - QR code, revealed only on the final stage */}
+        {revealStage >= BULLETS.length && (
+          <img
+            src={linkedinQr}
+            alt="LinkedIn QR code - Yarik Yermilov"
+            style={{
+              flexShrink: 0,
+              maxWidth: '600px',
+              maxHeight: 'calc(100vh - 180px)',
+              objectFit: 'contain',
+              borderRadius: 'var(--input-border-radius)',
+              border: '2px solid var(--terminal-border)',
+              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)',
+              opacity: 0,
+              animation: 'slideItemFadeIn 0.5s ease-out forwards',
+            }}
+          />
+        )}
       </div>
     </>
   ),

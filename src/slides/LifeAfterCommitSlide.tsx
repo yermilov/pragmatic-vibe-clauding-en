@@ -2,96 +2,25 @@ import { ReactNode } from 'react';
 import { SlideDefinition } from '../types/slides';
 import { Code, SlideItem, SlideLink } from '../components/SlideElements';
 
-// Section header with animation for this slide
-function AnimatedSectionHeader({
-  children,
-  color,
-}: {
-  children: string;
-  color: 'green' | 'purple' | 'blue';
-}) {
-  return (
-    <div
-      className={`section-header section-header--${color}`}
-      style={{
-        opacity: 0,
-        animation: 'slideItemFadeIn 0.35s ease-out forwards',
-      }}
-    >
-      {'// '}
-      {children}
-    </div>
-  );
-}
-
-type Step =
-  | { kind: 'header'; color: 'green' | 'purple' | 'blue'; text: string; section: number }
-  | { kind: 'bullet'; content: ReactNode; section: number };
-
-const STEPS: Step[] = [
-  { kind: 'header', color: 'green', text: 'logging', section: 0 },
-  {
-    kind: 'bullet',
-    section: 0,
-    content: (
-      <>
-        ask Claude to add lots of logging and explain how to access it (in{' '}
-        <Code>CLAUDE.md</Code>)
-      </>
-    ),
-  },
-  {
-    kind: 'bullet',
-    section: 0,
-    content: <>running locally? tell it where the log file lives</>,
-  },
-  {
-    kind: 'bullet',
-    section: 0,
-    content: (
-      <>
-        running in the cloud? set up shipping logs to{' '}
-        <SlideLink href="https://betterstack.com/">betterstack.com</SlideLink>{' '}
-        and configure the <Code>cli</Code> so it can read them
-      </>
-    ),
-  },
-  { kind: 'header', color: 'purple', text: 'web testing', section: 1 },
-  {
-    kind: 'bullet',
-    section: 1,
-    content: (
-      <>
-        install the Chrome extension{' '}
-        <SlideLink href="https://claude.com/chrome">claude.com/chrome</SlideLink>{' '}
-        and set it up with <Code>/chrome</Code>
-      </>
-    ),
-  },
-  {
-    kind: 'bullet',
-    section: 1,
-    content: (
-      <>
-        explain to Claude how to "click through your service" so it can test it
-        (in <Code>CLAUDE.md</Code>)
-      </>
-    ),
-  },
-  { kind: 'header', color: 'blue', text: 'mcp', section: 2 },
-  {
-    kind: 'bullet',
-    section: 2,
-    content: (
-      <>
-        <SlideLink href="https://github.com/anthropics/anthropic-quickstarts/tree/main/mcp-chrome-devtools">
-          chrome-devtools-mcp
-        </SlideLink>{' '}
-        — probably the most useful <Code>MCP</Code> server right now, though it
-        has its limits too
-      </>
-    ),
-  },
+const BULLETS: ReactNode[] = [
+  <>explain Claude Code how to run tests and start your app locally</>,
+  <>
+    ask Claude to always add lots of logging and explain how to access local log file
+  </>,
+  <>
+    install the Chrome extension{' '}
+    <SlideLink href="https://claude.com/chrome">claude.com/chrome</SlideLink>,{' '}
+    set it up with <Code>/chrome</Code>, and explain to Claude how to "click through your service" so it can test it
+  </>,
+  <>
+    <SlideLink href="https://github.com/anthropics/anthropic-quickstarts/tree/main/mcp-chrome-devtools">
+      chrome-devtools-mcp
+    </SlideLink>{' '}
+    — allows to use Chrome DevTools, but requires complicated setup and has serious limitations
+  </>,
+  <>
+    teach Claude Code where it can find logs, metrics, traces from your different environments (including production)
+  </>,
 ];
 
 export const LifeAfterCommitSlide: SlideDefinition = {
@@ -101,13 +30,11 @@ export const LifeAfterCommitSlide: SlideDefinition = {
       <span className="text-dim">&gt;</span> life after the commit
     </>
   ),
-  maxRevealStages: STEPS.length,
+  maxRevealStages: BULLETS.length,
   content: ({ revealStage }) => {
-    // rolling window: overflow slide — only show the currently active section
-    const lastRevealed = revealStage - 1;
-    const activeSection =
-      lastRevealed >= 0 ? STEPS[Math.min(lastRevealed, STEPS.length - 1)].section : -1;
-
+    // rolling window: keep the most recent 5 bullets so the newest always fits
+    const WINDOW = 5;
+    const firstVisible = Math.max(0, revealStage - WINDOW);
     return (
       <div
         style={{
@@ -117,22 +44,14 @@ export const LifeAfterCommitSlide: SlideDefinition = {
           margin: '0 auto',
         }}
       >
-        {STEPS.map((step, i) => {
-          const visible = revealStage >= i + 1 && step.section === activeSection;
-          if (!visible) return null;
-          return step.kind === 'header' ? (
-            <AnimatedSectionHeader key={i} color={step.color}>
-              {step.text}
-            </AnimatedSectionHeader>
-          ) : (
-            <SlideItem key={i} delay={0}>
-              {step.content}
-            </SlideItem>
-          );
-        })}
+        {BULLETS.map((bullet, i) =>
+          revealStage >= i + 1 && i >= firstVisible ? (
+            <SlideItem key={i} delay={0}>{bullet}</SlideItem>
+          ) : null,
+        )}
       </div>
     );
   },
   notes:
-    'Life after commit - logging setup (local vs cloud with BetterStack), web testing with Chrome plugin and /chrome command, MCP Chrome DevTools server',
+    'Life after commit - logging (add lots of logging, local log file, ship to BetterStack), web testing (Chrome extension + /chrome, explain how to click through the service), and chrome-devtools-mcp. Bullets revealed one at a time.',
 };
