@@ -19,6 +19,14 @@ export interface SlideDefinition {
   maxRevealStages?: number;
   initialRevealStage?: number;
   /**
+   * Optional non-linear detours. When the presenter advances past `atStage`
+   * on this slide, navigation jumps to the slide with id `toId` (at reveal 0);
+   * once that slide is fully revealed, it returns here at `returnStage`. Detour
+   * targets are skipped on the subsequent linear pass. Multiple detours from
+   * one slide should list their target slides consecutively right after it.
+   */
+  detours?: { atStage: number; toId: string; returnStage: number }[];
+  /**
    * Opt out of the export-mode auto-settle in Slide.tsx. Set true on slides
    * that do their own async work (fetches, etc.) and call
    * `exportRegistry.markSlideSettled(id)` from the async path themselves.

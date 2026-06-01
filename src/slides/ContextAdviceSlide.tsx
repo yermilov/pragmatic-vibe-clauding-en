@@ -26,15 +26,6 @@ const ADVICE: ReactNode[] = [
     look up articles and blog posts on the topic and add the links (or{' '}
     <Code>pdf</Code>s)
   </>,
-  <>
-    when making UI changes — add{' '}
-    <Quote>use frontend-design skill to create well-crafted ui/ux</Quote>
-  </>,
-  <>
-    add{' '}
-    <Quote>ask questions first — never assume, use AskUserQuestion tool</Quote>{' '}
-    to your CLAUDE.md
-  </>,
 ];
 
 export const ContextAdviceSlide: SlideDefinition = {

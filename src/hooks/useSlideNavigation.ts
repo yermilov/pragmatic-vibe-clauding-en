@@ -46,6 +46,14 @@ export function useSlideNavigation(
   const currentSlideRef = useRef(currentSlide);
   currentSlideRef.current = currentSlide;
 
+  // Detour state (see SlideDefinition.detours). `detourReturn` is where to land
+  // when the detour slide finishes; `skipIndices` holds detour slides to skip
+  // on the subsequent linear pass; `detourFired` tracks origin+stage pairs
+  // already taken so reversing within a slide doesn't re-trigger the jump.
+  const detourReturnRef = useRef<{ index: number; stage: number } | null>(null);
+  const skipIndicesRef = useRef<Set<number>>(new Set());
+  const detourFiredRef = useRef<Set<string>>(new Set());
+
   // Clamp slide index to valid range
   const clampIndex = useCallback(
     (index: number): number => {
@@ -67,11 +75,15 @@ export function useSlideNavigation(
   const goToSlide = useCallback(
     (index: number) => {
       const clampedIndex = clampIndex(index);
+      // Any explicit jump resets detour state so detours re-arm cleanly.
+      detourReturnRef.current = null;
+      skipIndicesRef.current.clear();
+      detourFiredRef.current.clear();
       setCurrentSlide(clampedIndex);
       setRevealStage(slides[clampedIndex]?.initialRevealStage ?? 0);
       updateHash(clampedIndex);
     },
-    [clampIndex, updateHash]
+    [clampIndex, updateHash, slides]
   );
 
   // Drive both slide and reveal stage from outside (used by PDF exporter).
@@ -104,13 +116,48 @@ export function useSlideNavigation(
   // nextSlide() there clamps the index back to the same slide and resets
   // revealStage to 0, which loops the reveals.
   const revealNext = useCallback(() => {
-    const maxReveal = slides[currentSlideRef.current]?.maxRevealStages ?? 0;
-    if (revealStageRef.current < maxReveal) {
-      setRevealStage(prev => prev + 1);
-    } else if (currentSlideRef.current < totalSlides - 1) {
-      nextSlide();
+    const cur = currentSlideRef.current;
+    const slide = slides[cur];
+    const stage = revealStageRef.current;
+    const maxReveal = slide?.maxRevealStages ?? 0;
+
+    // Forward into a detour: jump to the detour slide at reveal 0.
+    const detour = slide?.detours?.find(
+      d => stage === d.atStage && !detourFiredRef.current.has(`${slide.id}:${d.atStage}`)
+    );
+    if (slide && detour) {
+      const toIndex = slides.findIndex(s => s.id === detour.toId);
+      if (toIndex >= 0) {
+        detourFiredRef.current.add(`${slide.id}:${detour.atStage}`);
+        detourReturnRef.current = { index: cur, stage: detour.returnStage };
+        skipIndicesRef.current.add(toIndex);
+        goToSlideWithReveal(toIndex, 0);
+        return;
+      }
     }
-  }, [slides, nextSlide, totalSlides]);
+
+    if (stage < maxReveal) {
+      setRevealStage(prev => prev + 1);
+      return;
+    }
+
+    // At max reveal: first finish a detour by returning to its origin.
+    if (detourReturnRef.current) {
+      const ret = detourReturnRef.current;
+      detourReturnRef.current = null;
+      goToSlideWithReveal(ret.index, ret.stage);
+      return;
+    }
+
+    // Otherwise advance, skipping any detour slides already shown.
+    if (cur < totalSlides - 1) {
+      let target = cur + 1;
+      while (target < totalSlides - 1 && skipIndicesRef.current.has(target)) {
+        target += 1;
+      }
+      goToSlide(clampIndex(target));
+    }
+  }, [slides, goToSlide, goToSlideWithReveal, clampIndex, totalSlides]);
 
   // Roll back reveal stage if any revealed, otherwise go to previous slide
   const revealPrev = useCallback(() => {

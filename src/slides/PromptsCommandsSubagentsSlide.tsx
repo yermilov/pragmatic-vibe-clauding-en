@@ -29,6 +29,10 @@ const BULLETS: ReactNode[] = [
     a subagent is a{' '}
     <Emphasis color="orange">function call</Emphasis> (runs in its own context window)
   </>,
+  <>
+    for completeness, there are also <Emphasis color="green">hooks</Emphasis> —
+    scripts invoked on certain events
+  </>,
 ];
 
 export const PromptsCommandsSubagentsSlide: SlideDefinition = {
