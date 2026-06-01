@@ -26,7 +26,7 @@ const CLAUDE_MD_BULLETS: React.ReactNode[] = [
     commit <Code>CLAUDE.md</Code> to git to share best practices
   </>,
   <>
-    you can edit it by hand to fix incorrect conclusions, but better don't do it
+    you can edit it by hand to fix incorrect conclusions, but it's better not to
   </>,
   <>
     periodically regenerate it via{' '}
@@ -39,7 +39,7 @@ const CLAUDE_MD_BULLETS: React.ReactNode[] = [
     <Quote>instead do X and remember this information in CLAUDE.md</Quote>
   </>,
   <>
-    much better: keep CLAUDE.md lean, cover following areas: Vision (write manually), Folder Structure (/init), Build/Deploy Commands (/init), Architecture (/init), Principles (feedback after systematic mistakes)
+    much better: keep <Code>CLAUDE.md</Code> lean, and cover the following areas — Vision (write manually), Folder Structure (<Command>/init</Command>), Build/Deploy Commands (<Command>/init</Command>), Architecture (<Command>/init</Command>), Principles (feedback after systematic mistakes)
   </>,
 ];
 

@@ -77,7 +77,7 @@ export const VibeFlowStepsSlide: SlideDefinition = {
 
         {revealStage >= 4 && (
           <SlideItem delay={0}>
-            approve the plan, claude code executes it
+            approve the plan — Claude Code executes it
           </SlideItem>
         )}
 
@@ -103,7 +103,7 @@ export const VibeFlowStepsSlide: SlideDefinition = {
           <Hint>
             what is <Code>plan mode</Code>? a state where Claude Code only{' '}
             "learns" and is forbidden from taking any action — perfect for the{' '}
-            <span className="text-green">context gathering</span> stage
+            <span className="text-green">context-gathering</span> stage
           </Hint>
         )}
 

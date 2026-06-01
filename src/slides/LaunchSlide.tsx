@@ -4,17 +4,17 @@ import { Code, SlideItem } from '../components/SlideElements';
 
 const BULLETS: ReactNode[] = [
   <>
-    of course, first you will want to review every edit Claude Code makes, and that's the right way - it has reach permissions system that will help you
+    of course, at first you'll want to review every edit Claude Code makes — and that's the right way; it has a rich permissions system to help you
   </>,
   <>
     when Claude Code asks if it can do something read-only and not too dangerous —
     always pick <Code>Yes, and don't ask me again</Code>
   </>,
   <>
-    once you grow more confident, start clicking <Code>Approve plan and auto-accept everything</Code> after review plan
+    once you grow more confident, start clicking <Code>Approve plan and auto-accept everything</Code> after reviewing the plan
   </>,
   <>
-    when you will trust Claude Code completely - switch to <Code>auto mode</Code> and let it do the plan execution without asking
+    once you trust Claude Code completely — switch to <Code>auto mode</Code> and let it execute the plan without asking
   </>,
 ];
 

@@ -3,9 +3,9 @@ import { SlideDefinition } from '../types/slides';
 import { Code, SlideItem, SlideLink } from '../components/SlideElements';
 
 const BULLETS: ReactNode[] = [
-  <>explain Claude Code how to run tests and start your app locally</>,
+  <>explain to Claude Code how to run tests and start your app locally</>,
   <>
-    ask Claude to always add lots of logging and explain how to access local log file
+    ask Claude to always add lots of logging, and explain how to access the local log file
   </>,
   <>
     install the Chrome extension{' '}
@@ -16,10 +16,10 @@ const BULLETS: ReactNode[] = [
     <SlideLink href="https://github.com/anthropics/anthropic-quickstarts/tree/main/mcp-chrome-devtools">
       chrome-devtools-mcp
     </SlideLink>{' '}
-    — allows to use Chrome DevTools, but requires complicated setup and has serious limitations
+    — lets Claude use Chrome DevTools, but requires a complicated setup and has serious limitations
   </>,
   <>
-    teach Claude Code where it can find logs, metrics, traces from your different environments (including production)
+    teach Claude Code where it can find logs, metrics, and traces from your different environments (including production)
   </>,
 ];
 

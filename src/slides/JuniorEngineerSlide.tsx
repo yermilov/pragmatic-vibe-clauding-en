@@ -77,12 +77,12 @@ function KeyInsightArrow() {
 }
 
 const BULLETS: { level: Level; content: ReactNode }[] = [
-  { level: 'high',   content: <>treat Claude Code as a <em className="text-emphasis text-emphasis--orange">very talented junior engineer</em> hired in your team</> },
-  { level: 'high',   content: <>actually, <em className="text-emphasis text-emphasis--orange">it is a team</em> of very talented junior engineers</> },
-  { level: 'medium', content: <>they have vast "book" knowledge, but know nothing about your company processes and codebase</> },
-  { level: 'high',   content: <>it is <em className="text-emphasis text-emphasis--orange">their first day</em> and you are tech lead that needs to organize their work</> },
-  { level: 'high',   content: <>terminal interface = your <em className="text-emphasis text-emphasis--green">chat application</em></> },
-  { level: 'medium', content: <>you can give them your tasks but need to help with <em className="text-emphasis text-emphasis--green">context</em> and <em className="text-emphasis text-emphasis--green">reviews</em></> },
+  { level: 'high',   content: <>treat Claude Code as a <em className="text-emphasis text-emphasis--orange">very talented junior engineer</em> you've just hired onto your team</> },
+  { level: 'high',   content: <>actually, <em className="text-emphasis text-emphasis--orange">it's a whole team</em> of very talented junior engineers</> },
+  { level: 'medium', content: <>they have vast "book" knowledge, but know nothing about your company's processes and codebase</> },
+  { level: 'high',   content: <>it's <em className="text-emphasis text-emphasis--orange">their first day</em>, and you're the tech lead who needs to organize their work</> },
+  { level: 'high',   content: <>the terminal interface is your <em className="text-emphasis text-emphasis--green">chat application</em></> },
+  { level: 'medium', content: <>you can hand them your tasks, but you need to help with <em className="text-emphasis text-emphasis--green">context</em> and <em className="text-emphasis text-emphasis--green">reviews</em></> },
 ];
 
 export const JuniorEngineerSlide: SlideDefinition = {
@@ -109,7 +109,7 @@ export const JuniorEngineerSlide: SlideDefinition = {
           `}</style>
 
           <div className="key-insight junior-engineer-punchline">
-            what you would write to a human?
+            what would you write to a human?
             <KeyInsightArrow />
             <span className="text-emphasis text-emphasis--orange">write it to Claude Code</span>
           </div>

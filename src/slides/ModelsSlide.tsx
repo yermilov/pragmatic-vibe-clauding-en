@@ -167,7 +167,7 @@ const MODEL_POINTS: { tier?: ModelTier; content: React.ReactNode }[] = [
     tier: 'sonnet',
     content: (
       <>
-        <Accent tier="sonnet">sonnet</Accent> — the most balanced in terms of price, latency and quality
+        <Accent tier="sonnet">sonnet</Accent> — the most balanced in terms of price, latency, and quality
       </>
     ),
   },
@@ -182,7 +182,7 @@ const MODEL_POINTS: { tier?: ModelTier; content: React.ReactNode }[] = [
   {
     content: (
       <>
-        <Accent tier="sonnet">in older models</Accent> performance would drop around the <TokenNum>250_000</TokenNum>–<TokenNum>300_000</TokenNum> token mark; today's models work pretty much good for any context length
+        <Accent tier="sonnet">in older models</Accent>, performance would drop around the <TokenNum>250_000</TokenNum>–<TokenNum>300_000</TokenNum> token mark; today's models work pretty well at any context length
       </>
     ),
   },
@@ -190,7 +190,7 @@ const MODEL_POINTS: { tier?: ModelTier; content: React.ReactNode }[] = [
     tier: 'opus',
     content: (
       <>
-        if you are on the Max plan - just use <Accent tier="opus">opus</Accent> for all tasks
+        if you're on the Max plan — just use <Accent tier="opus">opus</Accent> for everything
       </>
     ),
   },
@@ -198,7 +198,7 @@ const MODEL_POINTS: { tier?: ModelTier; content: React.ReactNode }[] = [
     tier: 'sonnet',
     content: (
       <>
-        if you are on the pay-per-token plan - use <Accent tier="opus">opus</Accent> for exploration and <Accent tier="sonnet">sonnet</Accent> for coding
+        if you're on the pay-per-token plan — use <Accent tier="opus">opus</Accent> for exploration and <Accent tier="sonnet">sonnet</Accent> for coding
       </>
     ),
   },

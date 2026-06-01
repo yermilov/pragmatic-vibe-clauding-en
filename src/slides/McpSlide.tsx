@@ -19,16 +19,16 @@ const MCP_BULLETS: React.ReactNode[] = [
     for Claude Desktop or ChatGPT there's no alternative, but for Claude Code you should always reach for the CLI first
   </>,
   <>
-    example: instead of the GitHub MCP, use the gh cli
+    for example: instead of the GitHub MCP, use the <Code>gh</Code> CLI
   </>,
   <>
-    for some cases, you can use Claude Chrome extension
+    in some cases, you can use the Claude Chrome extension
   </>,
   <>
     the one MCP server I can recommend almost without hesitation is{' '}
     <SlideLink href="https://github.com/ChromeDevTools/chrome-devtools-mcp">
       chrome-devtools-mcp
-    </SlideLink> (and Slack connector to some extent)
+    </SlideLink> (and the Slack connector, to some extent)
   </>,
   <>
     don't forget to hint to Claude that you'd like it to use a particular MCP

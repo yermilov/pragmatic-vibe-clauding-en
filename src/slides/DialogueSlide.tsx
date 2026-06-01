@@ -5,7 +5,7 @@ import dialogueMemory from '/dialogue-memory.png?url';
 
 const DIALOGUE_BULLETS: React.ReactNode[] = [
   <>
-    follow the principle <Quote>measure seven times, cut once</Quote>
+    follow the principle <Quote>measure twice, cut once</Quote>
   </>,
   <>
     steer Claude in the right direction with a step-by-step dialogue

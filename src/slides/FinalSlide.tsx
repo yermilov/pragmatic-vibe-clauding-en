@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { SlideDefinition } from '../types/slides';
-import { SlideItem, Emphasis, SlideLink } from '../components/SlideElements';
+import { SlideItem, Emphasis, SlideLink, Code } from '../components/SlideElements';
 import linkedinQr from '/linkedin-qr.jpeg?url';
 
 const BULLETS: ReactNode[] = [
@@ -10,7 +10,7 @@ const BULLETS: ReactNode[] = [
     <Emphasis color="green">partner in a chat</Emphasis>
   </>,
   <>
-    get on Twitter (yeah, I don't like Elon as well) and follow the people who
+    get on Twitter (yeah, I don't like Elon either) and follow the people who
     matter in AI engineering:{' '}
     <SlideLink href="https://x.com/bcherny">@bcherny</SlideLink>,{' '}
     <SlideLink href="https://x.com/trq212">@trq212</SlideLink>,{' '}
@@ -20,13 +20,13 @@ const BULLETS: ReactNode[] = [
     — but filter out the hype and the empty noise
   </>,
   <>try new approaches, but adapt them to your own needs</>,
-  <>not sure about something - just ask "@claude-code-guide"</>,
+  <>not sure about something? just ask <Code>@claude-code-guide</Code></>,
   <>
     use Claude Code to boost your <Emphasis color="green">throughput</Emphasis>,
     not your <Emphasis color="orange">latency</Emphasis>
   </>,
   <>
-    I will answer all your questions now, but you can also reach out to me on LinkedIn any time{' '}
+    I'll answer all your questions now, but you can also reach out to me on LinkedIn any time{' '}
     <span style={{ color: 'var(--terminal-blue)' }}>→</span>
   </>,
 ];

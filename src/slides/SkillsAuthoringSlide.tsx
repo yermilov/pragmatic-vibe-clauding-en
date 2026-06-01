@@ -19,15 +19,15 @@ function Prompt({ children }: { children: React.ReactNode }) {
 
 const BULLETS: ReactNode[] = [
   <>
-    if you catch yourself instructing Claude to do the same thing over and over (searching logs, debugging issues, performance optimization, image
-    generation, writing documentation, ...) —
-    teach it that <Emphasis color="green">skill</Emphasis>
+    if you catch yourself instructing Claude to do the same thing over and over
+    (searching logs, debugging issues, optimizing performance, generating images,
+    writing documentation, ...) — teach it that <Emphasis color="green">skill</Emphasis>
   </>,
   <>
     just write{' '}
-    <Prompt>use skills-creator skill to turn ... into skill</Prompt>{' '}
+    <Prompt>use skill-creator skill to turn ... into a skill</Prompt>{' '}
     or{' '}
-    <Prompt>use skills-creator skill to update ... skill to ...</Prompt>
+    <Prompt>use skill-creator skill to update ... skill to ...</Prompt>
   </>,
   <>
     skills are <Emphasis color="green">building blocks</Emphasis> each engineer
@@ -44,7 +44,7 @@ const BULLETS: ReactNode[] = [
     everyone gets more productive
   </>,
   <>
-    you just need to have right infrastructure to make skills your foundation
+    you just need the right infrastructure to make skills your foundation
   </>,
 ];
 
