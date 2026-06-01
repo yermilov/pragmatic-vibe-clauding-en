@@ -1,0 +1,7 @@
+{
+  "filename": "src/assets/prompts-commands-subagents.png",
+  "prompt": "A hand-drawn chalk diagram on a dark blackboard, drawn in white chalk with subtle orange and green chalk accents, 4:3, charming hand-sketched style with slightly wobbly lines and light cross-hatching, no title at the top. It illustrates the difference between a slash command and a subagent. On the left, a large rectangle labeled context window. A small note labeled /command sits just outside it with a short arrow pointing inward and a small handwritten word inline next to it, showing that a slash command is expanded directly into the same context window. On the right, a second separate rectangle labeled subagent drawn as its own independent context window, linked to the main one by an arrow going out and a dashed arrow labeled result coming back, showing that a subagent runs in a separate context and returns only its result. Only these English chalk labels appear: context window, /command, inline, subagent, result. Keep it minimal, legible, and clearly diagrammatic.",
+  "ratio": "4:3",
+  "timestamp": "2026-06-01T15:14:00.000Z",
+  "model": "gemini (3.1 Pro / Nano Banana 2, via research:generate-image, browser)"
+}

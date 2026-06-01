@@ -159,7 +159,7 @@ const MODEL_POINTS: { tier?: ModelTier; content: React.ReactNode }[] = [
     tier: 'haiku',
     content: (
       <>
-        <Accent tier="haiku">haiku</Accent> — fast and understands code well
+        <Accent tier="haiku">haiku</Accent> — fast and understands code well; no need to use it directly, but some subagents use it for cost and latency reasons
       </>
     ),
   },
@@ -167,7 +167,7 @@ const MODEL_POINTS: { tier?: ModelTier; content: React.ReactNode }[] = [
     tier: 'sonnet',
     content: (
       <>
-        <Accent tier="sonnet">sonnet</Accent> — not as fast, but has a large context (up to <TokenNum>1_000_000</TokenNum> tokens)
+        <Accent tier="sonnet">sonnet</Accent> — the most balanced in terms of price, latency and quality
       </>
     ),
   },
@@ -175,14 +175,14 @@ const MODEL_POINTS: { tier?: ModelTier; content: React.ReactNode }[] = [
     tier: 'opus',
     content: (
       <>
-        <Accent tier="opus">opus</Accent> — the best model in the world for writing code, <TokenNum>200_000</TokenNum> tokens
+        <Accent tier="opus">opus</Accent> — the best, but slow and expensive
       </>
     ),
   },
   {
     content: (
       <>
-        <Accent tier="sonnet">sonnet</Accent>'s performance drops around the <TokenNum>250_000</TokenNum>–<TokenNum>300_000</TokenNum> token mark; its only upside — no model "fear" starting from the <TokenNum>150_000</TokenNum> mark
+        <Accent tier="sonnet">in older models</Accent> performance would drop around the <TokenNum>250_000</TokenNum>–<TokenNum>300_000</TokenNum> token mark; today's models work pretty much good for any context length
       </>
     ),
   },
@@ -190,15 +190,15 @@ const MODEL_POINTS: { tier?: ModelTier; content: React.ReactNode }[] = [
     tier: 'opus',
     content: (
       <>
-        honestly, just always use <Accent tier="opus">opus</Accent> — the price is higher, but thanks to its better "brains" it works out cheaper in the end
+        if you are on the Max plan - just use <Accent tier="opus">opus</Accent> for all tasks
       </>
     ),
   },
   {
-    tier: 'haiku',
+    tier: 'sonnet',
     content: (
       <>
-        <Accent tier="haiku">haiku</Accent> is useful for studying code; Claude knows how to switch to it on its own when needed
+        if you are on the pay-per-token plan - use <Accent tier="opus">opus</Accent> for exploration and <Accent tier="sonnet">sonnet</Accent> for coding
       </>
     ),
   },
@@ -208,7 +208,7 @@ export const ModelsSlide: SlideDefinition = {
   id: 'models',
   title: (
     <>
-      <span className="text-dim">&gt;</span> pick the right model
+      <span className="text-dim">&gt;</span> models
     </>
   ),
   maxRevealStages: MODEL_POINTS.length,

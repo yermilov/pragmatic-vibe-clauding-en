@@ -39,7 +39,7 @@ const CLAUDE_MD_BULLETS: React.ReactNode[] = [
     <Quote>instead do X and remember this information in CLAUDE.md</Quote>
   </>,
   <>
-    much better: keep CLAUDE.md trim and lean, areas to cover: Vision, Folder Structure, Build/Deploy Commands, Architecture, Principles
+    much better: keep CLAUDE.md lean, cover following areas: Vision (write manually), Folder Structure (/init), Build/Deploy Commands (/init), Architecture (/init), Principles (feedback after systematic mistakes)
   </>,
 ];
 
