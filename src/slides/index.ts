@@ -26,11 +26,7 @@ import { WhatIsSkillSlide } from './WhatIsSkillSlide';
 import { LaunchSlide } from './LaunchSlide';
 import { CodeSlopSlide } from './CodeSlopSlide';
 import { LifeAfterCommitSlide } from './LifeAfterCommitSlide';
-import { SavingsSlide } from './SavingsSlide';
 import { SkillsAuthoringSlide } from './SkillsAuthoringSlide';
-import { AIFirstRoleSlide } from './AIFirstRoleSlide';
-import { AIFirstWorkflowSlide } from './AIFirstWorkflowSlide';
-import { AIFirstToolsSlide } from './AIFirstToolsSlide';
 import { FinalSlide } from './FinalSlide';
 
-export const slides = [TitleSlide, BioSlide, TimelineSlide, AgendaSlide, BillionDollarSlide, JuniorEngineerSlide, DisclaimerSlide, TheorySlide, ModelsSlide, ContextPrinciplesSlide, ContextSlide, SystemPromptSlide, McpSlide, ClaudeMdSlide, DialogueSlide, PromptsCommandsSubagentsSlide, WhatIsSkillSlide, TheoryCompleteSlide, InstallStatusLineSlide, VibeFlowStepsSlide, ContextAdviceSlide, MarketplacesSlide, LaunchSlide, BreakOutOfCodingSlide, ClaudeCodeSlide, OneMoreTipSlide, CodeSlopSlide, LifeAfterCommitSlide, SavingsSlide, SkillsAuthoringSlide, AIFirstRoleSlide, AIFirstWorkflowSlide, AIFirstToolsSlide, FinalSlide];
+export const slides = [TitleSlide, BioSlide, TimelineSlide, AgendaSlide, BillionDollarSlide, JuniorEngineerSlide, DisclaimerSlide, TheorySlide, ModelsSlide, ContextPrinciplesSlide, ContextSlide, SystemPromptSlide, McpSlide, ClaudeMdSlide, DialogueSlide, PromptsCommandsSubagentsSlide, WhatIsSkillSlide, TheoryCompleteSlide, InstallStatusLineSlide, VibeFlowStepsSlide, ContextAdviceSlide, MarketplacesSlide, LaunchSlide, CodeSlopSlide, BreakOutOfCodingSlide, LifeAfterCommitSlide, ClaudeCodeSlide, OneMoreTipSlide, SkillsAuthoringSlide, FinalSlide];

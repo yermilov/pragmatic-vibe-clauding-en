@@ -30,7 +30,7 @@ export const OneMoreTipSlide: SlideDefinition = {
   title: (
     <>
       <span className="text-dim">&gt;</span>{' '}
-      <span className="text-green">one more</span>{' '}
+      <span className="text-green">one last</span>{' '}
       <span className="text-orange">tip</span>
     </>
   ),

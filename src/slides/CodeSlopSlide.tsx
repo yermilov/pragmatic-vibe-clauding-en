@@ -12,10 +12,6 @@ const BULLETS: ReactNode[] = [
     <Quote>take a look how similar functionality is already implemented in the repo and follow the same patterns</Quote>
   </>,
   <>
-    when Claude makes a mistake, correct it like this:{' '}
-    <Quote>instead do X and remember this gotcha in CLAUDE.md</Quote>
-  </>,
-  <>
     ask Claude to write tests (<Code>TDD</Code> works really well)
   </>,
   <>
@@ -23,8 +19,9 @@ const BULLETS: ReactNode[] = [
     ask Claude to finish it
   </>,
   <>
+    for really hard tasks,{' '}
     <span style={{ textDecoration: 'line-through', opacity: 0.6 }}>
-      for really hard tasks, add{' '}
+      add{' '}
       <Quote>
         please{' '}
         <span style={{ color: '#ff6b6b' }}>u</span>
@@ -39,11 +36,9 @@ const BULLETS: ReactNode[] = [
         <span style={{ color: '#ffe066' }}>k</span>
         {' '}it
       </Quote>
-    </span>
-  </>,
-  <>
-    ask Claude to document everything it does (e.g. in a <Code>docs/</Code>{' '}
-    folder) and then reference it in later sessions
+    </span>{' '}
+    configure{' '}
+    <code className="code-inline code-inline--orange">/effort</code> level
   </>,
 ];
 
@@ -57,7 +52,7 @@ export const CodeSlopSlide: SlideDefinition = {
   maxRevealStages: BULLETS.length,
   content: ({ revealStage }) => {
     // rolling window: overflow slide
-    const WINDOW = 4;
+    const WINDOW = 5;
     const firstVisible = Math.max(0, revealStage - WINDOW);
 
     return (
@@ -80,5 +75,5 @@ export const CodeSlopSlide: SlideDefinition = {
     );
   },
   notes:
-    'Code slop prevention tips - use frontend-design skill, follow repo patterns, teach Claude gotchas, write tests with TDD, write stubs manually, use ultrathink (crossed out), document everything',
+    'Code slop prevention tips - use frontend-design skill, follow repo patterns, teach Claude gotchas, write tests with TDD, write stubs manually, for hard tasks configure /effort level (ultrathink crossed out), document everything',
 };
