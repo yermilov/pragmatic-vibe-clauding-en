@@ -16,7 +16,9 @@ const BULLETS: ReactNode[] = [
     <SlideLink href="https://x.com/trq212">@trq212</SlideLink>,{' '}
     <SlideLink href="https://x.com/ClaudeCodeLog">@ClaudeCodeLog</SlideLink>,{' '}
     <SlideLink href="https://x.com/mitchellh">@mitchellh</SlideLink>,{' '}
-    <SlideLink href="https://x.com/steipete">@steipete</SlideLink>{' '}
+    <SlideLink href="https://x.com/steipete">@steipete</SlideLink>,{' '}
+    <SlideLink href="https://x.com/jarredsumner">@jarredsumner</SlideLink>,{' '}
+    <SlideLink href="https://x.com/ClaudeDevs">@ClaudeDevs</SlideLink>{' '}
     — but filter out the hype and the empty noise
   </>,
   <>try new approaches, but adapt them to your own needs</>,
