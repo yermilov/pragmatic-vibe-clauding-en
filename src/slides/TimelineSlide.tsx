@@ -99,13 +99,17 @@ export const TimelineSlide: SlideDefinition = {
                   <div className="timeline-panel__text timeline-panel__text--emphasis">
                     {currentItem.text}
                   </div>
-                  {visibleBulletCount > 0 && (
-                    <ul className="timeline-panel__list">
-                      {currentItem.bullets.slice(0, visibleBulletCount).map((b, i) => (
-                        <li key={i}>{b}</li>
-                      ))}
-                    </ul>
-                  )}
+                  <ul className="timeline-panel__list">
+                    {currentItem.bullets.map((b, i) => (
+                      <li
+                        key={i}
+                        className={i < visibleBulletCount ? 'reveal-enter' : 'is-unrevealed'}
+                        aria-hidden={i >= visibleBulletCount || undefined}
+                      >
+                        {b}
+                      </li>
+                    ))}
+                  </ul>
                 </>
               ) : (
                 <div className={`timeline-panel__text ${currentItem.emphasis ? 'timeline-panel__text--emphasis' : ''}`}>

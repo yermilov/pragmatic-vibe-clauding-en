@@ -1,69 +1,12 @@
 import { ReactNode } from 'react';
 import { SlideDefinition } from '../types/slides';
+import { Emphasis, Level, LevelItem } from '../components/SlideElements';
 import chatComparison from '/junior-engineer-comparison.png?url';
-
-type Level = 'high' | 'medium' | 'low';
-
-const levelStyles = {
-  high: {
-    prefix: '>>',
-    prefixColor: 'var(--terminal-orange)',
-    labelGlow: '0 0 20px rgba(240, 136, 62, 0.3)',
-    opacity: 1,
-  },
-  medium: {
-    prefix: '> ',
-    prefixColor: 'var(--terminal-blue)',
-    labelGlow: 'none',
-    opacity: 1,
-  },
-  low: {
-    prefix: '--',
-    prefixColor: 'var(--terminal-white-dim)',
-    labelGlow: 'none',
-    opacity: 0.85,
-  },
-};
-
-function ContentItem({ level, children }: { level: Level; children: React.ReactNode }) {
-  const s = levelStyles[level];
-
-  return (
-    <div
-      style={{
-        display: 'grid',
-        gridTemplateColumns: '2.5rem 1fr',
-        alignItems: 'center',
-        gap: '0.5rem',
-        fontSize: 'var(--slide-text-normal)',
-        opacity: s.opacity,
-        marginBottom: '0.6rem',
-      }}
-    >
-      <span style={{ color: s.prefixColor, fontWeight: 'bold' }}>{s.prefix}</span>
-      <span style={{ color: 'var(--terminal-white)', textShadow: s.labelGlow }}>{children}</span>
-    </div>
-  );
-}
 
 function KeyInsightArrow() {
   return (
-    <span
-      style={{
-        display: 'inline-flex',
-        alignItems: 'center',
-        margin: '0 0.5rem',
-        color: 'var(--terminal-orange)',
-        animation: 'arrowPulse 2s ease-in-out infinite',
-      }}
-    >
-      <svg
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        style={{ filter: 'drop-shadow(0 0 4px var(--terminal-orange-glow))' }}
-      >
+    <span className="key-insight-arrow">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
         <path
           d="M5 12h14M13 6l6 6-6 6"
           stroke="currentColor"
@@ -77,12 +20,12 @@ function KeyInsightArrow() {
 }
 
 const BULLETS: { level: Level; content: ReactNode }[] = [
-  { level: 'high',   content: <>treat Claude Code as a <em className="text-emphasis text-emphasis--orange">very talented junior engineer</em> you've just hired onto your team</> },
-  { level: 'high',   content: <>actually, <em className="text-emphasis text-emphasis--orange">it's a whole team</em> of very talented junior engineers</> },
+  { level: 'high',   content: <>treat Claude Code as a <Emphasis color="orange">very talented junior engineer</Emphasis> you've just hired onto your team</> },
+  { level: 'high',   content: <>actually, <Emphasis color="orange">it's a whole team</Emphasis> of very talented junior engineers</> },
   { level: 'medium', content: <>they have vast "book" knowledge, but know nothing about your company's processes and codebase</> },
-  { level: 'high',   content: <>it's <em className="text-emphasis text-emphasis--orange">their first day</em>, and you're the tech lead who needs to organize their work</> },
-  { level: 'high',   content: <>the terminal interface is your <em className="text-emphasis text-emphasis--green">chat application</em></> },
-  { level: 'medium', content: <>you can hand them your tasks, but you need to help with <em className="text-emphasis text-emphasis--green">context</em> and <em className="text-emphasis text-emphasis--green">reviews</em></> },
+  { level: 'high',   content: <>it's <Emphasis color="orange">their first day</Emphasis>, and you're the tech lead who needs to organize their work</> },
+  { level: 'high',   content: <>the terminal interface is your <Emphasis color="green">chat application</Emphasis></> },
+  { level: 'medium', content: <>you can hand them your tasks, but you need to help with <Emphasis color="green">context</Emphasis> and <Emphasis color="green">reviews</Emphasis></> },
 ];
 
 export const JuniorEngineerSlide: SlideDefinition = {
@@ -101,17 +44,10 @@ export const JuniorEngineerSlide: SlideDefinition = {
     if (showInsight) {
       return (
         <div className="junior-engineer-final">
-          <style>{`
-            @keyframes arrowPulse {
-              0%, 100% { opacity: 1; transform: translateX(0); }
-              50%       { opacity: 0.7; transform: translateX(4px); }
-            }
-          `}</style>
-
           <div className="key-insight junior-engineer-punchline">
             what would you write to a human?
             <KeyInsightArrow />
-            <span className="text-emphasis text-emphasis--orange">write it to Claude Code</span>
+            <Emphasis color="orange">write it to Claude Code</Emphasis>
           </div>
 
           <img
@@ -127,11 +63,11 @@ export const JuniorEngineerSlide: SlideDefinition = {
     // Build-up: text only, revealed one bullet at a time.
     return (
       <div className="junior-engineer-text">
-        {BULLETS.map((item, i) =>
-          revealStage >= i + 1 ? (
-            <ContentItem key={i} level={item.level}>{item.content}</ContentItem>
-          ) : null,
-        )}
+        {BULLETS.map((item, i) => (
+          <LevelItem key={i} level={item.level} hidden={revealStage < i + 1}>
+            {item.content}
+          </LevelItem>
+        ))}
       </div>
     );
   },

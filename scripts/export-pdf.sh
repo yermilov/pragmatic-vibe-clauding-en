@@ -32,7 +32,7 @@ trap 'kill $PREVIEW_PID 2>/dev/null || true' EXIT
 
 # 4. Wait for the server to come up.
 for i in $(seq 1 30); do
-  if curl -sf "http://localhost:$PREVIEW_PORT/ai-first-code-review-agent-ua/" -o /dev/null; then
+  if curl -sf "http://localhost:$PREVIEW_PORT/pragmatic-vibe-clauding-en/" -o /dev/null; then
     break
   fi
   sleep 0.5
@@ -40,6 +40,6 @@ done
 
 # 5. Run the Playwright capture script.
 echo "==> Capturing slides..."
-bun run scripts/export-pdf.mjs "http://localhost:$PREVIEW_PORT/ai-first-code-review-agent-ua/" "dist/ai-first-code-review-agent-ua.pdf"
+bun run scripts/export-pdf.mjs "http://localhost:$PREVIEW_PORT/pragmatic-vibe-clauding-en/" "dist/pragmatic-vibe-clauding-en.pdf"
 
-echo "==> Done: dist/ai-first-code-review-agent-ua.pdf"
+echo "==> Done: dist/pragmatic-vibe-clauding-en.pdf"

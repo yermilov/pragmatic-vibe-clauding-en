@@ -1,39 +1,7 @@
 import { ReactNode } from 'react';
 import { SlideDefinition } from '../types/slides';
+import { Level, LevelItem } from '../components/SlideElements';
 import yarikBadges from '/yarik-badges.jpg?url';
-
-type Level = 'high' | 'medium' | 'low';
-
-const levelStyles: Record<Level, { prefix: string; prefixColor: string; opacity: number }> = {
-  high: {
-    prefix: '>>',
-    prefixColor: 'var(--terminal-orange)',
-    opacity: 1,
-  },
-  medium: {
-    prefix: '> ',
-    prefixColor: 'var(--terminal-blue)',
-    opacity: 1,
-  },
-  low: {
-    prefix: '--',
-    prefixColor: 'var(--terminal-white-dim)',
-    opacity: 0.85,
-  },
-};
-
-function BioItem({ level, children }: { level: Level; children: React.ReactNode }) {
-  const s = levelStyles[level];
-
-  return (
-    <div className="bio-item" style={{ opacity: s.opacity }}>
-      <span className="bio-item__prefix" style={{ color: s.prefixColor }}>
-        {s.prefix}
-      </span>
-      <span style={{ color: 'var(--terminal-white)' }}>{children}</span>
-    </div>
-  );
-}
 
 const BIO_ITEMS: { level: Level; content: ReactNode }[] = [
   { level: 'low',    content: <>started as a Java backend engineer</> },
@@ -58,11 +26,11 @@ export const BioSlide: SlideDefinition = {
         </p>
 
         <div style={{ display: 'flex', flexDirection: 'column' }}>
-          {BIO_ITEMS.map((item, i) =>
-            revealStage >= i ? (
-              <BioItem key={i} level={item.level}>{item.content}</BioItem>
-            ) : null,
-          )}
+          {BIO_ITEMS.map((item, i) => (
+            <LevelItem key={i} level={item.level} hidden={revealStage < i}>
+              {item.content}
+            </LevelItem>
+          ))}
         </div>
       </div>
       <img

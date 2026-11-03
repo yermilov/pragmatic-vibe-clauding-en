@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { SlideDefinition, SlideContentProps } from '../types/slides';
-import { SlideItem, Emphasis } from '../components/SlideElements';
+import { SlideItem, Emphasis, revealWindow } from '../components/SlideElements';
 import warcraftComplete from '../assets/warcraft-complete.wav?url';
 import warcraftYes from '../assets/warcraft-yes.wav?url';
 import warcraftWhat from '../assets/warcraft-what.wav?url';
@@ -16,97 +16,24 @@ Then add two hooks to the global ~/.claude/settings.json: a Notification hook th
 
 Use @claude-code-guide (agent) to confirm hook format.`;
 
-const SCOPED_STYLES = `
-  @keyframes warcraftPanelIn {
-    from { opacity: 0; transform: translateY(12px) scale(0.99); }
-    to   { opacity: 1; transform: translateY(0)    scale(1); }
-  }
-
-  .warcraft-fun-body {
-    display: flex;
-    flex-direction: row;
-    align-items: stretch;
-    width: 100%;
-    height: calc(var(--vh-full) - 220px);
-    gap: 40px;
-    min-height: 0;
-    text-align: left;
-  }
-
-  .warcraft-fun-bullets {
-    flex: 0 0 36%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 10px;
-    min-width: 0;
-  }
-
-  .warcraft-fun-right--image {
-    flex: 1 1 auto;
-    min-height: 0;
-    min-width: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    animation: warcraftPanelIn 480ms cubic-bezier(0.19, 1, 0.22, 1) both;
-  }
-
-  .warcraft-fun-panel {
-    flex: 1 1 auto;
-    min-height: 0;
-    min-width: 0;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    border-radius: 14px;
-    background: color-mix(in srgb, var(--terminal-bg) 60%, transparent);
-    border: 1px solid color-mix(in srgb, var(--terminal-green) 35%, transparent);
-    box-shadow:
-      0 18px 48px rgba(0, 0, 0, 0.5),
-      inset 0 1px 0 color-mix(in srgb, var(--terminal-white) 10%, transparent);
-    font-family: var(--font-mono);
-    animation: warcraftPanelIn 480ms cubic-bezier(0.19, 1, 0.22, 1) both;
-  }
-
-  .warcraft-fun-panel__chrome {
-    padding: 10px 18px;
-    letter-spacing: 0.08em;
-    font-size: 0.8rem;
-    color: color-mix(in srgb, var(--terminal-green) 70%, transparent);
-    flex-shrink: 0;
-  }
-  .warcraft-fun-panel__chrome--top {
-    border-bottom: 1px solid color-mix(in srgb, var(--terminal-green) 22%, transparent);
-  }
-  .warcraft-fun-panel__chrome--bottom {
-    border-top: 1px solid color-mix(in srgb, var(--terminal-green) 22%, transparent);
-    color: color-mix(in srgb, var(--terminal-green) 40%, transparent);
-    letter-spacing: 0.12em;
-  }
-
-  .warcraft-fun-panel__viewport {
-    flex: 1 1 auto;
-    min-height: 0;
-    overflow: hidden;
-    display: flex;
-  }
-
-  .warcraft-fun-prompt {
-    flex: 1 1 auto;
-    margin: 0;
-    padding: 1.4rem 1.6rem;
-    font-family: var(--font-mono);
-    font-size: 0.95rem;
-    line-height: var(--line-height-relaxed);
-    color: var(--terminal-white);
-    white-space: pre-wrap;
-    word-break: normal;
-    overflow-wrap: anywhere;
-    overflow: auto;
-  }
-`;
+const BULLETS = [
+  <>
+    have you ever kick off Claude on a big task, come back{' '}
+    <Emphasis color="orange">30 minutes</Emphasis> later — and it spent
+    the whole time waiting for permission to run a{' '}
+    <Emphasis color="green">grep</Emphasis> on your code?
+  </>,
+  <>
+    make a <Emphasis color="green">skill</Emphasis> that plays a{' '}
+    <Emphasis color="orange">Warcraft unit sound</Emphasis> every time
+    Claude stops
+  </>,
+  <>
+    but get ready for your
+    office to sound like a{' '}
+    <Emphasis color="green">2000s LAN café</Emphasis>
+  </>,
+];
 
 function WarcraftFunContent({ revealStage }: { revealStage: number }) {
   // Track which stages have already triggered audio so re-renders within the
@@ -155,35 +82,15 @@ function WarcraftFunContent({ revealStage }: { revealStage: number }) {
 
   return (
     <>
-      <style>{SCOPED_STYLES}</style>
-
       <div className="warcraft-fun-body">
-        {/* Left column — bullets accumulate across reveal stages. */}
+        {/* Left column — bullets, revealed one per stage. */}
         <div className="warcraft-fun-bullets">
-          {revealStage >= 1 && revealStage < 3 && (
-            <SlideItem delay={0.05}>
-              have you ever kick off Claude on a big task, come back{' '}
-              <Emphasis color="orange">30 minutes</Emphasis> later — and it spent
-              the whole time waiting for permission to run a{' '}
-              <Emphasis color="green">grep</Emphasis> on your code?
+          {/* a window of two: the pain point gives way to the punchline */}
+          {revealWindow(BULLETS, revealStage, 2).map(({ item, index, hidden }) => (
+            <SlideItem key={index} delay={index === 0 ? 0.05 : 0} reveal={index > 0} hidden={hidden}>
+              {item}
             </SlideItem>
-          )}
-
-          {revealStage >= 2 && (
-            <SlideItem delay={0} reveal>
-              make a <Emphasis color="green">skill</Emphasis> that plays a{' '}
-              <Emphasis color="orange">Warcraft unit sound</Emphasis> every time
-              Claude stops
-            </SlideItem>
-          )}
-
-          {revealStage >= 3 && (
-            <SlideItem delay={0} reveal>
-              but get ready for your
-              office to sound like a{' '}
-              <Emphasis color="green">2000s LAN café</Emphasis>
-            </SlideItem>
-          )}
+          ))}
         </div>
 
         {/* Right column — image at stage 1, framed prompt panel at stage 2+. */}
@@ -193,17 +100,7 @@ function WarcraftFunContent({ revealStage }: { revealStage: number }) {
               src={peasantFace}
               alt="Warcraft II peasant — work, work."
               loading="lazy"
-              style={{
-                maxWidth: '100%',
-                maxHeight: '100%',
-                width: 'auto',
-                height: '100%',
-                objectFit: 'contain',
-                imageRendering: 'pixelated',
-                borderRadius: '14px',
-                boxShadow: '0 18px 48px rgba(0, 0, 0, 0.6)',
-                border: '1px solid color-mix(in srgb, var(--terminal-green) 35%, transparent)',
-              }}
+              className="warcraft-fun-peasant"
             />
           </div>
         )}

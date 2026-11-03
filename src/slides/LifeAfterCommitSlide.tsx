@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { SlideDefinition } from '../types/slides';
-import { Code, SlideItem, SlideLink } from '../components/SlideElements';
+import { Code, revealWindow, SlideItem, SlideLink } from '../components/SlideElements';
 
 const BULLETS: ReactNode[] = [
   <>explain to Claude Code how to run tests and start your app locally</>,
@@ -31,27 +31,14 @@ export const LifeAfterCommitSlide: SlideDefinition = {
     </>
   ),
   maxRevealStages: BULLETS.length,
-  content: ({ revealStage }) => {
-    // rolling window: keep the most recent 5 bullets so the newest always fits
-    const WINDOW = 5;
-    const firstVisible = Math.max(0, revealStage - WINDOW);
-    return (
-      <div
-        style={{
-          textAlign: 'left',
-          maxWidth: '1000px',
-          width: '100%',
-          margin: '0 auto',
-        }}
-      >
-        {BULLETS.map((bullet, i) =>
-          revealStage >= i + 1 && i >= firstVisible ? (
-            <SlideItem key={i} delay={0}>{bullet}</SlideItem>
-          ) : null,
-        )}
-      </div>
-    );
-  },
+  content: ({ revealStage }) => (
+    // sliding window of five: the newest bullet always fits
+    <div className="code-slop">
+      {revealWindow(BULLETS, revealStage, 5).map(({ item, index, hidden }) => (
+        <SlideItem key={index} delay={0} hidden={hidden}>{item}</SlideItem>
+      ))}
+    </div>
+  ),
   notes:
     'Life after commit - logging (add lots of logging, local log file, ship to BetterStack), web testing (Chrome extension + /chrome, explain how to click through the service), and chrome-devtools-mcp. Bullets revealed one at a time.',
 };

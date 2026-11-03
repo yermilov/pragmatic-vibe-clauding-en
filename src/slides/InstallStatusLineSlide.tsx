@@ -27,36 +27,19 @@ export const InstallStatusLineSlide: SlideDefinition = {
   ),
   maxRevealStages: BULLETS.length - 1,
   content: ({ revealStage }) => (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        height: '100%',
-        width: '100%',
-        maxWidth: '1200px',
-        margin: '0 auto',
-        paddingBottom: 'var(--space-xl)',
-      }}
-    >
-      <div style={{ textAlign: 'left' }}>
-        {BULLETS.map((b, i) =>
-          revealStage >= i ? (
-            <SlideItem key={i} delay={i === 0 ? 0.05 : 0}>{b}</SlideItem>
-          ) : null,
-        )}
+    <div className="statusline-slide">
+      <div>
+        {BULLETS.map((b, i) => (
+          <SlideItem key={i} delay={i === 0 ? 0.05 : 0} hidden={revealStage < i}>
+            {b}
+          </SlideItem>
+        ))}
       </div>
 
       <img
         src={statusline}
         alt="Claude Code status line: model, context size, spend, directory, branch, session summary"
-        style={{
-          width: '100%',
-          marginTop: 'var(--space-xl)',
-          borderRadius: 'var(--input-border-radius)',
-          border: '1px solid var(--terminal-border)',
-          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)',
-        }}
+        className="statusline-slide__shot"
         loading="lazy"
       />
     </div>

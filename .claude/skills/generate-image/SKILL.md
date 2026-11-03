@@ -1,12 +1,12 @@
 ---
 name: generate-image
-description: Generates images for slides via the research:generate-image skill (browser-driven Gemini/ChatGPT) and records the prompt to src/prompts/ for later regeneration. Use when asked to create, generate, or design images for slides, presentations, or visual content.
+description: Generates images for slides via the media:generate-image skill (browser-driven Gemini/ChatGPT) and records the prompt to src/prompts/ for later regeneration. Use when asked to create, generate, or design images for slides, presentations, or visual content.
 allowed-tools: Skill, Read, Write, Bash(cp:*), Bash(mv:*), Bash(ls:*)
 ---
 
 # Image Generation for Slides
 
-Generate slide visuals using the shared **`research:generate-image`** skill, which
+Generate slide visuals using the shared **`media:generate-image`** skill, which
 drives Gemini or ChatGPT through a real browser (Claude in Chrome) using the user's
 existing logged-in session — no API key required.
 
@@ -19,7 +19,7 @@ the same (or a tweaked) prompt.
 1. **Generate the image** by invoking the shared skill:
 
    ```
-   Skill(research:generate-image)
+   Skill(media:generate-image)
    ```
 
    Follow its workflow — pick the model (Gemini is a strong default for the
@@ -48,7 +48,7 @@ the same (or a tweaked) prompt.
      "prompt": "<the exact prompt that was sent>",
      "ratio": "16:9",
      "timestamp": "2026-05-29T12:00:00.000Z",
-     "model": "gemini (via research:generate-image, browser)"
+     "model": "gemini (via media:generate-image, browser)"
    }
    ```
 
@@ -57,7 +57,7 @@ the same (or a tweaked) prompt.
    - `ratio` — aspect ratio (16:9, 4:3, 1:1, 4:5)
    - `timestamp` — ISO timestamp of generation
    - `model` — which model/route produced it (e.g. `gemini` or `chatgpt` via
-     `research:generate-image`)
+     `media:generate-image`)
 
    If you're updating an existing image, overwrite its existing
    `src/prompts/<name>.json` so there's one source of truth per image.

@@ -1,66 +1,8 @@
 import { ReactNode } from 'react';
 import { SlideDefinition } from '../types/slides';
+import { Emphasis, Level, LevelItem } from '../components/SlideElements';
 import terminalFighter from '/terminal-fighter.png?url';
 import ideFighter from '/ide-fighter.png?url';
-
-type Level = 'high' | 'medium' | 'low';
-
-const levelStyles = {
-  high: {
-    prefix: '>>',
-    prefixColor: 'var(--terminal-orange)',
-    labelGlow: '0 0 20px rgba(240, 136, 62, 0.3)',
-    opacity: 1,
-  },
-  medium: {
-    prefix: '> ',
-    prefixColor: 'var(--terminal-blue)',
-    labelGlow: 'none',
-    opacity: 1,
-  },
-  low: {
-    prefix: '--',
-    prefixColor: 'var(--terminal-white-dim)',
-    labelGlow: 'none',
-    opacity: 0.85,
-  },
-};
-
-function DisclaimerItem({ level, children }: { level: Level; children: React.ReactNode }) {
-  const s = levelStyles[level];
-
-  return (
-    <div
-      style={{
-        display: 'grid',
-        gridTemplateColumns: '2.5rem 1fr',
-        alignItems: 'start',
-        gap: '0.6rem',
-        fontSize: 'var(--slide-text-normal)',
-        opacity: s.opacity,
-        marginBottom: '0.5rem',
-        lineHeight: 1.35,
-      }}
-    >
-      <span style={{ color: s.prefixColor, fontWeight: 'bold', marginTop: '0.1em' }}>{s.prefix}</span>
-      <span
-        style={{
-          color: 'var(--terminal-white)',
-          textShadow: s.labelGlow,
-        }}
-      >
-        {children}
-      </span>
-    </div>
-  );
-}
-
-const linkStyle: React.CSSProperties = {
-  color: 'var(--terminal-cyan)',
-  textDecoration: 'none',
-  borderBottom: '1px dashed var(--terminal-cyan)',
-  transition: 'all 0.2s ease',
-};
 
 const BULLETS: { level: Level; content: ReactNode }[] = [
   {
@@ -68,9 +10,7 @@ const BULLETS: { level: Level; content: ReactNode }[] = [
     content: (
       <>
         personally, the flow that works best for me is working with{' '}
-        <em style={{ color: 'var(--terminal-orange)', fontStyle: 'normal', fontWeight: 600 }}>
-          Claude Code entirely in the terminal
-        </em>
+        <Emphasis color="orange">Claude Code entirely in the terminal</Emphasis>
       </>
     ),
   },
@@ -79,7 +19,7 @@ const BULLETS: { level: Level; content: ReactNode }[] = [
     content: (
       <>
         but I'll open an IDE (usually{' '}
-        <span style={{ color: 'var(--terminal-cyan)' }}>VS Code</span>) for small, targeted edits I want to
+        <span className="text-cyan">VS Code</span>) for small, targeted edits I want to
         make by hand
       </>
     ),
@@ -89,9 +29,9 @@ const BULLETS: { level: Level; content: ReactNode }[] = [
     content: (
       <>
         the terminal weans you off the old mental model{' '}
-        <em style={{ color: 'var(--terminal-white-dim)', fontStyle: 'normal' }}>"I'm editing text"</em>
+        <Emphasis color="dim">"I'm editing text"</Emphasis>
         {' '}faster, and teaches the new one:{' '}
-        <em style={{ color: 'var(--terminal-green)', fontStyle: 'normal', fontWeight: 600 }}>"I'm assigning tasks to an agent"</em>
+        <Emphasis color="green">"I'm assigning tasks to an agent"</Emphasis>
       </>
     ),
   },
@@ -104,7 +44,7 @@ const BULLETS: { level: Level; content: ReactNode }[] = [
           href="https://marketplace.visualstudio.com/items?itemName=anthropic.claude-code"
           target="_blank"
           rel="noopener noreferrer"
-          style={linkStyle}
+          className="slide-link slide-link--cyan"
         >
           VS Code
         </a>
@@ -113,7 +53,7 @@ const BULLETS: { level: Level; content: ReactNode }[] = [
           href="https://plugins.jetbrains.com/plugin/27310-claude-code-beta-"
           target="_blank"
           rel="noopener noreferrer"
-          style={linkStyle}
+          className="slide-link slide-link--cyan"
         >
           JetBrains IDE
         </a>
@@ -153,7 +93,7 @@ export const DisclaimerSlide: SlideDefinition = {
         <div className="vs-disclaimer-content">
           {BULLETS.map((item, i) =>
             i === activeBullet ? (
-              <DisclaimerItem key={i} level={item.level}>{item.content}</DisclaimerItem>
+              <LevelItem key={i} level={item.level}>{item.content}</LevelItem>
             ) : null,
           )}
         </div>

@@ -8,10 +8,11 @@ export interface SlideContentProps {
 export interface SlideDefinition {
   id: string;
   content: ReactNode | ((props: SlideContentProps) => ReactNode);
-  /** Optional fixed top-left title rendered by Slide.tsx. Use `//` prefix
-   * convention for the dim leader (matches dou-days deck). Omit for hero
-   * / section-break slides that own their full composition. */
-  title?: ReactNode;
+  /** Optional fixed top-left title rendered by Slide.tsx, in the shell idiom
+   * (dim `>`, green command, orange flag). Omit for hero / section-break
+   * slides that own their full composition. A function derives the title
+   * from reveal state. */
+  title?: ReactNode | ((props: SlideContentProps) => ReactNode);
   notes?: string;
   background?: string;
   /** Optional contextual tooltip shown next to the slide (ported from pragmatic-vibe-clauding-ua). */
@@ -67,7 +68,9 @@ export interface SlideProps {
 }
 
 export interface SlideProgressProps {
+  /** 1-based step on the talk path (utils/traversal.ts) */
   current: number;
+  /** total steps — every reveal of every slide, detours inlined */
   total: number;
 }
 

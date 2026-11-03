@@ -1,132 +1,34 @@
 import { SlideDefinition } from '../types/slides';
 
-type ColorKey = 'green' | 'orange' | 'cyan' | 'purple' | 'blue';
+// The four deck accents. (Purple is reserved for syntax highlighting.)
+type ColorKey = 'green' | 'orange' | 'cyan' | 'blue';
 
-const colorMap: Record<ColorKey, { border: string; glow: string; text: string }> = {
-  green: {
-    border: 'var(--terminal-green)',
-    glow: 'var(--terminal-green-glow)',
-    text: 'var(--terminal-green)',
-  },
-  orange: {
-    border: 'var(--terminal-orange)',
-    glow: 'var(--terminal-orange-glow)',
-    text: 'var(--terminal-orange)',
-  },
-  cyan: {
-    border: 'var(--terminal-cyan)',
-    glow: 'var(--terminal-cyan-glow)',
-    text: 'var(--terminal-cyan)',
-  },
-  purple: {
-    border: 'var(--terminal-purple)',
-    glow: 'var(--terminal-purple-glow)',
-    text: 'var(--terminal-purple)',
-  },
-  blue: {
-    border: 'var(--terminal-blue)',
-    glow: 'var(--terminal-blue-glow)',
-    text: 'var(--terminal-blue)',
-  },
-};
-
+/** A context "directive": a rule tag (machine voice, code tier) + the rule
+ *  itself at body size, on an elevated panel with an accent rail. */
 function PrincipleDirective({
   ruleNumber,
   children,
   color,
-  delay,
+  hidden,
 }: {
   ruleNumber: number;
   children: React.ReactNode;
   color: ColorKey;
-  delay: number;
+  hidden: boolean;
 }) {
-  const c = colorMap[color];
-  const ruleId = `RULE.0${ruleNumber}`;
-
   return (
     <div
-      style={{
-        background: 'linear-gradient(135deg, var(--terminal-bg-elevated) 0%, var(--terminal-bg-secondary) 100%)',
-        borderLeft: `4px solid ${c.border}`,
-        borderRadius: '0 8px 8px 0',
-        padding: '1rem 1.5rem',
-        marginBottom: '0.75rem',
-        boxShadow: `0 2px 12px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.03), -4px 0 20px ${c.glow}`,
-        opacity: 0,
-        animation: 'directiveSlide 0.4s ease-out forwards',
-        animationDelay: `${delay}s`,
-        position: 'relative',
-        overflow: 'hidden',
-      }}
+      className={`directive directive--${color} ${hidden ? 'is-unrevealed' : 'reveal-enter'}`}
+      aria-hidden={hidden || undefined}
     >
-      {/* Subtle scan line effect */}
-      <div
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 0, 0, 0.03) 2px, rgba(0, 0, 0, 0.03) 4px)',
-          pointerEvents: 'none',
-        }}
-      />
-
-      <div style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem', position: 'relative' }}>
-        {/* Rule indicator */}
-        <span
-          style={{
-            fontFamily: 'var(--font-mono)',
-            fontSize: '0.9rem',
-            color: c.text,
-            opacity: 0.85,
-            fontWeight: 700,
-            letterSpacing: '0.05em',
-            flexShrink: 0,
-            textShadow: `0 0 10px ${c.glow}`,
-            padding: '0.15rem 0.5rem',
-            background: 'rgba(0, 0, 0, 0.3)',
-            borderRadius: '4px',
-            border: `1px solid ${c.border}`,
-          }}
-        >
-          [{ruleId}]
-        </span>
-
-        {/* Content */}
-        <div
-          style={{
-            flex: 1,
-            fontSize: '1.35rem',
-            fontWeight: 400,
-            color: 'var(--terminal-white)',
-            lineHeight: 1.5,
-          }}
-        >
-          {children}
-        </div>
-      </div>
+      <span className="directive__tag">[RULE.0{ruleNumber}]</span>
+      <div className="directive__body">{children}</div>
     </div>
   );
 }
 
-// Highlighted text component
 function Highlight({ children, color = 'cyan' }: { children: React.ReactNode; color?: ColorKey | 'white' }) {
-  const textColor = color === 'white' ? 'var(--terminal-white)' : colorMap[color as ColorKey].text;
-  const glowColor = color === 'white' ? 'rgba(255, 255, 255, 0.2)' : colorMap[color as ColorKey].glow;
-
-  return (
-    <span
-      style={{
-        color: textColor,
-        fontWeight: 600,
-        textShadow: `0 0 8px ${glowColor}`,
-      }}
-    >
-      {children}
-    </span>
-  );
+  return <span className={`directive-highlight directive--${color}`}>{children}</span>;
 }
 
 const PRINCIPLES: { color: ColorKey; content: React.ReactNode }[] = [
@@ -163,10 +65,10 @@ const PRINCIPLES: { color: ColorKey; content: React.ReactNode }[] = [
     ),
   },
   {
-    color: 'purple',
+    color: 'orange',
     content: (
       <>
-        <Highlight color="purple">one task</Highlight> per <Highlight color="purple">one session</Highlight>
+        <Highlight color="orange">one task</Highlight> per <Highlight color="orange">one session</Highlight>
       </>
     ),
   },
@@ -181,38 +83,12 @@ export const ContextPrinciplesSlide: SlideDefinition = {
   ),
   maxRevealStages: PRINCIPLES.length,
   content: ({ revealStage }) => (
-    <>
-      <style>
-        {`
-          @keyframes directiveSlide {
-            from {
-              opacity: 0;
-              transform: translateX(-20px);
-            }
-            to {
-              opacity: 1;
-              transform: translateX(0);
-            }
-          }
-        `}
-      </style>
-
-      <div
-        style={{
-          textAlign: 'left',
-          maxWidth: '900px',
-          width: '100%',
-          margin: '0 auto',
-        }}
-      >
-        {PRINCIPLES.map((p, i) =>
-          revealStage >= i + 1 ? (
-            <PrincipleDirective key={i} ruleNumber={i + 1} color={p.color} delay={0}>
-              {p.content}
-            </PrincipleDirective>
-          ) : null,
-        )}
-      </div>
-    </>
+    <div className="directives">
+      {PRINCIPLES.map((p, i) => (
+        <PrincipleDirective key={i} ruleNumber={i + 1} color={p.color} hidden={revealStage < i + 1}>
+          {p.content}
+        </PrincipleDirective>
+      ))}
+    </div>
   ),
 };

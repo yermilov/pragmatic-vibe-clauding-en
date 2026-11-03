@@ -30,6 +30,12 @@ const isExportMode =
 const TIMER_STARTED_AT_KEY = 'timerStartedAt';
 const TIMER_ACCUMULATED_KEY = 'timerAccumulated';
 const THEME_KEY = 'theme';
+
+/** A stored timer start older than this is a previous run, not this talk.
+ *  Without the expiry a deck opened days later loads with the clock already
+ *  run out and the pace colour red. Four hours is far longer than any slot
+ *  and far shorter than "another day". */
+const STALE_TIMER_MS = 4 * 60 * 60 * 1000;
 type Theme = 'dark' | 'light';
 
 function applyTheme(theme: Theme) {
@@ -51,14 +57,22 @@ function getInitialTimerState(): { seconds: number; running: boolean } {
   const accumulated = parseInt(localStorage.getItem(TIMER_ACCUMULATED_KEY) || '0', 10);
 
   if (startedAt) {
-    const elapsed = Math.floor((Date.now() - parseInt(startedAt, 10)) / 1000);
-    return { seconds: accumulated + elapsed, running: true };
+    const startedMs = parseInt(startedAt, 10);
+    const sinceStart = Date.now() - startedMs;
+
+    if (!Number.isFinite(startedMs) || sinceStart > STALE_TIMER_MS || sinceStart < 0) {
+      localStorage.removeItem(TIMER_STARTED_AT_KEY);
+      localStorage.removeItem(TIMER_ACCUMULATED_KEY);
+      return { seconds: 0, running: false };
+    }
+
+    return { seconds: accumulated + Math.floor(sinceStart / 1000), running: true };
   }
   return { seconds: accumulated, running: false };
 }
 
 export function Presentation({ slides, initialSlide = 0 }: PresentationProps) {
-  const { currentSlide, goToSlide, goToSlideWithReveal, handleCommand: handleNavCommand, revealStage, revealNext, revealPrev } = useSlideNavigation(
+  const { currentSlide, step, totalSteps, goToSlide, goToSlideWithReveal, handleCommand: handleNavCommand, revealStage, revealNext, revealPrev } = useSlideNavigation(
     slides,
     initialSlide
   );
@@ -163,10 +177,19 @@ export function Presentation({ slides, initialSlide = 0 }: PresentationProps) {
     return null;
   }
 
+  const contentProps = { revealStage, inputText };
   const slideContent =
     typeof activeSlide.content === 'function'
-      ? activeSlide.content({ revealStage, inputText })
+      ? activeSlide.content(contentProps)
       : activeSlide.content;
+  const slideTitle =
+    typeof activeSlide.title === 'function'
+      ? activeSlide.title(contentProps)
+      : activeSlide.title;
+
+  // Progress weights every reveal equally: it answers "how much talk is
+  // left", not "how many slides". Hidden until the talk is past half-way.
+  const progressCurrent = step + 1;
 
   return (
     <NavigationContext.Provider value={{ goToSlideById }}>
@@ -179,7 +202,7 @@ export function Presentation({ slides, initialSlide = 0 }: PresentationProps) {
           background={activeSlide.background}
           slideId={activeSlide.id}
           asyncSettle={activeSlide.asyncSettle}
-          title={activeSlide.title}
+          title={slideTitle}
         >
           {slideContent}
         </Slide>
@@ -188,8 +211,8 @@ export function Presentation({ slides, initialSlide = 0 }: PresentationProps) {
         <div className="input-bar">
           <Timer
             elapsedSeconds={timerSeconds}
-            currentSlide={currentSlide}
-            totalSlides={slides.length}
+            currentStep={step}
+            totalSteps={totalSteps}
           />
           <TerminalInput
             onCommand={handleCommand}
@@ -199,10 +222,10 @@ export function Presentation({ slides, initialSlide = 0 }: PresentationProps) {
             placeholder="type anything to continue, 'prev' to go back, or slide number..."
           />
           <SlideProgress
-            current={currentSlide + 1}
-            total={slides.length}
-            isFirst={currentSlide === Math.floor(slides.length / 2)}
-            hidden={(currentSlide + 1) / slides.length <= 0.5}
+            current={progressCurrent}
+            total={totalSteps}
+            isFirst={progressCurrent === Math.floor(totalSteps / 2) + 1}
+            hidden={progressCurrent / totalSteps <= 0.5}
           />
         </div>
       )}

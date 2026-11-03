@@ -1,5 +1,5 @@
 import { SlideDefinition } from '../types/slides';
-import { Code, SlideItem, SlideLink } from '../components/SlideElements';
+import { Code, revealWindow, SlideItem, SlideLink } from '../components/SlideElements';
 import mcpToolCallFlow from '/mcp-tool-call-flow.png?url';
 import mcpContextPollution from '/mcp-context-pollution.png?url';
 
@@ -44,9 +44,9 @@ export const McpSlide: SlideDefinition = {
   ),
   maxRevealStages: MCP_BULLETS.length,
   content: ({ revealStage }) => {
-    // rolling window: overflow slide — show at most 4 bullets at a time
-    const WINDOW = 4;
-    const firstVisible = Math.max(0, revealStage - WINDOW);
+    // sliding window: three bullets beside the visual (the two-column cap);
+    // a spoken bullet drops off when the fourth arrives
+    const slots = revealWindow(MCP_BULLETS, revealStage, 3);
 
     return (
       <div className="mcp-slide">
@@ -57,13 +57,11 @@ export const McpSlide: SlideDefinition = {
         />
 
         <div className="mcp-slide-content">
-          {MCP_BULLETS.map((bullet, i) =>
-            revealStage >= i + 1 && i >= firstVisible ? (
-              <SlideItem key={i} delay={0}>
-                {bullet}
-              </SlideItem>
-            ) : null,
-          )}
+          {slots.map(({ item, index, hidden }) => (
+            <SlideItem key={index} delay={0} hidden={hidden}>
+              {item}
+            </SlideItem>
+          ))}
         </div>
 
         <img

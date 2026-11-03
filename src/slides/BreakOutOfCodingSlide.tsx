@@ -1,19 +1,7 @@
 import { ReactNode } from 'react';
 import { SlideDefinition } from '../types/slides';
-import { SlideItem, Emphasis } from '../components/SlideElements';
+import { Emphasis, Quote, SlideItem } from '../components/SlideElements';
 
-function Prompt({ children }: { children: ReactNode }) {
-  return (
-    <span
-      style={{
-        color: 'var(--terminal-orange)',
-        fontStyle: 'italic',
-      }}
-    >
-      '{children}'
-    </span>
-  );
-}
 
 const LEFT_BULLETS: ReactNode[] = [
   <>an AI agent that generates code is a very expensive <Emphasis color="orange">autocomplete</Emphasis></>,
@@ -24,10 +12,10 @@ const LEFT_BULLETS: ReactNode[] = [
 ];
 
 const PROMPTS: ReactNode[] = [
-  <Prompt>hey claude, open github in chrome and generate ssh key for me</Prompt>,
-  <Prompt>hey claude, configure dev environment for me</Prompt>,
-  <Prompt>hey claude, here is a bug report I've received mycompany.slack.com/archives/p1778239</Prompt>,
-  <Prompt>hey claude, monitor CI jobs in my PR and fix failing tests until pipeline is green</Prompt>,
+  <Quote>hey claude, open github in chrome and generate ssh key for me</Quote>,
+  <Quote>hey claude, configure dev environment for me</Quote>,
+  <Quote>hey claude, here is a bug report I've received mycompany.slack.com/archives/p1778239</Quote>,
+  <Quote>hey claude, monitor CI jobs in my PR and fix failing tests until pipeline is green</Quote>,
 ];
 
 export const BreakOutOfCodingSlide: SlideDefinition = {
@@ -40,39 +28,23 @@ export const BreakOutOfCodingSlide: SlideDefinition = {
     </>
   ),
   content: ({ revealStage }) => (
-    <div style={{ display: 'flex', gap: 'var(--space-md)', alignItems: 'flex-start' }}>
+    <div className="two-lists">
       {/* Left column: conceptual bullets */}
-      <div
-        style={{
-          flex: '0 0 50%',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 'var(--space-sm)',
-          textAlign: 'left',
-        }}
-      >
-        {LEFT_BULLETS.map((bullet, i) =>
-          revealStage >= i ? (
-            <SlideItem key={i} delay={i === 0 ? 0.05 : 0}>{bullet}</SlideItem>
-          ) : null,
-        )}
+      <div className="two-lists__col two-lists__col--half">
+        {LEFT_BULLETS.map((bullet, i) => (
+          <SlideItem key={i} delay={i === 0 ? 0.05 : 0} hidden={revealStage < i}>
+            {bullet}
+          </SlideItem>
+        ))}
       </div>
 
       {/* Right column: example Claude prompts */}
-      <div
-        style={{
-          flex: 1,
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 'var(--space-sm)',
-          textAlign: 'left',
-        }}
-      >
-        {PROMPTS.map((prompt, i) =>
-          revealStage >= LEFT_BULLETS.length + i ? (
-            <SlideItem key={i} delay={0}>{prompt}</SlideItem>
-          ) : null,
-        )}
+      <div className="two-lists__col">
+        {PROMPTS.map((prompt, i) => (
+          <SlideItem key={i} delay={0} hidden={revealStage < LEFT_BULLETS.length + i}>
+            {prompt}
+          </SlideItem>
+        ))}
       </div>
     </div>
   ),

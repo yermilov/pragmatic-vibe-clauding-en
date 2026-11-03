@@ -9,12 +9,13 @@
  * Every slide that grep matches MUST be classified into exactly one set,
  * or the build fails with a hint to come here and classify it.
  */
-export const KNOWN_RUNTIME_ASYNC_SLIDES = new Set<string>([]);
+export const KNOWN_RUNTIME_ASYNC_SLIDES = new Set<string>([
+  // fetches the live prompt (bundled fallback offline); settles when it lands
+  'SystemPromptSlide',
+]);
 
 /**
  * Slides that contain await/fetch only inside displayed code-example strings,
  * OR fire-and-forget runtime fetches we don't need to wait for in export mode.
  */
-export const ASYNC_LITERAL_FALSE_POSITIVES = new Set<string>([
-  'SystemPromptSlide',
-]);
+export const ASYNC_LITERAL_FALSE_POSITIVES = new Set<string>([]);

@@ -1,21 +1,6 @@
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { SlideDefinition } from '../types/slides';
-import { SlideItem, Emphasis } from '../components/SlideElements';
-
-// Quoted prompt text (orange with italic styling)
-function Prompt({ children }: { children: React.ReactNode }) {
-  return (
-    <span
-      style={{
-        color: 'var(--terminal-orange)',
-        fontStyle: 'italic',
-        fontSize: '0.85em',
-      }}
-    >
-      '{children}'
-    </span>
-  );
-}
+import { Emphasis, Quote, revealWindow, SlideItem } from '../components/SlideElements';
 
 const BULLETS: ReactNode[] = [
   <>
@@ -25,9 +10,9 @@ const BULLETS: ReactNode[] = [
   </>,
   <>
     just write{' '}
-    <Prompt>use skill-creator skill to turn ... into a skill</Prompt>{' '}
+    <Quote>use skill-creator skill to turn ... into a skill</Quote>{' '}
     or{' '}
-    <Prompt>use skill-creator skill to update ... skill to ...</Prompt>
+    <Quote>use skill-creator skill to update ... skill to ...</Quote>
   </>,
   <>
     skills are <Emphasis color="green">building blocks</Emphasis> each engineer
@@ -56,27 +41,14 @@ export const SkillsAuthoringSlide: SlideDefinition = {
     </>
   ),
   maxRevealStages: BULLETS.length,
-  content: ({ revealStage }) => {
-    // rolling window: keep the most recent 3 bullets so the newest always fits
-    const WINDOW = 4;
-    const firstVisible = Math.max(0, revealStage - WINDOW);
-    return (
-      <div
-        style={{
-          textAlign: 'left',
-          maxWidth: '1000px',
-          width: '100%',
-          margin: '0 auto',
-        }}
-      >
-        {BULLETS.map((bullet, i) =>
-          revealStage >= i + 1 && i >= firstVisible ? (
-            <SlideItem key={i} delay={0}>{bullet}</SlideItem>
-          ) : null,
-        )}
-      </div>
-    );
-  },
+  content: ({ revealStage }) => (
+    // sliding window of four: the newest bullet always fits
+    <div className="code-slop">
+      {revealWindow(BULLETS, revealStage, 4).map(({ item, index, hidden }) => (
+        <SlideItem key={index} delay={0} hidden={hidden}>{item}</SlideItem>
+      ))}
+    </div>
+  ),
   notes:
     'Skills authoring - teach Claude reusable skills when you find yourself repeating instructions. Start new session with plan mode, read docs, create skill. Or create a meta-skill for skill authoring itself. Examples: searching logs, debugging, perf, image gen, docs.',
 };

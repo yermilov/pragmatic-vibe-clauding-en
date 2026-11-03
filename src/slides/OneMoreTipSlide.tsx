@@ -37,44 +37,19 @@ export const OneMoreTipSlide: SlideDefinition = {
   content: ({ revealStage }) => {
     const idx = Math.min(revealStage, BULLETS.length - 1);
     return (
-    <div
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: 'var(--space-xl)',
-        width: '100%',
-        height: '100%',
-        minHeight: 0,
-        overflow: 'hidden',
-      }}
-    >
-      {/* Left column — one bullet at a time, swapped on reveal */}
-      <div
-        style={{
-          flex: '1 1 60%',
-          maxWidth: '900px',
-          textAlign: 'left',
-        }}
-      >
-        <SlideItem key={idx} delay={0.05}>
-          {BULLETS[idx]}
-        </SlideItem>
-      </div>
+      <div className="one-more-tip">
+        {/* Left column — one bullet at a time, swapped on reveal */}
+        <div className="one-more-tip__text">
+          <SlideItem key={idx} delay={0.05}>
+            {BULLETS[idx]}
+          </SlideItem>
+        </div>
 
-      {/* Right column — Pac-Man animation. Drive size from parent height so
-       * the 4:3 canvas always fits inside the title-band layout instead of
-       * overflowing and getting clipped by the row's overflow: hidden. */}
-      <div
-        style={{
-          flex: '0 0 auto',
-          height: '100%',
-          aspectRatio: '320 / 240',
-        }}
-      >
-        <PacManCanvas revealStage={revealStage} />
+        {/* Right column — the 4:3 Pac-Man canvas, sized from the row height */}
+        <div className="one-more-tip__game">
+          <PacManCanvas revealStage={revealStage} />
+        </div>
       </div>
-    </div>
     );
   },
   maxRevealStages: 4,

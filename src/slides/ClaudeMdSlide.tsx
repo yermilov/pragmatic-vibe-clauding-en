@@ -1,11 +1,6 @@
 import { SlideDefinition } from '../types/slides';
-import { Code, Quote, SlideItem, SlideLink } from '../components/SlideElements';
+import { Code, Quote, revealWindow, SlideItem, SlideLink } from '../components/SlideElements';
 import claudeMdVsReadme from '/claude-md-vs-readme.png?url';
-
-// Command styling (orange code)
-function Command({ children }: { children: string }) {
-  return <code className="code-inline code-inline--orange">{children}</code>;
-}
 
 const CLAUDE_MD_BULLETS: React.ReactNode[] = [
   <>
@@ -16,7 +11,7 @@ const CLAUDE_MD_BULLETS: React.ReactNode[] = [
     Claude re-reads it every time it does something in the repository
   </>,
   <>
-    auto-generated via the <Command>/init</Command> command
+    auto-generated via the <Code variant="orange">/init</Code> command
   </>,
   <>
     you can put a <Code>CLAUDE.md</Code> in any subfolder for local
@@ -39,7 +34,7 @@ const CLAUDE_MD_BULLETS: React.ReactNode[] = [
     <Quote>instead do X and remember this information in CLAUDE.md</Quote>
   </>,
   <>
-    much better: keep <Code>CLAUDE.md</Code> lean, and cover the following areas — Vision (write manually), Folder Structure (<Command>/init</Command>), Build/Deploy Commands (<Command>/init</Command>), Architecture (<Command>/init</Command>), Principles (feedback after systematic mistakes)
+    much better: keep <Code>CLAUDE.md</Code> lean, and cover the following areas — Vision (write manually), Folder Structure (<Code variant="orange">/init</Code>), Build/Deploy Commands (<Code variant="orange">/init</Code>), Architecture (<Code variant="orange">/init</Code>), Principles (feedback after systematic mistakes)
   </>,
 ];
 
@@ -52,9 +47,9 @@ export const ClaudeMdSlide: SlideDefinition = {
   ),
   maxRevealStages: CLAUDE_MD_BULLETS.length,
   content: ({ revealStage }) => {
-    // rolling window: overflow slide
-    const WINDOW = 3;
-    const firstVisible = Math.max(0, revealStage - WINDOW);
+    // sliding window: three bullets beside the visual (the two-column cap);
+    // a spoken bullet drops off when the fourth arrives
+    const slots = revealWindow(CLAUDE_MD_BULLETS, revealStage, 3);
 
     return (
       <div className="bg-image-slide">
@@ -65,13 +60,11 @@ export const ClaudeMdSlide: SlideDefinition = {
         />
 
         <div className="bg-image-slide__content">
-          {CLAUDE_MD_BULLETS.map((bullet, i) =>
-            revealStage >= i + 1 && i >= firstVisible ? (
-              <SlideItem key={i} delay={0}>
-                {bullet}
-              </SlideItem>
-            ) : null,
-          )}
+          {slots.map(({ item, index, hidden }) => (
+            <SlideItem key={index} delay={0} hidden={hidden}>
+              {item}
+            </SlideItem>
+          ))}
         </div>
       </div>
     );

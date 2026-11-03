@@ -1,10 +1,5 @@
 import { SlideDefinition } from '../types/slides';
-import { Code, Emphasis, SlideItem, SlideLink } from '../components/SlideElements';
-
-// Command styling (orange code)
-function Command({ children }: { children: string }) {
-  return <code className="code-inline code-inline--orange">{children}</code>;
-}
+import { Code, Emphasis, Reveal, SlideItem, SlideLink } from '../components/SlideElements';
 
 const PLUGINS = [
   'claude-code-setup',
@@ -30,76 +25,37 @@ export const MarketplacesSlide: SlideDefinition = {
   content: ({ revealStage }) => {
     const installStage = INTRO_STAGES + PLUGINS.length;
     return (
-      <div
-        style={{
-          textAlign: 'left',
-          maxWidth: '1320px',
-          width: '100%',
-          margin: '0 auto',
-          height: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          paddingBottom: 'var(--space-xl)',
-        }}
-      >
-        <style>{`
-          .marketplace-body .code-inline { font-size: var(--slide-text-normal); }
-        `}</style>
+      <div className="marketplaces">
+        <SlideItem delay={0.05}>
+          third-party <Emphasis color="green">skills / commands / subagents</Emphasis>{' '}
+          are distributed via <Emphasis color="orange">plugins</Emphasis> on
+          marketplaces
+        </SlideItem>
 
-        <div className="marketplace-body">
-          <SlideItem delay={0.05}>
-            third-party <Emphasis color="green">skills / commands / subagents</Emphasis>{' '}
-            are distributed via <Emphasis color="orange">plugins</Emphasis> on
-            marketplaces
-          </SlideItem>
+        <SlideItem delay={0} hidden={revealStage < 1}>
+          the most important one is the official marketplace from Anthropic —{' '}
+          <SlideLink href="https://github.com/anthropics/claude-plugins-official">
+            claude-plugins-official
+          </SlideLink>
+        </SlideItem>
 
-          {revealStage >= 1 && (
-            <SlideItem delay={0}>
-              the most important one is the official marketplace from Anthropic —{' '}
-              <SlideLink href="https://github.com/anthropics/claude-plugins-official">
-                claude-plugins-official
-              </SlideLink>
-            </SlideItem>
-          )}
+        <SlideItem delay={0} hidden={revealStage < 2}>
+          explore plugins relevant to your work — some picks from me:
+        </SlideItem>
 
-          {revealStage >= 2 && (
-            <SlideItem delay={0}>
-              explore plugins relevant to your work — some picks from me:
-            </SlideItem>
-          )}
-
-          {revealStage >= INTRO_STAGES && (
-            <div
-              style={{
-                display: 'flex',
-                flexWrap: 'wrap',
-                gap: '0.5rem 0.9rem',
-                marginTop: 'var(--space-sm)',
-                marginLeft: '2.5rem',
-              }}
-            >
-              {PLUGINS.map((p, i) =>
-                revealStage >= INTRO_STAGES + i ? <Code key={i}>{p}</Code> : null,
-              )}
-            </div>
-          )}
-
-          {revealStage >= installStage && (
-            <div
-              style={{
-                marginTop: 'var(--space-md)',
-                marginLeft: '2.5rem',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '0.4rem',
-              }}
-            >
-              <Command>/plugin marketplace add anthropics/claude-code</Command>
-              <Command>/plugin install commit-commands@claude-plugins-official</Command>
-            </div>
-          )}
+        {/* one plugin per reveal; every chip has its place from stage 0 */}
+        <div className="marketplaces__chips">
+          {PLUGINS.map((p, i) => (
+            <Reveal key={i} as="span" show={revealStage >= INTRO_STAGES + i}>
+              <Code>{p}</Code>
+            </Reveal>
+          ))}
         </div>
+
+        <Reveal show={revealStage >= installStage} className="marketplaces__install">
+          <Code variant="orange">/plugin marketplace add anthropics/claude-code</Code>
+          <Code variant="orange">/plugin install commit-commands@claude-plugins-official</Code>
+        </Reveal>
       </div>
     );
   },

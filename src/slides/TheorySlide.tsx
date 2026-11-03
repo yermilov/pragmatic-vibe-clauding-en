@@ -1,9 +1,9 @@
 import { SlideDefinition } from '../types/slides';
 import llmInfographic from '/llm-theory-infographic.png?url';
 
-// Full-bleed backdrop: the infographic already sits on #0a0e14, so `contain`
+// Full-bleed backdrop: the infographic already sits on the deck background, so `contain`
 // fills the slide edge-to-edge without cropping the diagram.
-const SLIDE_BG = `#0a0e14 url(${llmInfographic}) center/contain no-repeat`;
+const SLIDE_BG = `var(--terminal-bg) url(${llmInfographic}) center/contain no-repeat`;
 
 export const TheorySlide: SlideDefinition = {
   id: 'theory',

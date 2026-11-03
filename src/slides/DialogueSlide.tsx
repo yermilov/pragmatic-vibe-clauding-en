@@ -1,5 +1,5 @@
 import { SlideDefinition } from '../types/slides';
-import { Quote, SlideItem } from '../components/SlideElements';
+import { Quote, revealWindow, SlideItem } from '../components/SlideElements';
 import dialogueFlow from '/dialogue-flow.png?url';
 import dialogueMemory from '/dialogue-memory.png?url';
 
@@ -30,6 +30,7 @@ export const DialogueSlide: SlideDefinition = {
   ),
   maxRevealStages: DIALOGUE_BULLETS.length,
   content: ({ revealStage }) => (
+    // sliding window: three bullets beside the visuals (the two-column cap)
     <div className="mcp-slide">
       <img
         src={dialogueFlow}
@@ -38,13 +39,11 @@ export const DialogueSlide: SlideDefinition = {
       />
 
       <div className="mcp-slide-content">
-        {DIALOGUE_BULLETS.map((bullet, i) =>
-          revealStage >= i + 1 ? (
-            <SlideItem key={i} delay={0}>
-              {bullet}
-            </SlideItem>
-          ) : null,
-        )}
+        {revealWindow(DIALOGUE_BULLETS, revealStage, 3).map(({ item, index, hidden }) => (
+          <SlideItem key={index} delay={0} hidden={hidden}>
+            {item}
+          </SlideItem>
+        ))}
       </div>
 
       <img

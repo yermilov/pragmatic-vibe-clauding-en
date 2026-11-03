@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { SlideDefinition } from '../types/slides';
-import { Code, SlideItem } from '../components/SlideElements';
+import { Code, revealWindow, SlideItem } from '../components/SlideElements';
 
 const BULLETS: ReactNode[] = [
   <>
@@ -26,29 +26,15 @@ export const LaunchSlide: SlideDefinition = {
     </>
   ),
   maxRevealStages: BULLETS.length,
-  // rolling window: overflow slide (long bullets)
-  content: ({ revealStage }) => {
-    const WINDOW = 4;
-    const firstVisible = Math.max(0, revealStage - WINDOW);
-    return (
-      <div
-        style={{
-          textAlign: 'left',
-          maxWidth: '1000px',
-          width: '100%',
-          margin: '0 auto',
-        }}
-      >
-        {BULLETS.map((bullet, i) =>
-          revealStage >= i + 1 && i >= firstVisible ? (
-            <SlideItem key={i} delay={0}>
-              {bullet}
-            </SlideItem>
-          ) : null,
-        )}
-      </div>
-    );
-  },
+  content: ({ revealStage }) => (
+    <div className="launch-slide">
+      {revealWindow(BULLETS, revealStage, 4).map(({ item, index, hidden }) => (
+        <SlideItem key={index} delay={0} hidden={hidden}>
+          {item}
+        </SlideItem>
+      ))}
+    </div>
+  ),
   notes:
     'Claude Code launch checklist - model selection, plugins, permissions, and plan mode workflow',
 };
