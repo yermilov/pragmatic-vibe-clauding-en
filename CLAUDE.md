@@ -174,5 +174,6 @@ public registry; CI pins bun 1.4.2 to read it.)
 
 Solo project — commit straight to `main`, messages `Add/Update/Fix/Remove …`, AI co-author
 footer. The pre-commit hook runs `bun run check` and refuses unstaged changes it would read.
-Pushes need the personal `yermilov` account: on a 403, `gh auth switch --user yermilov`, push,
-then `gh auth switch --user yaroslav-yermilov_super`.
+Pushes need the personal `yermilov` account. Switch to it ONLY for the git operation and back immediately:
+`gh auth switch --user yermilov`, push,
+then `gh auth switch --user yaroslav-yermilov` (the work account; `yaroslav-yermilov_super` no longer exists).
