@@ -1,23 +1,16 @@
-import { ReactNode } from 'react';
+import { QRCodeSVG } from 'qrcode.react';
 import { SlideDefinition } from '../types/slides';
-import { Level, LevelItem } from '../components/SlideElements';
-import { T, tr } from '../context/LanguageContext';
-import yarikBadges from '/yarik-badges.jpg?url';
+import { Reveal } from '../components/SlideElements';
+import { T } from '../context/LanguageContext';
+import portrait from '../assets/about/yaroslav.jpg';
+import grammarlyMark from '../assets/about/grammarly-mark.svg';
 
-// UA copy: dou-days-2026 BioSlide (same four bullets).
-const BIO_ITEMS_UK: { level: Level; content: ReactNode }[] = [
-  { level: 'low',    content: <>починав як Java backend-інженер</> },
-  { level: 'medium', content: <>потім: техлідив продуктові фічі</> },
-  { level: 'medium', content: <>потім: техлід платформної організації</> },
-  { level: 'high',   content: <>зараз: AI-first розробка</> },
-];
+// Ported from loops-skills-artifacts-factory-en (WAWTech 2026) AboutMeSlide: the same three beats
+// and copy, redrawn in this deck's terminal style. The Preply mark is painted through a CSS mask
+// (`.whoami__mark--preply`) so it takes a theme token; the Grammarly mark keeps its brand colours.
+// UA: own translation.
 
-const BIO_ITEMS_EN: { level: Level; content: ReactNode }[] = [
-  { level: 'low',    content: <>started as a Java backend engineer</> },
-  { level: 'medium', content: <>then: tech-led product features</> },
-  { level: 'medium', content: <>then: tech lead of the platform org</> },
-  { level: 'high',   content: <>now: AI-first engineering</> },
-];
+const LINKEDIN_URL = 'https://www.linkedin.com/in/yarik-yermilov/';
 
 export const BioSlide: SlideDefinition = {
   id: 'bio',
@@ -26,28 +19,66 @@ export const BioSlide: SlideDefinition = {
       <span className="text-dim">&gt;</span> whoami
     </>
   ),
-  maxRevealStages: BIO_ITEMS_EN.length - 1,
-  content: ({ revealStage, lang }) => (
-    <div className="bio-slide">
-      <div className="bio-slide-content">
-        <p className="bio-subtitle">
-          <T uk="9 років у компанії Superhuman (раніше відомої як Grammarly)" en="9 years at Superhuman (formerly Grammarly)" />
-        </p>
+  maxRevealStages: 3,
+  content: ({ revealStage }) => (
+    <div className="whoami">
+      <div className="whoami__col">
+        <Reveal show={revealStage >= 1} className="whoami__card whoami__card--now">
+          <span className="whoami__mark whoami__mark--preply" role="img" aria-label="Preply" />
+          <div className="whoami__role">
+            <T uk="Principal Engineer у Preply" en="Principal Engineer at Preply" />
+          </div>
+          <div className="whoami__line">
+            <T
+              uk="веду AI / agentic трансформацію всього циклу розробки"
+              en="Leading the AI / agentic transformation of the software development lifecycle"
+            />
+          </div>
+        </Reveal>
 
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-          {tr(lang, BIO_ITEMS_UK, BIO_ITEMS_EN).map((item, i) => (
-            <LevelItem key={i} level={item.level} hidden={revealStage < i}>
-              {item.content}
-            </LevelItem>
-          ))}
-        </div>
+        <Reveal show={revealStage >= 2} className="whoami__card">
+          <img className="whoami__mark" src={grammarlyMark} alt="Grammarly" />
+          <div className="whoami__role">
+            <T uk="ex-Platform Tech Lead у Grammarly" en="ex-Platform Tech Lead at Grammarly" />
+          </div>
+          <div className="whoami__line">
+            <T
+              uk={
+                <>
+                  9 років: Java backend-інженер, техлід продукту{' '}
+                  <em>Writing Assistant for Professionals</em>, торкався персоналізації,
+                  server-driven UI, DevX-тулів, MLOps, LLMOps, навіть комп'ютерної лінгвістики — і
+                  проклав шлях до AI-кодингу
+                </>
+              }
+              en={
+                <>
+                  9 years: Java backend engineer, tech lead for the{' '}
+                  <em>Writing Assistant for Professionals</em> product, touched personalization,
+                  server-driven UI, DevX tools, MLOps, LLMOps, even computational linguistics — and
+                  paved the path to AI coding
+                </>
+              }
+            />
+          </div>
+        </Reveal>
       </div>
-      <img
-        src={yarikBadges}
-        alt="Grammarly badges"
-        className="bio-slide-image"
-        loading="lazy"
-      />
+
+      <Reveal show={revealStage >= 3} className="whoami__me">
+        <img className="whoami__photo" src={portrait} alt="Yaroslav Yermilov" />
+        <div className="whoami__handle">
+          <span className="whoami__in" aria-hidden="true">in</span>
+          <span>yarik-yermilov</span>
+        </div>
+        <div className="whoami__qr-slot">
+          <div className="whoami__qr">
+            <QRCodeSVG value={LINKEDIN_URL} size={440} bgColor="transparent" fgColor="currentColor" level="M" />
+          </div>
+        </div>
+      </Reveal>
     </div>
   ),
+  notes:
+    'Three beats: Preply today (AI/agentic transformation of the SDLC), nine years at Grammarly '
+    + 'behind it, and the QR to LinkedIn for anyone who wants to carry on afterwards.',
 };

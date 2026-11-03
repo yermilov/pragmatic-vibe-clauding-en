@@ -264,14 +264,6 @@
     padding: var(--space-sm) var(--space-md);
   }
 
-  .bio-slide {
-    flex-direction: column;
-    gap: var(--space-lg);
-  }
-
-  .bio-slide-image {
-    max-width: 280px;
-  }
 }
 
 /* === HEIGHT BREAKPOINTS ===
