@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { SlideDefinition } from '../types/slides';
 import { exportRegistry } from '../components/exportRegistry';
+import { T } from '../context/LanguageContext';
 
 const SLIDE_ID = 'system-prompt';
 // Offline fallback: a bundled snapshot of the prompt, used when the live
@@ -108,7 +109,10 @@ export const SystemPromptSlide: SlideDefinition = {
   asyncSettle: true,
   title: (
     <>
-      <span className="text-dim">&gt;</span> show me Claude's system prompt
+      {/* UA title adapted from the UA deck's "системний промпт"; the prompt itself and
+          the machine chrome (INITIALIZING…, banner) stay English in both languages. */}
+      <span className="text-dim">&gt;</span>{' '}
+      <T uk="покажи системний промпт Claude" en="show me Claude's system prompt" />
     </>
   ),
   content: <SystemPromptContent />,

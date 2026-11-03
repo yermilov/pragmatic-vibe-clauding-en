@@ -1,11 +1,13 @@
 import { useEffect, useRef } from 'react';
 import { SlideDefinition, SlideContentProps } from '../types/slides';
 import { SlideItem, Emphasis, revealWindow } from '../components/SlideElements';
+import { Lang, T, tr } from '../context/LanguageContext';
 import warcraftComplete from '../assets/warcraft-complete.wav?url';
 import warcraftYes from '../assets/warcraft-yes.wav?url';
 import warcraftWhat from '../assets/warcraft-what.wav?url';
 import peasantFace from '../assets/warcraft-peasant-permission.jpeg?url';
 
+// The prompt stays English in both languages — it is what you type to Claude.
 const PROMPT_CODE = `claude> Fetch the Warcraft 2 peon/peasant quotes page at warcraft.wiki.gg/wiki/Quotes_of_Warcraft_II#Peon and download the Ready, Yes, Job Complete and What sounds for both Peasant (Alliance) and Peon (Horde). Skip the "Pissed" category.
 
 Organize them into ~/.claude/sounds/warcraft2/{ready,yes,complete,what}/.
@@ -16,7 +18,27 @@ Then add two hooks to the global ~/.claude/settings.json: a Notification hook th
 
 Use @claude-code-guide (agent) to confirm hook format.`;
 
-const BULLETS = [
+// UA copy: dou-days-2026 WarcraftFunSlide; bullet 1 gains "бувало" (EN is a question now),
+// bullet 3 drops the marketplace clause to match EN.
+const BULLETS_UK = [
+  <>
+    бувало, що запускаєте Клода з великим завданням, повертаєтеся через{' '}
+    <Emphasis color="orange">30 хвилин</Emphasis> — а він увесь цей час
+    чекав на дозвіл виконати <Emphasis color="green">grep</Emphasis> у
+    вашому коді?
+  </>,
+  <>
+    зробіть <Emphasis color="green">скіл</Emphasis>, який вмикатиме{' '}
+    <Emphasis color="orange">звук юніта з Warcraft</Emphasis> щоразу, коли
+    Клод зупиняється
+  </>,
+  <>
+    але готуйтеся до того, що ваш офіс звучатиме як{' '}
+    <Emphasis color="green">комп'ютерний клуб 2000-х</Emphasis>
+  </>,
+];
+
+const BULLETS_EN = [
   <>
     have you ever kick off Claude on a big task, come back{' '}
     <Emphasis color="orange">30 minutes</Emphasis> later — and it spent
@@ -35,7 +57,7 @@ const BULLETS = [
   </>,
 ];
 
-function WarcraftFunContent({ revealStage }: { revealStage: number }) {
+function WarcraftFunContent({ revealStage, lang }: { revealStage: number; lang: Lang }) {
   // Track which stages have already triggered audio so re-renders within the
   // same stage don't replay the cascade.
   const triggeredRef = useRef<Set<number>>(new Set());
@@ -86,7 +108,7 @@ function WarcraftFunContent({ revealStage }: { revealStage: number }) {
         {/* Left column — bullets, revealed one per stage. */}
         <div className="warcraft-fun-bullets">
           {/* a window of two: the pain point gives way to the punchline */}
-          {revealWindow(BULLETS, revealStage, 2).map(({ item, index, hidden }) => (
+          {revealWindow(tr(lang, BULLETS_UK, BULLETS_EN), revealStage, 2).map(({ item, index, hidden }) => (
             <SlideItem key={index} delay={index === 0 ? 0.05 : 0} reveal={index > 0} hidden={hidden}>
               {item}
             </SlideItem>
@@ -98,7 +120,7 @@ function WarcraftFunContent({ revealStage }: { revealStage: number }) {
           <div className="warcraft-fun-right--image" key="image">
             <img
               src={peasantFace}
-              alt="Warcraft II peasant — work, work."
+              alt={tr(lang, 'Селянин з Warcraft II — work, work.', 'Warcraft II peasant — work, work.')}
               loading="lazy"
               className="warcraft-fun-peasant"
             />
@@ -128,11 +150,12 @@ export const WarcraftFunSlide: SlideDefinition = {
   title: (
     <>
       <span className="text-dim">&gt;</span>{' '}
-      <span className="text-green">have some fun</span>
+      {/* UA: own translation */}
+      <span className="text-green"><T uk="трохи розваг" en="have some fun" /></span>
     </>
   ),
   maxRevealStages: 3,
-  content: ({ revealStage }: SlideContentProps) => <WarcraftFunContent revealStage={revealStage} />,
+  content: ({ revealStage, lang }: SlideContentProps) => <WarcraftFunContent revealStage={revealStage} lang={lang} />,
   notes:
     'Stage 0: question title only. Stage 1: the familiar pain (Claude stuck on a grep permission) + peasant face. Stage 2: the fix — a skill that plays a Warcraft unit sound on the Stop hook + the prompt + one "work complete" sound. Stage 3: marketplace consequence + a cascade of sounds like a 2000s LAN café.',
 };

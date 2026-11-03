@@ -2,6 +2,7 @@ import { ReactNode } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
 import { SlideDefinition, SlideContentProps } from '../types/slides';
 import { Quote, Reveal, SlideItem } from '../components/SlideElements';
+import { T } from '../context/LanguageContext';
 
 const REPO_URL = 'https://github.com/yermilov/pragmatic-vibe-clauding-en';
 const REPO_LABEL = 'github.com/yermilov/pragmatic-vibe-clauding-en';
@@ -27,7 +28,10 @@ function ClaudeCodeContent({ revealStage }: { revealStage: number }) {
   return (
     <div className={`cc-example ${dsApplied ? '' : 'cc-no-ds'}`}>
       <div className="cc-example__bullets">
-        <SlideItem delay={0.05}>this entire presentation was built in Claude Code</SlideItem>
+        {/* UA copy: dou-days-2026 ClaudeCodeSlide; the prompts stay English */}
+        <SlideItem delay={0.05}>
+          <T uk="цю презентацію повністю створено у Claude Code" en="this entire presentation was built in Claude Code" />
+        </SlideItem>
 
         <div aria-hidden className="cc-example__rule" />
 
@@ -56,7 +60,7 @@ export const ClaudeCodeSlide: SlideDefinition = {
   id: 'explore-and-have-fun',
   title: (
     <>
-      <span className="text-dim">&gt;</span> <span className="text-green">for example</span>
+      <span className="text-dim">&gt;</span> <span className="text-green"><T uk="ну наприклад" en="for example" /></span>
     </>
   ),
   maxRevealStages: TASKS.length - 1,

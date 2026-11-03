@@ -1,0 +1,7 @@
+{
+  "filename": "llm-theory-infographic.png",
+  "prompt": "Create a clean, minimalist infographic explaining how LLMs work, with a visual metaphor about context bias.\n\nSTYLE:\n- Dark background: #0a0e14\n- Text colors: white (#e2e8f0), orange (#f0883e), green (#7ee787)\n- Simple geometric shapes, clean lines\n- ALL TEXT IN UKRAINIAN\n\nLAYOUT (vertical, top to bottom):\n\n1. TOP: Large thought-bubble cloud shape\n   - Label inside: безмежні знання про світ\n   - Represents LLM's vast knowledge\n\n2. MIDDLE: Rectangle box\n   - Label: КОНТЕКСТ\n   - Orange border (#f0883e)\n\n3. ARROW: Downward-pointing arrow\n   - Label on/near arrow: ПРОМПТ\n   - Green color (#7ee787)\n\n4. BOTTOM: Text\n   - відповідь - наступні токени\n\nCRITICAL ELEMENT - FLYING ELEPHANTS:\nScatter MANY small cute elephants flying throughout the entire image (at least 15-20 elephants). They should be:\n- Various sizes (small to tiny)\n- Flying in different directions with little wings\n- Semi-transparent or subtle so they don't overwhelm the diagram\n- Some near the cloud, some around the context box, some near the arrows\n- This represents the don't think about elephants paradox - showing how context and prompt BIAS what the model thinks about\n\nThe elephants visualize that whatever you put in context/prompt, the model becomes biased toward those concepts - you cannot tell it to NOT think about something.",
+  "ratio": "16:9",
+  "timestamp": "2026-01-06T17:00:17.072Z",
+  "model": "gemini-3-pro-image-preview"
+}

@@ -3,11 +3,16 @@
 #
 # Adapted from `zarazhangrui/frontend-slides` (MIT).
 #
-# Usage: bun run pdf
+# Usage: bun run pdf             → English (the deck's home language)
+#        LANG_DECK=uk bun run pdf → Ukrainian, written to …-uk.pdf
 
 set -euo pipefail
 
 cd "$(dirname "$0")/.."
+
+DECK_LANG="${LANG_DECK:-en}"
+OUT="dist/pragmatic-vibe-clauding-en.pdf"
+[ "$DECK_LANG" = "en" ] || OUT="dist/pragmatic-vibe-clauding-en-$DECK_LANG.pdf"
 
 # 1. Build the deck (also runs check:async-slides).
 echo "==> Building deck..."
@@ -40,6 +45,6 @@ done
 
 # 5. Run the Playwright capture script.
 echo "==> Capturing slides..."
-bun run scripts/export-pdf.mjs "http://localhost:$PREVIEW_PORT/pragmatic-vibe-clauding-en/" "dist/pragmatic-vibe-clauding-en.pdf"
+bun run scripts/export-pdf.mjs "http://localhost:$PREVIEW_PORT/pragmatic-vibe-clauding-en/" "$OUT" "$DECK_LANG"
 
-echo "==> Done: dist/pragmatic-vibe-clauding-en.pdf"
+echo "==> Done: $OUT"

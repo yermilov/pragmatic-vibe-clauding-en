@@ -1,8 +1,43 @@
 import { ReactNode } from 'react';
 import { SlideDefinition } from '../types/slides';
 import { Emphasis, Quote, revealWindow, SlideItem } from '../components/SlideElements';
+import { T, tr } from '../context/LanguageContext';
 
-const BULLETS: ReactNode[] = [
+// UA copy: bullets 1–2 from pragmatic-vibe-clauding-ua SkillsAuthoringSlide (skills-authorship
+// prompt replaced by skill-creator, as in EN); bullets 3–5 from dou-days-2026
+// SkillMarketplaceSlide; bullet 6 — UA: own translation.
+const BULLETS_UK: ReactNode[] = [
+  <>
+    якщо ви бачите, що інструктуєте клод робити одне і те саме раз за разом
+    (пошук в логах, дебагінг проблем, перформенс оптимізації, генерація картинок,
+    написання документації, ...) — навчіть його цьому <Emphasis color="green">скілу</Emphasis>
+  </>,
+  <>
+    просто напишіть{' '}
+    <Quote>use skill-creator skill to turn ... into a skill</Quote>{' '}
+    або{' '}
+    <Quote>use skill-creator skill to update ... skill to ...</Quote>
+  </>,
+  <>
+    скіли — <Emphasis color="green">будівельні блоки</Emphasis>, з яких кожен інженер
+    (або агент) може зібрати свій власний воркфлоу
+  </>,
+  <>
+    люди не люблять читати і писати документацію, а{' '}
+    <Emphasis color="orange">агенти це обожнюють</Emphasis> — конвертуйте всю
+    документацію в скіли
+  </>,
+  <>
+    кожен інженер, який використовує скіл із внутрішнього{' '}
+    <Emphasis color="green">маркетплейсу</Emphasis>, додає покращення — і всі
+    стають продуктивнішими
+  </>,
+  <>
+    вам лише потрібна правильна інфраструктура, щоб зробити скіли своїм фундаментом
+  </>,
+];
+
+const BULLETS_EN: ReactNode[] = [
   <>
     if you catch yourself instructing Claude to do the same thing over and over
     (searching logs, debugging issues, optimizing performance, generating images,
@@ -37,14 +72,16 @@ export const SkillsAuthoringSlide: SlideDefinition = {
   id: 'skills-authoring',
   title: (
     <>
-      <span className="text-dim">&gt;</span> what we will talk about next time?
+      {/* UA: own translation */}
+      <span className="text-dim">&gt;</span>{' '}
+      <T uk="про що поговоримо наступного разу?" en="what we will talk about next time?" />
     </>
   ),
-  maxRevealStages: BULLETS.length,
-  content: ({ revealStage }) => (
+  maxRevealStages: BULLETS_EN.length,
+  content: ({ revealStage, lang }) => (
     // sliding window of four: the newest bullet always fits
     <div className="code-slop">
-      {revealWindow(BULLETS, revealStage, 4).map(({ item, index, hidden }) => (
+      {revealWindow(tr(lang, BULLETS_UK, BULLETS_EN), revealStage, 4).map(({ item, index, hidden }) => (
         <SlideItem key={index} delay={0} hidden={hidden}>{item}</SlideItem>
       ))}
     </div>

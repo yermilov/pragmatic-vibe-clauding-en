@@ -1,8 +1,49 @@
 import { SlideDefinition } from '../types/slides';
 import { Code, Quote, revealWindow, SlideItem, SlideLink } from '../components/SlideElements';
+import { T, tr } from '../context/LanguageContext';
 import claudeMdVsReadme from '/claude-md-vs-readme.png?url';
 
-const CLAUDE_MD_BULLETS: React.ReactNode[] = [
+// UA copy: the UA deck's ClaudeMdSlide, reordered to the EN order; the "but it's
+// better not to", plugin and "much better" bullets are newer — UA: own translation.
+// Section names in the last bullet stay English (they are CLAUDE.md headings);
+// the quoted instruction stays English (it is what you type to Claude).
+const CLAUDE_MD_BULLETS_UK: React.ReactNode[] = [
+  <>
+    <Code>CLAUDE.md</Code> для Claude Code — те саме, що{' '}
+    <Code>README.md</Code> для людей-розробників
+  </>,
+  <>
+    Claude перечитує його кожного разу, коли робить щось в репозиторії
+  </>,
+  <>
+    автоматично генерується через команду <Code variant="orange">/init</Code>
+  </>,
+  <>
+    можна класти <Code>CLAUDE.md</Code> в будь-яку підпапку для локальних
+    інструкцій в монорепозиторіях
+  </>,
+  <>
+    комітьте <Code>CLAUDE.md</Code> в git, щоб ділитися best practices
+  </>,
+  <>
+    можна редагувати вручну, щоб виправити неправильні висновки, але краще не треба
+  </>,
+  <>
+    періодично перегенеровуйте його через плагін{' '}
+    <SlideLink href="https://github.com/anthropics/claude-plugins-official/tree/main/plugins/claude-md-management">
+      claude-md-management
+    </SlideLink>
+  </>,
+  <>
+    добре: якщо Claude робить систематичні помилки — скажіть йому{' '}
+    <Quote>instead do X and remember this information in CLAUDE.md</Quote>
+  </>,
+  <>
+    ще краще: тримайте <Code>CLAUDE.md</Code> компактним, з розділами Vision (вручну), Folder Structure (<Code variant="orange">/init</Code>), Build/Deploy Commands (<Code variant="orange">/init</Code>), Architecture (<Code variant="orange">/init</Code>), Principles (фідбек на систематичні помилки)
+  </>,
+];
+
+const CLAUDE_MD_BULLETS_EN: React.ReactNode[] = [
   <>
     <Code>CLAUDE.md</Code> is to Claude Code what{' '}
     <Code>README.md</Code> is to human developers
@@ -42,14 +83,14 @@ export const ClaudeMdSlide: SlideDefinition = {
   id: 'claude-md',
   title: (
     <>
-      <span className="text-dim">&gt;</span> what goes into CLAUDE.md?
+      <span className="text-dim">&gt;</span> <T uk="що класти в CLAUDE.md?" en="what goes into CLAUDE.md?" />
     </>
   ),
-  maxRevealStages: CLAUDE_MD_BULLETS.length,
-  content: ({ revealStage }) => {
+  maxRevealStages: CLAUDE_MD_BULLETS_EN.length,
+  content: ({ revealStage, lang }) => {
     // sliding window: three bullets beside the visual (the two-column cap);
     // a spoken bullet drops off when the fourth arrives
-    const slots = revealWindow(CLAUDE_MD_BULLETS, revealStage, 3);
+    const slots = revealWindow(tr(lang, CLAUDE_MD_BULLETS_UK, CLAUDE_MD_BULLETS_EN), revealStage, 3);
 
     return (
       <div className="bg-image-slide">

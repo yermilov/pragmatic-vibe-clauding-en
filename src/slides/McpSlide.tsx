@@ -1,9 +1,44 @@
 import { SlideDefinition } from '../types/slides';
 import { Code, revealWindow, SlideItem, SlideLink } from '../components/SlideElements';
+import { T, tr } from '../context/LanguageContext';
 import mcpToolCallFlow from '/mcp-tool-call-flow.png?url';
 import mcpContextPollution from '/mcp-context-pollution.png?url';
 
-const MCP_BULLETS: React.ReactNode[] = [
+// UA copy: the UA deck's McpSlide; the Chrome-extension bullet and the Slack-connector
+// aside are newer than the UA deck — UA: own translation for those two.
+const MCP_BULLETS_UK: React.ReactNode[] = [
+  <>
+    <Code>MCP</Code> (Model Context Protocol) — хайповий стандарт інтеграції
+    LLM-застосунків з інструментами
+  </>,
+  <>
+    <Code>tool</Code> — спосіб дозволити LLM виконувати дії, а не лише
+    генерувати текст
+  </>,
+  <>
+    але насправді MCP — доволі контроверсійна технологія, оскільки вона має багато проблем і обмежень
+  </>,
+  <>
+    для Claude Desktop чи ChatGPT альтернатив їй немає, а от для Claude Code варто завжди в першу чергу використовувати CLI
+  </>,
+  <>
+    приклад: замість GitHub MCP використовуйте <Code>gh</Code> CLI
+  </>,
+  <>
+    в деяких випадках можна використати Claude Chrome extension
+  </>,
+  <>
+    єдиний MCP сервер, який майже без вагань можу порекомендувати, — це{' '}
+    <SlideLink href="https://github.com/ChromeDevTools/chrome-devtools-mcp">
+      chrome-devtools-mcp
+    </SlideLink> (і певною мірою Slack connector)
+  </>,
+  <>
+    не забувайте підказувати клоду, що ви би хотіли, щоб він використав певний MCP
+  </>,
+];
+
+const MCP_BULLETS_EN: React.ReactNode[] = [
   <>
     <Code>MCP</Code> (Model Context Protocol) — the hyped standard for
     integrating LLM apps with tools
@@ -39,14 +74,14 @@ export const McpSlide: SlideDefinition = {
   id: 'mcp',
   title: (
     <>
-      <span className="text-dim">&gt;</span> what is MCP?
+      <span className="text-dim">&gt;</span> <T uk="що таке MCP?" en="what is MCP?" />
     </>
   ),
-  maxRevealStages: MCP_BULLETS.length,
-  content: ({ revealStage }) => {
+  maxRevealStages: MCP_BULLETS_EN.length,
+  content: ({ revealStage, lang }) => {
     // sliding window: three bullets beside the visual (the two-column cap);
     // a spoken bullet drops off when the fourth arrives
-    const slots = revealWindow(MCP_BULLETS, revealStage, 3);
+    const slots = revealWindow(tr(lang, MCP_BULLETS_UK, MCP_BULLETS_EN), revealStage, 3);
 
     return (
       <div className="mcp-slide">

@@ -1,8 +1,21 @@
 import { ReactNode } from 'react';
 import { SlideDefinition } from '../types/slides';
 import { Code, SlideItem } from '../components/SlideElements';
+import { tr } from '../context/LanguageContext';
 
-const STEPS: ReactNode[] = [
+// UA copy: UA deck VibeFlowSlide, adapted where the EN steps changed (approve-the-plan, /simplify).
+const STEPS_UK: ReactNode[] = [
+  <><Code variant="orange">/clear</Code> очищуємо context window</>,
+  <>переходимо у <Code>plan mode</Code></>,
+  <>описуємо фічу / багу, <span className="vibe-flow__spotlight">формуємо контекст</span></>,
+  <>ітеруємося по плану</>,
+  <>затверджуємо план — Claude Code його виконує</>,
+  <><Code variant="orange">/commit-push-pr</Code></>,
+  <><Code variant="orange">/clear</Code></>,
+  <><Code variant="orange">/simplify</Code> або <Code variant="orange">/review</Code></>,
+];
+
+const STEPS_EN: ReactNode[] = [
   <><Code variant="orange">/clear</Code> clear the context window</>,
   <>switch to <Code>plan mode</Code></>,
   <>describe the feature / bug, <span className="vibe-flow__spotlight">build the context</span></>,
@@ -16,7 +29,24 @@ const STEPS: ReactNode[] = [
 // Contextual asides, keyed by the reveal stage they belong to. They share
 // ONE slot under the steps (stacked in the same grid cell), so the space is
 // reserved from stage 0 and the steps never move when an aside comes or goes.
-const HINTS: Record<number, ReactNode> = {
+// UA: own translation
+const HINTS_UK: Record<number, ReactNode> = {
+  1: (
+    <>
+      що таке <Code>plan mode</Code>? режим, у якому Claude Code лише{' '}
+      «вивчає» і йому заборонено щось робити — ідеально для етапу{' '}
+      <span className="text-green">збору контексту</span>
+    </>
+  ),
+  5: (
+    <>
+      що таке <Code variant="orange">/commit-push-pr</Code>? скіл з{' '}
+      <span className="text-orange">Anthropic plugin marketplace</span>
+    </>
+  ),
+};
+
+const HINTS_EN: Record<number, ReactNode> = {
   1: (
     <>
       what is <Code>plan mode</Code>? a state where Claude Code only{' '}
@@ -47,16 +77,16 @@ export const VibeFlowStepsSlide: SlideDefinition = {
       <span className="text-orange">flow</span>
     </>
   ),
-  content: ({ revealStage }) => (
+  content: ({ revealStage, lang }) => (
     <div className="vibe-flow">
-      {STEPS.map((step, i) => (
+      {tr(lang, STEPS_UK, STEPS_EN).map((step, i) => (
         <SlideItem key={i} delay={i === 0 ? 0.05 : 0} hidden={revealStage < i}>
           {step}
         </SlideItem>
       ))}
 
       <div className="vibe-flow__hints">
-        {Object.entries(HINTS).map(([stage, hint]) => {
+        {Object.entries(tr(lang, HINTS_UK, HINTS_EN)).map(([stage, hint]) => {
           const shown = revealStage === Number(stage);
           return (
             <div

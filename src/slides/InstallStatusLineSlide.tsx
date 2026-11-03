@@ -1,9 +1,26 @@
 import { ReactNode } from 'react';
 import { SlideDefinition } from '../types/slides';
 import { Emphasis, SlideItem, SlideLink } from '../components/SlideElements';
+import { T, tr } from '../context/LanguageContext';
 import statusline from '../assets/statusline.png?url';
 
-const BULLETS: ReactNode[] = [
+// UA: own translation (no status-line slide in the UA deck).
+const BULLETS_UK: ReactNode[] = [
+  <>
+    встановіть{' '}
+    <SlideLink href="https://github.com/sirmalloc/ccstatusline">
+      ccstatusline
+    </SlideLink>
+  </>,
+  <>поточна <Emphasis color="green">модель</Emphasis></>,
+  <><Emphasis color="green">розмір контексту</Emphasis></>,
+  <>витрачені <Emphasis color="orange">ліміти / гроші</Emphasis></>,
+  <>поточна <Emphasis color="green">директорія</Emphasis></>,
+  <>поточна <Emphasis color="green">гілка / назва PR</Emphasis></>,
+  <><Emphasis color="green">підсумок</Emphasis> сесії</>,
+];
+
+const BULLETS_EN: ReactNode[] = [
   <>
     install{' '}
     <SlideLink href="https://github.com/sirmalloc/ccstatusline">
@@ -22,14 +39,15 @@ export const InstallStatusLineSlide: SlideDefinition = {
   id: 'install-status-line',
   title: (
     <>
-      <span className="text-dim">&gt;</span> first, install a status line
+      <span className="text-dim">&gt;</span>{' '}
+      <T uk="спершу встановіть status line" en="first, install a status line" />
     </>
   ),
-  maxRevealStages: BULLETS.length - 1,
-  content: ({ revealStage }) => (
+  maxRevealStages: BULLETS_EN.length - 1,
+  content: ({ revealStage, lang }) => (
     <div className="statusline-slide">
       <div>
-        {BULLETS.map((b, i) => (
+        {tr(lang, BULLETS_UK, BULLETS_EN).map((b, i) => (
           <SlideItem key={i} delay={i === 0 ? 0.05 : 0} hidden={revealStage < i}>
             {b}
           </SlideItem>
@@ -38,7 +56,11 @@ export const InstallStatusLineSlide: SlideDefinition = {
 
       <img
         src={statusline}
-        alt="Claude Code status line: model, context size, spend, directory, branch, session summary"
+        alt={tr(
+          lang,
+          'Status line Claude Code: модель, розмір контексту, витрати, директорія, гілка, підсумок сесії',
+          'Claude Code status line: model, context size, spend, directory, branch, session summary',
+        )}
         className="statusline-slide__shot"
         loading="lazy"
       />

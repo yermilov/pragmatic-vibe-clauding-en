@@ -1,10 +1,71 @@
 import { ReactNode } from 'react';
 import { SlideDefinition } from '../types/slides';
 import { Emphasis, Level, LevelItem } from '../components/SlideElements';
+import { T, tr } from '../context/LanguageContext';
 import terminalFighter from '/terminal-fighter.png?url';
 import ideFighter from '/ide-fighter.png?url';
 
-const BULLETS: { level: Level; content: ReactNode }[] = [
+// UA copy: bullets 1, 2, 4 from the UA deck DisclaimerSlide; bullet 3 is new in the EN deck
+// (UA: own translation).
+const BULLETS_UK: { level: Level; content: ReactNode }[] = [
+  {
+    level: 'high',
+    content: (
+      <>
+        персонально для мене найкраще заходить флоу, у якому я працюю з{' '}
+        <Emphasis color="orange">Claude Code повністю в терміналі</Emphasis>
+      </>
+    ),
+  },
+  {
+    level: 'medium',
+    content: (
+      <>
+        але можу відкрити IDE (найчастіше{' '}
+        <span className="text-cyan">VS Code</span>) для точкових невеликих змін, які хочу
+        зробити вручну
+      </>
+    ),
+  },
+  {
+    level: 'medium',
+    content: (
+      <>
+        термінал швидше відучує від старої ментальної моделі{' '}
+        <Emphasis color="dim">«я редагую текст»</Emphasis>
+        {' '}і привчає до нової:{' '}
+        <Emphasis color="green">«я ставлю задачі агенту»</Emphasis>
+      </>
+    ),
+  },
+  {
+    level: 'low',
+    content: (
+      <>
+        не почуваєтеся впевнено в терміналі? є плагіни:{' '}
+        <a
+          href="https://marketplace.visualstudio.com/items?itemName=anthropic.claude-code"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="slide-link slide-link--cyan"
+        >
+          VS Code
+        </a>
+        {' '}або{' '}
+        <a
+          href="https://plugins.jetbrains.com/plugin/27310-claude-code-beta-"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="slide-link slide-link--cyan"
+        >
+          JetBrains IDE
+        </a>
+      </>
+    ),
+  },
+];
+
+const BULLETS_EN: { level: Level; content: ReactNode }[] = [
   {
     level: 'high',
     content: (
@@ -66,11 +127,12 @@ export const DisclaimerSlide: SlideDefinition = {
   id: 'disclaimer',
   title: (
     <>
-      <span className="text-dim">&gt;</span> terminal or IDE?
+      {/* UA: own translation (the UA deck had no title here) */}
+      <span className="text-dim">&gt;</span> <T uk="термінал чи IDE?" en="terminal or IDE?" />
     </>
   ),
-  maxRevealStages: BULLETS.length,
-  content: ({ revealStage }) => {
+  maxRevealStages: BULLETS_EN.length,
+  content: ({ revealStage, lang }) => {
     // one bullet at a time — each reveal replaces the previous one, so the
     // narrow center column between the fighters never overflows.
     const activeBullet = revealStage - 1;
@@ -91,7 +153,7 @@ export const DisclaimerSlide: SlideDefinition = {
       <div className="vs-center-content">
         <div className="vs-badge">VS</div>
         <div className="vs-disclaimer-content">
-          {BULLETS.map((item, i) =>
+          {tr(lang, BULLETS_UK, BULLETS_EN).map((item, i) =>
             i === activeBullet ? (
               <LevelItem key={i} level={item.level}>{item.content}</LevelItem>
             ) : null,

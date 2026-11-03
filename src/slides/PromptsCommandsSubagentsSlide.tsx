@@ -1,9 +1,38 @@
 import { ReactNode } from 'react';
 import { SlideDefinition } from '../types/slides';
 import { Code, Emphasis, revealWindow, SlideItem } from '../components/SlideElements';
+import { T, tr } from '../context/LanguageContext';
 import schemeImg from '../assets/prompts-commands-subagents.png?url';
 
-const BULLETS: ReactNode[] = [
+// UA: own translation (wording of commands / subagents / hooks follows the UA deck's LaunchSlide).
+const BULLETS_UK: ReactNode[] = [
+  <>
+    маєте хороший промпт? його можна зберегти як{' '}
+    <Emphasis color="green">slash command</Emphasis>
+  </>,
+  <>
+    slash command — це промпт, збережений у текстовому файлі, який можна
+    запустити будь-коли через <Code variant="orange">/command ARGUMENTS</Code>
+  </>,
+  <>
+    промпт також можна зберегти як <Emphasis color="orange">сабагента</Emphasis>
+  </>,
+  <>
+    сабагент — це те саме, що й slash command, але він працює в{' '}
+    <Emphasis color="orange">окремому context window</Emphasis>
+  </>,
+  <>
+    уявіть так: slash command — це <Emphasis color="green">inline-макрос</Emphasis>,{' '}
+    а сабагент —{' '}
+    <Emphasis color="orange">виклик функції</Emphasis> (у власному context window)
+  </>,
+  <>
+    для повноти: є ще <Emphasis color="green">хуки</Emphasis> — скрипти, які
+    запускаються у відповідь на певні події
+  </>,
+];
+
+const BULLETS_EN: ReactNode[] = [
   <>
     got a good prompt? you can store it as a{' '}
     <Emphasis color="green">slash command</Emphasis>
@@ -34,22 +63,27 @@ export const PromptsCommandsSubagentsSlide: SlideDefinition = {
   id: 'prompts-commands-subagents',
   title: (
     <>
-      <span className="text-dim">&gt;</span> prompts, commands, subagents
+      <span className="text-dim">&gt;</span>{' '}
+      <T uk="промпти, команди, сабагенти" en="prompts, commands, subagents" />
     </>
   ),
-  maxRevealStages: BULLETS.length,
-  content: ({ revealStage }) => (
+  maxRevealStages: BULLETS_EN.length,
+  content: ({ revealStage, lang }) => (
     // sliding window of three beside the diagram (the two-column cap)
     <div className="split">
       <div className="split__text">
-        {revealWindow(BULLETS, revealStage, 3).map(({ item, index, hidden }) => (
+        {revealWindow(tr(lang, BULLETS_UK, BULLETS_EN), revealStage, 3).map(({ item, index, hidden }) => (
           <SlideItem key={index} delay={0} hidden={hidden}>{item}</SlideItem>
         ))}
       </div>
 
       <img
         src={schemeImg}
-        alt="Chalk diagram: context window, slash command expanded inline, subagent in a separate context"
+        alt={tr(
+          lang,
+          'Схема крейдою: context window, slash command розгортається inline, сабагент в окремому контексті',
+          'Chalk diagram: context window, slash command expanded inline, subagent in a separate context',
+        )}
         className="split__media"
         loading="lazy"
       />

@@ -1,10 +1,19 @@
 import { SlideDefinition } from '../types/slides';
+import { T, tr } from '../context/LanguageContext';
 
 // Shares the `directive` panel with the context-principles slide: a memory
 // address (machine voice, code tier) + the layer at body size.
 type ColorKey = 'orange' | 'green' | 'cyan' | 'blue';
 
-const LAYERS: { label: string; color: ColorKey }[] = [
+// UA copy: the UA deck's ContextSlide.
+const LAYERS_UK: { label: string; color: ColorKey }[] = [
+  { label: 'системний промпт і опис тулів', color: 'orange' },
+  { label: 'опис MCP серверів', color: 'cyan' },
+  { label: 'зміст CLAUDE.md файлу', color: 'green' },
+  { label: 'весь діалог з початку сесії', color: 'blue' },
+];
+
+const LAYERS_EN: { label: string; color: ColorKey }[] = [
   { label: 'system prompt and tool descriptions', color: 'orange' },
   { label: 'MCP server descriptions', color: 'cyan' },
   { label: 'contents of the CLAUDE.md file', color: 'green' },
@@ -15,13 +24,13 @@ export const ContextSlide: SlideDefinition = {
   id: 'context',
   title: (
     <>
-      <span className="text-dim">&gt;</span> what's in the context?
+      <span className="text-dim">&gt;</span> <T uk="що в контексті?" en="what's in the context?" />
     </>
   ),
-  maxRevealStages: LAYERS.length,
-  content: ({ revealStage }) => (
+  maxRevealStages: LAYERS_EN.length,
+  content: ({ revealStage, lang }) => (
     <div className="directives directives--narrow">
-      {LAYERS.map((layer, i) => {
+      {tr(lang, LAYERS_UK, LAYERS_EN).map((layer, i) => {
         const hidden = revealStage < i + 1;
         return (
           <div

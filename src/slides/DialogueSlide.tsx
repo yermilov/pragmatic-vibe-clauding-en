@@ -1,9 +1,29 @@
 import { SlideDefinition } from '../types/slides';
 import { Quote, revealWindow, SlideItem } from '../components/SlideElements';
+import { T, tr } from '../context/LanguageContext';
 import dialogueFlow from '/dialogue-flow.png?url';
 import dialogueMemory from '/dialogue-memory.png?url';
 
-const DIALOGUE_BULLETS: React.ReactNode[] = [
+// UA copy: the UA deck's DialogueSlide (it translated the example phrases too).
+const DIALOGUE_BULLETS_UK: React.ReactNode[] = [
+  <>
+    використовуйте принцип <Quote>сім раз відмір — один раз відріж</Quote>
+  </>,
+  <>
+    за допомогою покрокового діалогу направляйте клод у правильний напрямок
+  </>,
+  <>
+    <Quote>а подумай про ...</Quote>, <Quote>почитай тут ...</Quote>,{' '}
+    <Quote>розглянь це ...</Quote>
+  </>,
+  <>
+    для ллм-ок <Quote>найсвіжіші</Quote> <Quote>спогади</Quote>{' '}
+    <Quote>найяскравіші</Quote> — сформуйте їй правильне світосприйняття і
+    тоді дайте задачу на вирішення останнім промптом
+  </>,
+];
+
+const DIALOGUE_BULLETS_EN: React.ReactNode[] = [
   <>
     follow the principle <Quote>measure twice, cut once</Quote>
   </>,
@@ -25,11 +45,11 @@ export const DialogueSlide: SlideDefinition = {
   id: 'dialogue',
   title: (
     <>
-      <span className="text-dim">&gt;</span> have a dialogue
+      <span className="text-dim">&gt;</span> <T uk="діалог" en="have a dialogue" />
     </>
   ),
-  maxRevealStages: DIALOGUE_BULLETS.length,
-  content: ({ revealStage }) => (
+  maxRevealStages: DIALOGUE_BULLETS_EN.length,
+  content: ({ revealStage, lang }) => (
     // sliding window: three bullets beside the visuals (the two-column cap)
     <div className="mcp-slide">
       <img
@@ -39,7 +59,7 @@ export const DialogueSlide: SlideDefinition = {
       />
 
       <div className="mcp-slide-content">
-        {revealWindow(DIALOGUE_BULLETS, revealStage, 3).map(({ item, index, hidden }) => (
+        {revealWindow(tr(lang, DIALOGUE_BULLETS_UK, DIALOGUE_BULLETS_EN), revealStage, 3).map(({ item, index, hidden }) => (
           <SlideItem key={index} delay={0} hidden={hidden}>
             {item}
           </SlideItem>

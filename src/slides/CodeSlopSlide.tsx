@@ -1,8 +1,48 @@
 import { ReactNode } from 'react';
 import { SlideDefinition } from '../types/slides';
 import { Code, Quote, Emphasis, revealWindow, SlideItem } from '../components/SlideElements';
+import { T, tr } from '../context/LanguageContext';
 
-const BULLETS: ReactNode[] = [
+const ULTRATHINK = (
+  <Quote>
+    please{' '}
+    <span className="ultrathink">
+      {'ultrathink'.split('').map((ch, i) => (
+        <span key={i}>{ch}</span>
+      ))}
+    </span>
+    {' '}it
+  </Quote>
+);
+
+// UA copy: pragmatic-vibe-clauding-ua CodeSlopSlide; the last bullet adapted to the EN meaning
+// (only "add ultrathink" is struck out, replaced by /effort).
+const BULLETS_UK: ReactNode[] = [
+  <>
+    якщо робите зміни в web ui: додавайте{' '}
+    <Quote>use frontend-design skill to create well-crafted ui/ux</Quote>
+  </>,
+  <>
+    просіть його{' '}
+    <Quote>take a look how similar functionality is already implemented in the repo and follow the same patterns</Quote>
+  </>,
+  <>
+    просіть клод писати тести (<Code>TDD</Code> працює дуже добре)
+  </>,
+  <>
+    <Emphasis>repeat after me:</Emphasis> напишіть стаб фічі вручну і
+    попросіть клод закінчити
+  </>,
+  <>
+    для дуже складних задач{' '}
+    <span className="code-slop__struck">
+      додавайте {ULTRATHINK}
+    </span>{' '}
+    налаштуйте рівень <Code variant="orange">/effort</Code>
+  </>,
+];
+
+const BULLETS_EN: ReactNode[] = [
   <>
     making changes to your web UI? add{' '}
     <Quote>use frontend-design skill to create well-crafted ui/ux</Quote>
@@ -21,16 +61,7 @@ const BULLETS: ReactNode[] = [
   <>
     for really hard tasks,{' '}
     <span className="code-slop__struck">
-      add{' '}
-      <Quote>
-        please{' '}
-        <span className="ultrathink">
-          {'ultrathink'.split('').map((ch, i) => (
-            <span key={i}>{ch}</span>
-          ))}
-        </span>
-        {' '}it
-      </Quote>
+      add {ULTRATHINK}
     </span>{' '}
     configure{' '}
     <Code variant="orange">/effort</Code> level
@@ -41,14 +72,15 @@ export const CodeSlopSlide: SlideDefinition = {
   id: 'code-slop',
   title: (
     <>
-      <span className="text-dim">&gt;</span> avoid code slop
+      {/* UA: own translation (the UA deck titled it `$ code --no-slop`) */}
+      <span className="text-dim">&gt;</span> <T uk="уникайте code slop" en="avoid code slop" />
     </>
   ),
-  maxRevealStages: BULLETS.length,
-  content: ({ revealStage }) => (
+  maxRevealStages: BULLETS_EN.length,
+  content: ({ revealStage, lang }) => (
     // five bullets: a window of five (the bullet-slide cap) shows them all
     <div className="code-slop">
-      {revealWindow(BULLETS, revealStage, 5).map(({ item, index, hidden }) => (
+      {revealWindow(tr(lang, BULLETS_UK, BULLETS_EN), revealStage, 5).map(({ item, index, hidden }) => (
         <SlideItem key={index} delay={0} hidden={hidden}>
           {item}
         </SlideItem>

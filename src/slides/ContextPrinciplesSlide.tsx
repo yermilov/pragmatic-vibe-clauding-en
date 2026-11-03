@@ -1,4 +1,5 @@
 import { SlideDefinition } from '../types/slides';
+import { T, tr } from '../context/LanguageContext';
 
 // The four deck accents. (Purple is reserved for syntax highlighting.)
 type ColorKey = 'green' | 'orange' | 'cyan' | 'blue';
@@ -31,7 +32,52 @@ function Highlight({ children, color = 'cyan' }: { children: React.ReactNode; co
   return <span className={`directive-highlight directive--${color}`}>{children}</span>;
 }
 
-const PRINCIPLES: { color: ColorKey; content: React.ReactNode }[] = [
+// UA copy: the UA deck's ContextPrinciplesSlide; rule 2 drops the per-model token
+// numbers to match the current EN bullet.
+const PRINCIPLES_UK: { color: ColorKey; content: React.ReactNode }[] = [
+  {
+    color: 'green',
+    content: (
+      <>
+        покладіть в контекст інформацію (<Highlight color="green">слонів</Highlight>), яка максимально допоможе направити модель на <Highlight color="white">правильний шлях</Highlight>
+      </>
+    ),
+  },
+  {
+    color: 'orange',
+    content: (
+      <>
+        пам'ятайте, що контекст має <Highlight color="orange">обмежений розмір</Highlight>
+      </>
+    ),
+  },
+  {
+    color: 'cyan',
+    content: (
+      <>
+        якщо контекст переповнюється, клод автоматично проганяє compaction, фактично сумаризуючи існуючий контекст в менший об'єм
+      </>
+    ),
+  },
+  {
+    color: 'blue',
+    content: (
+      <>
+        старайтеся класти поменше інформації (<Highlight color="blue">слонів</Highlight>), яка <Highlight color="white">зіб'є</Highlight> модель з правильного шляху
+      </>
+    ),
+  },
+  {
+    color: 'orange',
+    content: (
+      <>
+        <Highlight color="orange">одна задача</Highlight> за <Highlight color="orange">одну сесію</Highlight>
+      </>
+    ),
+  },
+];
+
+const PRINCIPLES_EN: { color: ColorKey; content: React.ReactNode }[] = [
   {
     color: 'green',
     content: (
@@ -78,13 +124,13 @@ export const ContextPrinciplesSlide: SlideDefinition = {
   id: 'context-principles',
   title: (
     <>
-      <span className="text-dim">&gt;</span> how to work with context
+      <span className="text-dim">&gt;</span> <T uk="принципи роботи з контекстом" en="how to work with context" />
     </>
   ),
-  maxRevealStages: PRINCIPLES.length,
-  content: ({ revealStage }) => (
+  maxRevealStages: PRINCIPLES_EN.length,
+  content: ({ revealStage, lang }) => (
     <div className="directives">
-      {PRINCIPLES.map((p, i) => (
+      {tr(lang, PRINCIPLES_UK, PRINCIPLES_EN).map((p, i) => (
         <PrincipleDirective key={i} ruleNumber={i + 1} color={p.color} hidden={revealStage < i + 1}>
           {p.content}
         </PrincipleDirective>

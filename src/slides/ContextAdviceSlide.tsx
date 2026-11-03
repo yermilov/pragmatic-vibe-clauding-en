@@ -1,9 +1,36 @@
 import { ReactNode } from 'react';
 import { SlideDefinition } from '../types/slides';
 import { Code, Quote, SlideLink } from '../components/SlideElements';
+import { tr } from '../context/LanguageContext';
 import contextToolsGathering from '../assets/context-tools-gathering.png?url';
 
-const ADVICE: ReactNode[] = [
+// UA copy: UA deck ContextToolsSlide, reordered to match EN; /voice and the gh-cli prompt follow EN.
+const ADVICE_UK: ReactNode[] = [
+  <>
+    опишіть задачу максимально детально (<Code>/voice</Code>, або{' '}
+    <SlideLink href="https://handy.computer/">handy.computer</SlideLink> /{' '}
+    <SlideLink href="https://wisprflow.ai/">wisprflow.ai</SlideLink>, якщо вам
+    зручніше надиктувати)
+  </>,
+  <>
+    якщо задача складна — спочатку обговоріть її з <Code>Deep Research</Code>{' '}
+    агентом (ChatGPT чи Gemini), а потім додайте ріпорт до Claude Code
+  </>,
+  <>
+    намалюйте схему чи дизайн на листочку, дошці чи в редакторі — сфоткайте
+    або зробіть скріншот і додайте до Claude Code
+  </>,
+  <>
+    пошукайте опен-сорс проєкти зі схожими задачами, попросіть клода{' '}
+    <Quote>browse these repos via gh cli for inspiration</Quote>
+  </>,
+  <>
+    пошукайте блогпости чи статті на тему і додайте лінки (або{' '}
+    <Code>pdf</Code>-ки)
+  </>,
+];
+
+const ADVICE_EN: ReactNode[] = [
   <>
     describe the task in as much detail as possible (<Code>/voice</Code>, or{' '}
     <SlideLink href="https://handy.computer/">handy.computer</SlideLink> /{' '}
@@ -30,14 +57,15 @@ const ADVICE: ReactNode[] = [
 
 export const ContextAdviceSlide: SlideDefinition = {
   id: 'context-advice',
-  maxRevealStages: ADVICE.length - 1,
-  content: ({ revealStage }) => {
+  maxRevealStages: ADVICE_EN.length - 1,
+  content: ({ revealStage, lang }) => {
+    const ADVICE = tr(lang, ADVICE_UK, ADVICE_EN);
     const idx = Math.min(revealStage, ADVICE.length - 1);
     return (
       <div className="bg-image-slide context-advice-slide">
         <img
           src={contextToolsGathering}
-          alt="Context: voice, PDF, research, diagrams"
+          alt={tr(lang, 'Контекст: голос, PDF, дослідження, схеми', 'Context: voice, PDF, research, diagrams')}
           className="bg-image-slide__background"
           loading="lazy"
         />

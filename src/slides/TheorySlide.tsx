@@ -1,16 +1,20 @@
 import { SlideDefinition } from '../types/slides';
+import { T, tr } from '../context/LanguageContext';
 import llmInfographic from '/llm-theory-infographic.png?url';
+// UA render from the UA deck (Ukrainian lettering); prompt in src/prompts/llm-theory-infographic-uk.json
+import llmInfographicUk from '/llm-theory-infographic-uk.png?url';
 
 // Full-bleed backdrop: the infographic already sits on the deck background, so `contain`
 // fills the slide edge-to-edge without cropping the diagram.
-const SLIDE_BG = `var(--terminal-bg) url(${llmInfographic}) center/contain no-repeat`;
+const slideBg = (img: string) => `var(--terminal-bg) url(${img}) center/contain no-repeat`;
 
 export const TheorySlide: SlideDefinition = {
   id: 'theory',
-  background: SLIDE_BG,
+  background: ({ lang }) => slideBg(tr(lang, llmInfographicUk, llmInfographic)),
   title: (
     <>
-      <span className="text-dim">&gt;</span> a bit of theory
+      {/* UA copy: UA deck TheorySlide heading */}
+      <span className="text-dim">&gt;</span> <T uk="тепер трохи теорії" en="a bit of theory" />
     </>
   ),
   content: <></>,

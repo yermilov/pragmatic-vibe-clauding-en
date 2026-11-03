@@ -55,6 +55,7 @@ src/
 │   ├── SlideElements.tsx    # SlideItem, LevelItem, Reveal, revealWindow, Code, Quote, Emphasis, SlideLink, SectionHeader
 │   ├── TerminalInput.tsx · Timer.tsx · SlideProgress.tsx · CodeBlock.tsx · exportRegistry.ts
 │   └── pacman/              # the Pac-Man easter egg engine
+├── context/LanguageContext.tsx  # UA ↔ EN: tr(), <T>, ?lang=
 ├── hooks/useSlideNavigation.ts   # step-path navigation (utils/traversal.ts)
 ├── utils/traversal.ts       # deckPath(): the talk as one line of (slide, reveal) steps
 ├── utils/preloadAssets.ts   # warms every src/assets/** image, audio, mp4
@@ -134,6 +135,7 @@ Type in the input box (letters only act on an EMPTY box; anything else just clea
 - `<N>` → step N (the same N as `#slide-N` in the URL) · `-<N>` → N steps from the end
 - `first` / `start` / `home`, `last` / `end`
 - `light` / `dark` → theme (persisted)
+- `ukrainian` / `english` → slide language (persisted, mirrored in `?lang=uk|en`)
 
 Keys (outside the box): → ↓ Space PageDown Enter advance, ← ↑ PageUp Backspace go back,
 Home/End. PageDown/PageUp always work (clicker). Swipes on touch.
@@ -146,6 +148,24 @@ The timer starts when you leave the title slide, resets when you return to it, s
 and discards a start older than 4 hours. The talk length is `TALK_SECONDS` in `Timer.tsx`. The
 progress bar ("context left until auto-compact") weights every reveal equally and appears past
 the half-way point.
+
+## Two languages (UA ↔ EN)
+
+The deck is bilingual at runtime, ported from `dou-days-2026`: English is the home language,
+Ukrainian the alternate. `src/context/LanguageContext.tsx` gives `tr(lang, uk, en)` and
+`<T uk="…" en="…" />`; render-function slides read `lang` from their props.
+
+- Bullet arrays come in pairs, `X_UK` / `X_EN`, **same length, same order** — reveal counts are
+  derived from the EN array. A new or edited bullet must be changed in both.
+- Ukrainian copy comes from the original `pragmatic-vibe-clauding-ua` deck (or `dou-days-2026`);
+  strings marked `// UA: own translation` were translated here and are worth a read by Yarik.
+- Stays English in both: what is typed to or shown by a tool (prompts, commands, code, the system
+  prompt), product names, the terminal chrome (placeholder, `context left until auto-compact`) and
+  speaker notes.
+- `?lang=uk` makes a shareable Ukrainian link; `LANG_DECK=uk bun run pdf` exports
+  `dist/pragmatic-vibe-clauding-en-uk.pdf`.
+- Verify a changed slide in BOTH languages — Ukrainian runs longer; fix overflow by rephrasing
+  shorter, never by shrinking type.
 
 ## Verifying a change
 

@@ -1,5 +1,6 @@
 import { SlideDefinition } from '../types/slides';
 import { revealWindow } from '../components/SlideElements';
+import { T, tr } from '../context/LanguageContext';
 
 import haikuImg from '/model-haiku.png?url';
 import sonnetImg from '/model-sonnet.png?url';
@@ -38,7 +39,60 @@ function TokenNum({ children }: { children: string }) {
   return <code className="code-inline">{children}</code>;
 }
 
-const MODEL_POINTS: { tier?: ModelTier; content: React.ReactNode }[] = [
+// UA copy: adapted from the UA deck's ModelsSlide (haiku, the 250k–300k mark, "just use opus");
+// the EN slide has since been rewritten, so the sonnet / opus / plan bullets are
+// UA: own translation
+const MODEL_POINTS_UK: { tier?: ModelTier; content: React.ReactNode }[] = [
+  {
+    tier: 'haiku',
+    content: (
+      <>
+        <Accent tier="haiku">haiku</Accent> — швидка і гарно розуміє код; напряму користуватися не треба, але деякі сабагенти використовують її заради ціни і швидкості
+      </>
+    ),
+  },
+  {
+    tier: 'sonnet',
+    content: (
+      <>
+        <Accent tier="sonnet">sonnet</Accent> — найзбалансованіша за ціною, швидкістю і якістю
+      </>
+    ),
+  },
+  {
+    tier: 'opus',
+    content: (
+      <>
+        <Accent tier="opus">opus</Accent> — найкраща, але повільна і дорога
+      </>
+    ),
+  },
+  {
+    content: (
+      <>
+        <Accent tier="sonnet">у старих моделях</Accent> перформенс падав на відмітці <TokenNum>250_000</TokenNum>–<TokenNum>300_000</TokenNum> токенів; сучасні моделі непогано працюють на будь-якій довжині контексту
+      </>
+    ),
+  },
+  {
+    tier: 'opus',
+    content: (
+      <>
+        якщо у вас Max план — просто завжди користуйтеся <Accent tier="opus">opus</Accent>
+      </>
+    ),
+  },
+  {
+    tier: 'sonnet',
+    content: (
+      <>
+        якщо платите за токени — <Accent tier="opus">opus</Accent> для дослідження, <Accent tier="sonnet">sonnet</Accent> для кодингу
+      </>
+    ),
+  },
+];
+
+const MODEL_POINTS_EN: { tier?: ModelTier; content: React.ReactNode }[] = [
   {
     tier: 'haiku',
     content: (
@@ -92,11 +146,11 @@ export const ModelsSlide: SlideDefinition = {
   id: 'models',
   title: (
     <>
-      <span className="text-dim">&gt;</span> models
+      <span className="text-dim">&gt;</span> <T uk="моделі" en="models" />
     </>
   ),
-  maxRevealStages: MODEL_POINTS.length,
-  content: ({ revealStage }) => (
+  maxRevealStages: MODEL_POINTS_EN.length,
+  content: ({ revealStage, lang }) => (
     <div className="models-slide">
       <div className="models-badges">
         <ModelBadge tier="haiku" image={haikuImg} label="haiku" />
@@ -106,7 +160,7 @@ export const ModelsSlide: SlideDefinition = {
 
       {/* sliding window of four: a spoken point drops off when the fifth arrives */}
       <div className="models-points">
-        {revealWindow(MODEL_POINTS, revealStage, 4).map(({ item, index, hidden }) => (
+        {revealWindow(tr(lang, MODEL_POINTS_UK, MODEL_POINTS_EN), revealStage, 4).map(({ item, index, hidden }) => (
           <ModelPoint key={index} tier={item.tier} hidden={hidden}>
             {item.content}
           </ModelPoint>

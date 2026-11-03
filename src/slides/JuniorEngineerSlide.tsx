@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import { SlideDefinition } from '../types/slides';
 import { Emphasis, Level, LevelItem } from '../components/SlideElements';
+import { T, tr } from '../context/LanguageContext';
 import chatComparison from '/junior-engineer-comparison.png?url';
 
 function KeyInsightArrow() {
@@ -19,7 +20,19 @@ function KeyInsightArrow() {
   );
 }
 
-const BULLETS: { level: Level; content: ReactNode }[] = [
+// UA copy: bullets 5-6 and the punchline from the UA deck JuniorEngineerSlide; the UA deck framed
+// Claude as a "chaotic partner", the EN deck as a junior-engineer team — EN meaning wins,
+// so bullets 1-4 are UA: own translation.
+const BULLETS_UK: { level: Level; content: ReactNode }[] = [
+  { level: 'high',   content: <>ставтеся до Claude Code як до <Emphasis color="orange">дуже талановитого джуна</Emphasis>, якого ви щойно найняли в команду</> },
+  { level: 'high',   content: <>насправді, <Emphasis color="orange">це ціла команда</Emphasis> дуже талановитих джунів</> },
+  { level: 'medium', content: <>у них величезні «книжкові» знання, але вони нічого не знають про процеси й кодову базу вашої компанії</> },
+  { level: 'high',   content: <>це <Emphasis color="orange">їхній перший день</Emphasis>, а ви — техлід, який має організувати їхню роботу</> },
+  { level: 'high',   content: <>термінальний інтерфейс — це ваш <Emphasis color="green">чат-застосунок</Emphasis></> },
+  { level: 'medium', content: <>ви можете давати їм завдання, але потрібно допомагати з <Emphasis color="green">контекстом</Emphasis> та <Emphasis color="green">рев'ю</Emphasis></> },
+];
+
+const BULLETS_EN: { level: Level; content: ReactNode }[] = [
   { level: 'high',   content: <>treat Claude Code as a <Emphasis color="orange">very talented junior engineer</Emphasis> you've just hired onto your team</> },
   { level: 'high',   content: <>actually, <Emphasis color="orange">it's a whole team</Emphasis> of very talented junior engineers</> },
   { level: 'medium', content: <>they have vast "book" knowledge, but know nothing about your company's processes and codebase</> },
@@ -32,12 +45,13 @@ export const JuniorEngineerSlide: SlideDefinition = {
   id: 'junior-engineer',
   title: (
     <>
-      <span className="text-dim">&gt;</span> what to type in that terminal?
+      {/* UA: own translation (the UA deck had a different heading) */}
+      <span className="text-dim">&gt;</span> <T uk="що писати в той термінал?" en="what to type in that terminal?" />
     </>
   ),
-  maxRevealStages: BULLETS.length + 1,
-  content: ({ revealStage }) => {
-    const showInsight = revealStage >= BULLETS.length + 1;
+  maxRevealStages: BULLETS_EN.length + 1,
+  content: ({ revealStage, lang }) => {
+    const showInsight = revealStage >= BULLETS_EN.length + 1;
 
     // Final reveal: drop all the bullets and show only the punchline + the
     // one screenshot (Slack and Claude Code carrying the same request).
@@ -45,14 +59,14 @@ export const JuniorEngineerSlide: SlideDefinition = {
       return (
         <div className="junior-engineer-final">
           <div className="key-insight junior-engineer-punchline">
-            what would you write to a human?
+            {tr(lang, 'що б ви написали людині?', 'what would you write to a human?')}
             <KeyInsightArrow />
-            <Emphasis color="orange">write it to Claude Code</Emphasis>
+            <Emphasis color="orange">{tr(lang, 'пишіть це Claude Code', 'write it to Claude Code')}</Emphasis>
           </div>
 
           <img
             src={chatComparison}
-            alt="The same request sent in Slack and in the Claude Code terminal"
+            alt={tr(lang, 'Той самий запит у Slack і в терміналі Claude Code', 'The same request sent in Slack and in the Claude Code terminal')}
             className="junior-engineer-combined"
             loading="lazy"
           />
@@ -63,7 +77,7 @@ export const JuniorEngineerSlide: SlideDefinition = {
     // Build-up: text only, revealed one bullet at a time.
     return (
       <div className="junior-engineer-text">
-        {BULLETS.map((item, i) => (
+        {tr(lang, BULLETS_UK, BULLETS_EN).map((item, i) => (
           <LevelItem key={i} level={item.level} hidden={revealStage < i + 1}>
             {item.content}
           </LevelItem>

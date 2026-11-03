@@ -2,8 +2,33 @@ import { ReactNode } from 'react';
 import { SlideDefinition } from '../types/slides';
 import { Emphasis, SlideItem } from '../components/SlideElements';
 import { PacManCanvas } from '../components/pacman/PacManCanvas';
+import { T, tr } from '../context/LanguageContext';
 
-const BULLETS: ReactNode[] = [
+// UA copy: adapted from pragmatic-vibe-clauding-ua ImportantSlide (the same reality check,
+// condensed and reordered in EN — the EN meaning wins).
+const BULLETS_UK: ReactNode[] = [
+  <>
+    Claude Code підвищує <Emphasis>об'єми</Emphasis> вашої роботи, а не{' '}
+    <Emphasis color="orange">швидкість</Emphasis>
+  </>,
+  <>
+    самі ви напишете код або <Emphasis color="orange">краще</Emphasis>,{' '}
+    або <Emphasis color="orange">швидше</Emphasis> за нього
+  </>,
+  <>
+    дивитися, як клод працює в терміналі — це{' '}
+    <Emphasis color="orange">втрата продуктивності і грошей</Emphasis>
+  </>,
+  <>
+    знайдіть 2–3 задачі, які можна дати клоду з мінімальним наглядом, і{' '}
+    <Emphasis color="orange">переключіться на задачу, яка потребує вашої повної уваги</Emphasis>
+  </>,
+  <>
+    або просто запустіть клода і <Emphasis>зробіть перерву</Emphasis>
+  </>,
+];
+
+const BULLETS_EN: ReactNode[] = [
   <>
     Claude Code increases the <Emphasis>volume</Emphasis> of work, not the{' '}
     <Emphasis color="orange">speed</Emphasis>
@@ -29,19 +54,21 @@ export const OneMoreTipSlide: SlideDefinition = {
   id: 'one-more-tip',
   title: (
     <>
+      {/* UA: own translation */}
       <span className="text-dim">&gt;</span>{' '}
-      <span className="text-green">one last</span>{' '}
-      <span className="text-orange">tip</span>
+      <span className="text-green"><T uk="остання" en="one last" /></span>{' '}
+      <span className="text-orange"><T uk="порада" en="tip" /></span>
     </>
   ),
-  content: ({ revealStage }) => {
-    const idx = Math.min(revealStage, BULLETS.length - 1);
+  content: ({ revealStage, lang }) => {
+    const bullets = tr(lang, BULLETS_UK, BULLETS_EN);
+    const idx = Math.min(revealStage, bullets.length - 1);
     return (
       <div className="one-more-tip">
         {/* Left column — one bullet at a time, swapped on reveal */}
         <div className="one-more-tip__text">
           <SlideItem key={idx} delay={0.05}>
-            {BULLETS[idx]}
+            {bullets[idx]}
           </SlideItem>
         </div>
 
