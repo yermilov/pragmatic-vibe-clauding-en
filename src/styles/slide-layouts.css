@@ -1571,53 +1571,63 @@
 .models-tier--haiku{ --tier: var(--terminal-cyan);   --tier-glow: var(--terminal-cyan-glow); }
 .models-tier--sonnet{ --tier: var(--terminal-orange); --tier-glow: var(--terminal-orange-glow); }
 .models-tier--opus{ --tier: var(--terminal-blue);   --tier-glow: var(--terminal-blue-glow); }
+.models-tier--fable{ --tier: var(--terminal-green);  --tier-glow: var(--terminal-green-glow); }
 
+/* the ladder (pair · guidance) on top, effort + context points below */
 .models-slide {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: var(--space-xl);
+  justify-content: center;
+  gap: var(--space-lg);
   height: 100%;
-  justify-content: center;
+  max-width: 1500px;
+  margin: 0 auto;
+  text-align: left;
 }
 
-.models-badges {
-  display: flex;
-  justify-content: center;
-  gap: var(--space-xl);
-}
-
-.models-badge {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--space-sm);
-  animation: badgePop 0.5s var(--ease) both;
-}
-
-.models-badge:nth-child(2){ animation-delay: 70ms; }
-.models-badge:nth-child(3){ animation-delay: 140ms; }
-
-.models-badge__image {
-  width: clamp(80px, 13vh, 140px);
-  height: clamp(80px, 13vh, 140px);
-  object-fit: contain;
-  filter: drop-shadow(0 0 15px var(--tier-glow));
-}
-
-.models-badge__label {
+.models-ladder {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: var(--space-xl);
+  row-gap: var(--space-md);
+  align-items: baseline;
+  padding-left: var(--space-lg);
+  border-left: 2px solid var(--terminal-border-bright);
   font-size: var(--font-size-body);
+  line-height: var(--slide-line-height-normal);
+}
+
+.models-rung {
+  display: contents;
+}
+
+.models-rung__pair {
+  font-family: var(--font-mono);
   font-weight: 700;
   color: var(--tier);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
   text-shadow: 0 0 10px var(--tier-glow);
+  white-space: nowrap;
 }
 
-.models-points {
-  text-align: left;
-  width: 100%;
-  max-width: 1300px;
+.models-rung__slash {
+  color: var(--terminal-white-dim);
+  text-shadow: none;
+  font-weight: 400;
+}
+
+.models-rung__text {
+  color: var(--terminal-white);
+}
+
+.models-rung.is-unrevealed > * { visibility: hidden; animation: none; }
+
+.models-ladder__axis {
+  grid-column: 1 / -1;
+  color: var(--terminal-white-dim);
+}
+
+.models-extras {
+  min-width: 0;
 }
 
 .models-point {
@@ -1631,19 +1641,27 @@
 }
 
 .models-point__prefix {
-  color: var(--tier, var(--terminal-white-dim));
-  text-shadow: 0 0 8px var(--tier-glow, transparent);
+  color: var(--terminal-orange);
+  text-shadow: 0 0 8px var(--terminal-orange-glow);
 }
 
 .models-accent {
   color: var(--tier);
   font-weight: 600;
   text-shadow: 0 0 8px var(--tier-glow);
+  white-space: nowrap;
 }
 
-@keyframes badgePop {
-  from { opacity: 0; scale: 0.5; translate: 0 20px; }
-  to   { opacity: 1; scale: 1;   translate: 0 0; }
+.models-knob {
+  color: var(--terminal-orange);
+  font-weight: 600;
+  text-shadow: 0 0 8px var(--terminal-orange-glow);
+}
+
+/* narrow screens: the pair goes above its guidance */
+@media (max-width: 900px) {
+  .models-ladder { grid-template-columns: minmax(0, 1fr); row-gap: 0; }
+  .models-rung__text { margin-bottom: var(--space-sm); }
 }
 
 /* === CONTEXT PRINCIPLES: rule directives ================================== */
@@ -1744,6 +1762,30 @@
   letter-spacing: 0.1em;
 }
 
+/* Claude Code | Codex, side by side; stacked on narrow screens */
+.system-prompt-pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: minmax(0, 1fr);
+  gap: var(--space-lg);
+  width: 100%;
+  max-width: 1700px;
+  height: 100%;
+  margin: 0 auto;
+}
+
+.system-prompt-pair .system-prompt-container {
+  max-width: none;
+}
+
+@media (max-width: 600px) {
+  .system-prompt-pair {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    gap: var(--space-sm);
+  }
+}
+
 .system-prompt-container {
   position: relative;
   width: 100%;
@@ -1804,6 +1846,8 @@
   word-break: break-word;
   text-align: left;
   text-shadow: 0 0 8px color-mix(in srgb, var(--terminal-orange) 15%, transparent);
+  /* driven per frame by SystemPromptSlide's shared scroll curve */
+  transform: translateY(var(--scroll, 0px));
 }
 
 .system-prompt-text__banner {
@@ -1823,9 +1867,6 @@
   white-space: nowrap;
 }
 
-.system-prompt-scroll {
-  animation: systemPromptScroll 90s linear forwards;
-}
 
 @keyframes systemPromptPulse {
   0%, 100% { opacity: 1; }
@@ -1835,17 +1876,6 @@
 @keyframes loadingDot {
   0%, 100% { scale: 1; opacity: 0.4; }
   50% { scale: 1.4; opacity: 1; }
-}
-
-/* Speed increases monotonically; ends with the footer at the panel bottom
- * (100cqh = the panel's own height, via container-type: size). */
-@keyframes systemPromptScroll {
-  0%   { transform: translateY(0); }
-  20%  { transform: translateY(-2%); }
-  40%  { transform: translateY(-10%); }
-  60%  { transform: translateY(-25%); }
-  80%  { transform: translateY(-50%); }
-  100% { transform: translateY(calc(-100% + 100cqh)); }
 }
 
 /* === WARCRAFT FUN (ported from the UA deck) =============================== */
@@ -2295,8 +2325,14 @@
 
 /* === LANDSCAPE PHONES: decorative visuals step aside ======================= */
 @media (max-height: 500px) {
-  .vs-fighter,
-  .models-badges {
+  /* models: only the newest step is on screen */
+  .models-slide .is-unrevealed,
+  .models-slide .is-past,
+  .models-ladder__axis { display: none; }
+  .models-slide:has(.models-extras .reveal-enter:not(.is-past)) .models-ladder { display: none; }
+  .models-ladder { padding-left: var(--space-md); }
+
+  .vs-fighter {
     display: none;
   }
 

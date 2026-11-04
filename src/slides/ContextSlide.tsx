@@ -8,15 +8,15 @@ type ColorKey = 'orange' | 'green' | 'cyan' | 'blue';
 // UA copy: the UA deck's ContextSlide.
 const LAYERS_UK: { label: string; color: ColorKey }[] = [
   { label: 'системний промпт і опис тулів', color: 'orange' },
-  { label: 'опис MCP серверів', color: 'cyan' },
-  { label: 'зміст CLAUDE.md файлу', color: 'green' },
+  { label: 'скорочений опис доступних MCP серверів і скілів', color: 'cyan' }, // UA: Yarik's wording
+  { label: 'зміст AGENTS.md файлу', color: 'green' }, // UA: Yarik's wording
   { label: 'весь діалог з початку сесії', color: 'blue' },
 ];
 
 const LAYERS_EN: { label: string; color: ColorKey }[] = [
   { label: 'system prompt and tool descriptions', color: 'orange' },
-  { label: 'MCP server descriptions', color: 'cyan' },
-  { label: 'contents of the CLAUDE.md file', color: 'green' },
+  { label: 'short descriptions of the available MCP servers and skills', color: 'cyan' }, // EN: own translation
+  { label: 'contents of the AGENTS.md file', color: 'green' },
   { label: 'the entire dialogue since the session started', color: 'blue' },
 ];
 

@@ -6,7 +6,6 @@ import { tr } from '../context/LanguageContext';
 // UA copy: UA deck VibeFlowSlide, adapted where the EN steps changed (approve-the-plan, /simplify).
 const STEPS_UK: ReactNode[] = [
   <><Code variant="orange">/clear</Code> очищуємо context window</>,
-  <>переходимо у <Code>plan mode</Code></>,
   <>описуємо фічу / багу, <span className="vibe-flow__spotlight">формуємо контекст</span></>,
   <>ітеруємося по плану</>,
   <>затверджуємо план — Claude Code його виконує</>,
@@ -17,7 +16,6 @@ const STEPS_UK: ReactNode[] = [
 
 const STEPS_EN: ReactNode[] = [
   <><Code variant="orange">/clear</Code> clear the context window</>,
-  <>switch to <Code>plan mode</Code></>,
   <>describe the feature / bug, <span className="vibe-flow__spotlight">build the context</span></>,
   <>iterate on the plan</>,
   <>approve the plan — Claude Code executes it</>,
@@ -31,14 +29,7 @@ const STEPS_EN: ReactNode[] = [
 // reserved from stage 0 and the steps never move when an aside comes or goes.
 // UA: own translation
 const HINTS_UK: Record<number, ReactNode> = {
-  1: (
-    <>
-      що таке <Code>plan mode</Code>? режим, у якому Claude Code лише{' '}
-      «вивчає» і йому заборонено щось робити — ідеально для етапу{' '}
-      <span className="text-green">збору контексту</span>
-    </>
-  ),
-  5: (
+  4: (
     <>
       що таке <Code variant="orange">/commit-push-pr</Code>? скіл з{' '}
       <span className="text-orange">Anthropic plugin marketplace</span>
@@ -47,14 +38,7 @@ const HINTS_UK: Record<number, ReactNode> = {
 };
 
 const HINTS_EN: Record<number, ReactNode> = {
-  1: (
-    <>
-      what is <Code>plan mode</Code>? a state where Claude Code only{' '}
-      "learns" and is forbidden from taking any action — perfect for the{' '}
-      <span className="text-green">context-gathering</span> stage
-    </>
-  ),
-  5: (
+  4: (
     <>
       what is <Code variant="orange">/commit-push-pr</Code>? a skill defined in the{' '}
       <span className="text-orange">Anthropic plugin marketplace</span>
@@ -64,11 +48,11 @@ const HINTS_EN: Record<number, ReactNode> = {
 
 export const VibeFlowStepsSlide: SlideDefinition = {
   id: 'vibe-flow-steps',
-  // After "build the context" (stage 2) detour into the context-gathering
-  // deep-dive; after "/commit-push-pr" (stage 5) detour into marketplaces.
+  // After "build the context" (stage 1) detour into the context-gathering
+  // deep-dive; after "/commit-push-pr" (stage 4) detour into marketplaces.
   detours: [
-    { atStage: 2, toId: 'context-advice', returnStage: 3 },
-    { atStage: 5, toId: 'marketplaces', returnStage: 6 },
+    { atStage: 1, toId: 'context-advice', returnStage: 2 },
+    { atStage: 4, toId: 'marketplaces', returnStage: 5 },
   ],
   title: (
     <>
@@ -101,7 +85,7 @@ export const VibeFlowStepsSlide: SlideDefinition = {
       </div>
     </div>
   ),
-  maxRevealStages: 7,
+  maxRevealStages: STEPS_EN.length - 1,
   notes:
-    'Workflow: clear the session, plan mode, describe the problem, iterate on the plan, auto-accept, commit',
+    'Workflow: clear the session, describe the problem, iterate on the plan, approve and let it execute, commit',
 };

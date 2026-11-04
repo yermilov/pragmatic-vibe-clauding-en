@@ -8,8 +8,7 @@ import mcpContextPollution from '/mcp-context-pollution.png?url';
 // aside are newer than the UA deck — UA: own translation for those two.
 const MCP_BULLETS_UK: React.ReactNode[] = [
   <>
-    <Code>MCP</Code> (Model Context Protocol) — хайповий стандарт інтеграції
-    LLM-застосунків з інструментами
+    <Code>MCP</Code> (Model Context Protocol) — стандарт інтеграції LLM з тулами
   </>,
   <>
     <Code>tool</Code> — спосіб дозволити LLM виконувати дії, а не лише
@@ -34,14 +33,13 @@ const MCP_BULLETS_UK: React.ReactNode[] = [
     </SlideLink> (і певною мірою Slack connector)
   </>,
   <>
-    не забувайте підказувати клоду, що ви би хотіли, щоб він використав певний MCP
+    не забувайте підказувати агенту, що ви би хотіли, щоб він використав певний MCP
   </>,
 ];
 
 const MCP_BULLETS_EN: React.ReactNode[] = [
   <>
-    <Code>MCP</Code> (Model Context Protocol) — the hyped standard for
-    integrating LLM apps with tools
+    <Code>MCP</Code> (Model Context Protocol) — the standard for integrating LLMs with tools
   </>,
   <>
     <Code>tool</Code> — a way to let the LLM perform actions, not just
@@ -66,7 +64,7 @@ const MCP_BULLETS_EN: React.ReactNode[] = [
     </SlideLink> (and the Slack connector, to some extent)
   </>,
   <>
-    don't forget to hint to Claude that you'd like it to use a particular MCP
+    don't forget to hint to the agent that you'd like it to use a particular MCP
   </>,
 ];
 

@@ -1,37 +1,46 @@
+import { ReactNode } from 'react';
 import { SlideDefinition } from '../types/slides';
-import { revealWindow } from '../components/SlideElements';
 import { T, tr } from '../context/LanguageContext';
 
-import haikuImg from '/model-haiku.png?url';
-import sonnetImg from '/model-sonnet.png?url';
-import opusImg from '/model-opus.png?url';
+// The model ladder, Anthropic and OpenAI side by side (Yarik's pairing and guidance, 2026-11-04):
+// fable/astra · opus/sol · sonnet/terra · haiku/luna. Each pair owns one of the deck's four accents.
+type Tier = 'fable' | 'opus' | 'sonnet' | 'haiku';
 
-type ModelTier = 'haiku' | 'sonnet' | 'opus';
+type Rung = { tier: Tier; claude: string; codex: string; uk: ReactNode; en: ReactNode };
 
-// Each tier owns one of the deck's accents (cyan / amber / blue); the colour
-// is carried by a `models-tier--<tier>` class that sets `--tier` locally.
-function ModelBadge({ tier, image, label }: { tier: ModelTier; image: string; label: string }) {
-  return (
-    <div className={`models-badge models-tier--${tier}`}>
-      <img src={image} alt={label} className="models-badge__image" />
-      <span className="models-badge__label">{label}</span>
-    </div>
-  );
-}
+// UA: own translation of Yarik's English guidance
+const LADDER: Rung[] = [
+  {
+    tier: 'fable',
+    claude: 'fable',
+    codex: 'astra',
+    uk: 'надскладні, відкриті задачі: дайте проблему, рішення якої ви не знаєте',
+    en: "extremely hard, open-ended tasks: give it a problem you don't know the solution to",
+  },
+  {
+    tier: 'opus',
+    claude: 'opus',
+    codex: 'sol',
+    uk: 'основна модель, якщо готові платити більше; оркестратор, якщо хочете заощадити',
+    en: "the main driver if you're willing to spend more; the orchestrator if you want to be cost-effective",
+  },
+  {
+    tier: 'sonnet',
+    claude: 'sonnet',
+    codex: 'terra',
+    uk: 'імплементує специфікацію; агент для некодінгових задач (браузер, письмо, …)',
+    en: 'implements a spec; the agent for non-coding tasks (browser, writing, …)',
+  },
+  {
+    tier: 'haiku',
+    claude: 'haiku',
+    codex: 'luna',
+    uk: "рев'юер, дослідник коду, дуже малі сфокусовані задачі",
+    en: 'reviewer, explorer, very small focused tasks',
+  },
+];
 
-function ModelPoint({ children, tier, hidden }: { children: React.ReactNode; tier?: ModelTier; hidden: boolean }) {
-  return (
-    <div
-      className={`models-point ${tier ? `models-tier--${tier}` : ''} ${hidden ? 'is-unrevealed' : 'reveal-enter'}`}
-      aria-hidden={hidden || undefined}
-    >
-      <span className="models-point__prefix">&gt;</span>
-      <span>{children}</span>
-    </div>
-  );
-}
-
-function Accent({ children, tier }: { children: React.ReactNode; tier: ModelTier }) {
+function Pair({ tier, children }: { tier: Tier; children: ReactNode }) {
   return <span className={`models-accent models-tier--${tier}`}>{children}</span>;
 }
 
@@ -39,108 +48,30 @@ function TokenNum({ children }: { children: string }) {
   return <code className="code-inline">{children}</code>;
 }
 
-// UA copy: adapted from the UA deck's ModelsSlide (haiku, the 250k–300k mark, "just use opus");
-// the EN slide has since been rewritten, so the sonnet / opus / plan bullets are
-// UA: own translation
-const MODEL_POINTS_UK: { tier?: ModelTier; content: React.ReactNode }[] = [
-  {
-    tier: 'haiku',
-    content: (
-      <>
-        <Accent tier="haiku">haiku</Accent> — швидка і гарно розуміє код; напряму користуватися не треба, але деякі сабагенти використовують її заради ціни і швидкості
-      </>
-    ),
-  },
-  {
-    tier: 'sonnet',
-    content: (
-      <>
-        <Accent tier="sonnet">sonnet</Accent> — найзбалансованіша за ціною, швидкістю і якістю
-      </>
-    ),
-  },
-  {
-    tier: 'opus',
-    content: (
-      <>
-        <Accent tier="opus">opus</Accent> — найкраща, але повільна і дорога
-      </>
-    ),
-  },
-  {
-    content: (
-      <>
-        <Accent tier="sonnet">у старих моделях</Accent> перформенс падав на відмітці <TokenNum>250_000</TokenNum>–<TokenNum>300_000</TokenNum> токенів; сучасні моделі непогано працюють на будь-якій довжині контексту
-      </>
-    ),
-  },
-  {
-    tier: 'opus',
-    content: (
-      <>
-        якщо у вас Max план — просто завжди користуйтеся <Accent tier="opus">opus</Accent>
-      </>
-    ),
-  },
-  {
-    tier: 'sonnet',
-    content: (
-      <>
-        якщо платите за токени — <Accent tier="opus">opus</Accent> для дослідження, <Accent tier="sonnet">sonnet</Accent> для кодингу
-      </>
-    ),
-  },
+// After the four rungs: the effort knob, then context length. UA: Yarik's wording.
+const EXTRA_UK: ReactNode[] = [
+  <>
+    <span className="models-knob">effort</span> — друга ручка: та сама модель думає довше; для <Pair tier="fable">fable/astra</Pair>, <Pair tier="opus">opus/sol</Pair> використовуйте <span className="models-knob">medium</span>; для <Pair tier="haiku">haiku/luna</Pair> — <span className="models-knob">high</span>; для <Pair tier="sonnet">sonnet/terra</Pair> — експериментуйте
+  </>,
+  <>
+    у OpenAI моделей перформанс падає на відмітці <TokenNum>250_000</TokenNum>–<TokenNum>300_000</TokenNum> токенів; Anthropic моделі непогано працюють на будь-якій довжині контексту
+  </>,
 ];
 
-const MODEL_POINTS_EN: { tier?: ModelTier; content: React.ReactNode }[] = [
-  {
-    tier: 'haiku',
-    content: (
-      <>
-        <Accent tier="haiku">haiku</Accent> — fast and understands code well; no need to use it directly, but some subagents use it for cost and latency reasons
-      </>
-    ),
-  },
-  {
-    tier: 'sonnet',
-    content: (
-      <>
-        <Accent tier="sonnet">sonnet</Accent> — the most balanced in terms of price, latency, and quality
-      </>
-    ),
-  },
-  {
-    tier: 'opus',
-    content: (
-      <>
-        <Accent tier="opus">opus</Accent> — the best, but slow and expensive
-      </>
-    ),
-  },
-  {
-    content: (
-      <>
-        <Accent tier="sonnet">in older models</Accent>, performance would drop around the <TokenNum>250_000</TokenNum>–<TokenNum>300_000</TokenNum> token mark; today's models work pretty well at any context length
-      </>
-    ),
-  },
-  {
-    tier: 'opus',
-    content: (
-      <>
-        if you're on the Max plan — just use <Accent tier="opus">opus</Accent> for everything
-      </>
-    ),
-  },
-  {
-    tier: 'sonnet',
-    content: (
-      <>
-        if you're on the pay-per-token plan — use <Accent tier="opus">opus</Accent> for exploration and <Accent tier="sonnet">sonnet</Accent> for coding
-      </>
-    ),
-  },
+// EN: own translation
+const EXTRA_EN: ReactNode[] = [
+  <>
+    <span className="models-knob">effort</span> is the second knob: the same model thinks longer; use <span className="models-knob">medium</span> for <Pair tier="fable">fable/astra</Pair> and <Pair tier="opus">opus/sol</Pair>, <span className="models-knob">high</span> for <Pair tier="haiku">haiku/luna</Pair>, and experiment with <Pair tier="sonnet">sonnet/terra</Pair>
+  </>,
+  <>
+    OpenAI models' performance drops around the <TokenNum>250_000</TokenNum>–<TokenNum>300_000</TokenNum> token mark; Anthropic models work pretty well at any context length
+  </>,
 ];
+
+const STAGES = LADDER.length + EXTRA_EN.length;
+
+const revealClass = (shown: boolean, newest: boolean) =>
+  `${shown ? 'reveal-enter' : 'is-unrevealed'} ${shown && !newest ? 'is-past' : ''}`;
 
 export const ModelsSlide: SlideDefinition = {
   id: 'models',
@@ -149,23 +80,51 @@ export const ModelsSlide: SlideDefinition = {
       <span className="text-dim">&gt;</span> <T uk="моделі" en="models" />
     </>
   ),
-  maxRevealStages: MODEL_POINTS_EN.length,
-  content: ({ revealStage, lang }) => (
-    <div className="models-slide">
-      <div className="models-badges">
-        <ModelBadge tier="haiku" image={haikuImg} label="haiku" />
-        <ModelBadge tier="sonnet" image={sonnetImg} label="sonnet" />
-        <ModelBadge tier="opus" image={opusImg} label="opus" />
-      </div>
+  maxRevealStages: STAGES,
+  content: ({ revealStage, lang }) => {
+    const extras = tr(lang, EXTRA_UK, EXTRA_EN);
+    return (
+      <div className="models-slide">
+        <div className="models-ladder">
+          {LADDER.map((rung, i) => (
+            <div
+              key={rung.tier}
+              className={`models-rung models-tier--${rung.tier} ${revealClass(revealStage > i, revealStage === i + 1)}`}
+              aria-hidden={revealStage > i ? undefined : true}
+            >
+              <span className="models-rung__pair">
+                {rung.claude}
+                <span className="models-rung__slash">/</span>
+                {rung.codex}
+              </span>
+              <span className="models-rung__text">{tr(lang, rung.uk, rung.en)}</span>
+            </div>
+          ))}
+          <div className="models-ladder__axis" aria-hidden="true">
+            <T uk="↑ складніша робота · дорожче" en="↑ harder work · pricier" />
+          </div>
+        </div>
 
-      {/* sliding window of four: a spoken point drops off when the fifth arrives */}
-      <div className="models-points">
-        {revealWindow(tr(lang, MODEL_POINTS_UK, MODEL_POINTS_EN), revealStage, 4).map(({ item, index, hidden }) => (
-          <ModelPoint key={index} tier={item.tier} hidden={hidden}>
-            {item.content}
-          </ModelPoint>
-        ))}
+        <div className="models-extras">
+          {extras.map((content, k) => {
+            const stage = LADDER.length + k + 1;
+            return (
+              <div
+                key={k}
+                className={`models-point ${revealClass(revealStage >= stage, revealStage === stage)}`}
+                aria-hidden={revealStage >= stage ? undefined : true}
+              >
+                <span className="models-point__prefix">&gt;</span>
+                <span>{content}</span>
+              </div>
+            );
+          })}
+        </div>
       </div>
-    </div>
-  ),
+    );
+  },
+  notes:
+    'Ladder, top to bottom: fable/astra → opus/sol → sonnet/terra → haiku/luna (Claude / OpenAI). '
+    + 'Reveal order is top-down. The Max-plan / pay-per-token advice is folded into the opus/sol '
+    + 'line: main driver if you spend more, orchestrator over cheaper agents if you save.',
 };

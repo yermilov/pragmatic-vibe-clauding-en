@@ -55,7 +55,7 @@ const PRINCIPLES_UK: { color: ColorKey; content: React.ReactNode }[] = [
     color: 'cyan',
     content: (
       <>
-        якщо контекст переповнюється, клод автоматично проганяє compaction, фактично сумаризуючи існуючий контекст в менший об'єм
+        якщо контекст переповнюється, агент автоматично проганяє compaction, фактично сумаризуючи існуючий контекст в менший об'єм (не бійтесь, але майте на увазі)
       </>
     ),
   },
@@ -98,7 +98,7 @@ const PRINCIPLES_EN: { color: ColorKey; content: React.ReactNode }[] = [
     color: 'cyan',
     content: (
       <>
-        if context overflows, Claude automatically runs compaction, effectively summarizing the existing context into a smaller footprint
+        if context overflows, the agent automatically runs compaction, effectively summarizing the existing context into a smaller footprint (don't be afraid of it, but keep it in mind)
       </>
     ),
   },

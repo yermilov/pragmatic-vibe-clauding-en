@@ -56,5 +56,5 @@ export const LaunchSlide: SlideDefinition = {
     </div>
   ),
   notes:
-    'Claude Code launch checklist - model selection, plugins, permissions, and plan mode workflow',
+    'Claude Code launch checklist - model selection, plugins, and permissions',
 };

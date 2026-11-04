@@ -87,5 +87,5 @@ export const SkillsAuthoringSlide: SlideDefinition = {
     </div>
   ),
   notes:
-    'Skills authoring - teach Claude reusable skills when you find yourself repeating instructions. Start new session with plan mode, read docs, create skill. Or create a meta-skill for skill authoring itself. Examples: searching logs, debugging, perf, image gen, docs.',
+    'Skills authoring - teach Claude reusable skills when you find yourself repeating instructions. Start a new session, read docs, create skill. Or create a meta-skill for skill authoring itself. Examples: searching logs, debugging, perf, image gen, docs.',
 };
