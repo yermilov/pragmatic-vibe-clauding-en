@@ -1268,8 +1268,97 @@
  * ============================================================================= */
 
 /* === BILLION-DOLLAR SLIDE (tweet + gif overlay) ============================ */
+/* ---- bad-week: alert-app cards scattered across the slide, blurred under the bullets ---- */
+.bad-week {
+  position: relative;
+  display: grid;
+  grid-template: minmax(0, 1fr) / minmax(0, 1fr);
+  place-items: center;
+  height: 100%;
+  min-height: 0;
+}
+
+.bad-week > * { grid-area: 1 / 1; }
+
+.bad-week__cards {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  container-type: size;
+  transition: filter 400ms cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.bad-week--blurred .bad-week__cards { filter: blur(14px) brightness(0.6); }
+
+/* Card width tracks the slot; the big fourth card is the one that must fit the height. */
+.bad-week__card {
+  --card-w: min(30cqw, 95cqh);
+  position: absolute;
+  width: var(--card-w);
+  height: auto;
+  /* the crops keep the app's square corners on black: round them back off */
+  border-radius: calc(var(--card-w) * 0.04);
+  box-shadow: 0 8px 32px color-mix(in srgb, var(--terminal-black) 45%, transparent);
+}
+
+.bad-week__card--1 { left: 2%;  top: 6%;  rotate: -4deg; }
+.bad-week__card--3 { left: 3%;  top: 68%; rotate: 3deg; }
+.bad-week__card--4 { left: 35%; top: 9%;  rotate: -1.5deg; }
+.bad-week__card--2 { left: 68%; top: 38%; rotate: 4deg; }
+
+.bad-week__bullets {
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  max-width: min(100%, 1300px);
+  padding: var(--space-lg) var(--space-xl);
+  border-radius: var(--input-border-radius);
+  background: color-mix(in srgb, var(--terminal-bg) 82%, transparent);
+  text-align: left;
+  visibility: hidden;
+}
+
+.bad-week--blurred .bad-week__bullets { visibility: visible; }
+
 .overlay-slide {
   position: relative;
+}
+
+/* Codex terminal (Remotion render, 1600×720) fitted to the slot; the chad photo lands over its
+ * right side; the Peter Griffin clip (.overlay-gif) lands over both. */
+.billion-dollar {
+  position: relative;
+  display: grid;
+  grid-template: minmax(0, 1fr) / minmax(0, 1fr);
+  place-items: center;
+  height: 100%;
+  min-height: 0;
+  container-type: size;
+}
+
+.billion-dollar > * { grid-area: 1 / 1; }
+
+.billion-dollar__codex {
+  width: min(100cqw, 100cqh * 1600 / 720);
+  aspect-ratio: 1600 / 720;
+  border-radius: var(--input-border-radius);
+  border: 1px solid var(--terminal-border);
+  box-shadow: 0 8px 32px color-mix(in srgb, var(--terminal-black) 40%, transparent);
+}
+
+.billion-dollar__chad {
+  justify-self: end;
+  align-self: end;
+  height: min(74cqh, 42cqw);
+  aspect-ratio: 1106 / 1096;
+  object-fit: cover;
+  rotate: 3deg;
+  /* pull the tilted corners back inside the slot */
+  translate: -3cqw -4cqh;
+  border-radius: var(--input-border-radius);
+  border: 1px solid var(--terminal-border);
+  box-shadow: 0 12px 40px color-mix(in srgb, var(--terminal-black) 55%, transparent);
 }
 
 .overlay-gif {
@@ -1316,47 +1405,47 @@
 
 /* Final reveal: punchline above the single screenshot, centered. */
 /* Final reveal: two columns — punchline on the left, screenshot on the right. */
-.junior-engineer-final {
+/* Final reveal: the punchline split over two windows — a chat (left) and Claude Code (right),
+ * the same message typing into both (Remotion clips, 776×620 each), an arrow between them. */
+.twin {
   height: 100%;
-  display: flex;
-  flex-direction: row;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr);
+  grid-template-areas:
+    "left  .     right"
+    "chat  arrow agent";
+  column-gap: var(--space-md);
+  row-gap: var(--space-md);
   align-items: center;
-  justify-content: center;
-  gap: var(--space-3xl);
 }
 
-.junior-engineer-punchline {
-  flex: 0 1 440px;
-  text-align: left;
-  font-size: var(--font-size-h3);
-  line-height: 1.35;
+.twin__label {
+  grid-area: left;
+  text-align: center;
+  font-size: var(--font-size-body);
+  line-height: 1.3;
+}
+.twin__label--agent { grid-area: right; }
+.twin > .key-insight-arrow { grid-area: arrow; margin: 0; }
+.twin__shot--chat { grid-area: chat; }
+.twin__shot--agent { grid-area: agent; }
+
+.twin__shot {
+  height: 100%;
+  min-height: 0;
+  container-type: size;
+  display: grid;
+  place-items: start center;
 }
 
-/* Single combined screenshot (Slack + Claude Code, same request) — the hero. */
-.junior-engineer-combined {
-  flex: 0 1 auto;
-  min-width: 0;
-  max-width: 840px;
-  max-height: 100%;
-  object-fit: contain;
+.twin__frame {
+  width: min(100cqw, 100cqh * 776 / 620);
+  aspect-ratio: 776 / 620;
   border-radius: var(--input-border-radius);
   border: 1px solid var(--terminal-border);
   box-shadow: 0 8px 32px color-mix(in srgb, var(--terminal-black) 40%, transparent);
-}
-
-@media (max-width: 1200px) {
-  .junior-engineer-final {
-    flex-direction: column;
-    gap: var(--space-lg);
-  }
-  .junior-engineer-punchline {
-    flex: none;
-    text-align: center;
-    font-size: var(--slide-text-normal);
-  }
-  .junior-engineer-combined {
-    max-width: 100%;
-  }
 }
 
 /* === MCP SLIDE (content sandwiched between two side images) ================ */
@@ -2206,7 +2295,6 @@
 
 /* === LANDSCAPE PHONES: decorative visuals step aside ======================= */
 @media (max-height: 500px) {
-  .junior-engineer-combined,
   .vs-fighter,
   .models-badges {
     display: none;

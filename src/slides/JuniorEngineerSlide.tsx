@@ -2,7 +2,28 @@ import { ReactNode } from 'react';
 import { SlideDefinition } from '../types/slides';
 import { Emphasis, Level, LevelItem } from '../components/SlideElements';
 import { T, tr } from '../context/LanguageContext';
-import chatComparison from '/junior-engineer-comparison.png?url';
+// Remotion renders (video/src/twinTyping.tsx), one clip per app on the same timeline: the same
+// message typed into a team chat and into Claude Code at once. STAGED; the Claude Code screen is
+// redrawn from a real v2.1.318 capture, the chat app is a generic drawing.
+import twinChat from '../assets/twin/twin-chat.mp4?url';
+import twinClaude from '../assets/twin/twin-claude.mp4?url';
+import twinChatStill from '../assets/twin/twin-chat-still.png?url';
+import twinClaudeStill from '../assets/twin/twin-claude-still.png?url';
+
+const IS_EXPORT = new URLSearchParams(window.location.search).has('export');
+
+function TwinShot({ src, still, label, side }: { src: string; still: string; label: string; side: 'chat' | 'agent' }) {
+  return (
+    <div className={`twin__shot twin__shot--${side}`}>
+      {IS_EXPORT ? (
+        <img className="twin__frame" src={still} alt={label} />
+      ) : (
+        // plays once and stops on its last frame: both messages fully typed
+        <video className="twin__frame" src={src} aria-label={label} autoPlay muted playsInline />
+      )}
+    </div>
+  );
+}
 
 function KeyInsightArrow() {
   return (
@@ -24,7 +45,7 @@ function KeyInsightArrow() {
 // Claude as a "chaotic partner", the EN deck as a junior-engineer team — EN meaning wins,
 // so bullets 1-4 are UA: own translation.
 const BULLETS_UK: { level: Level; content: ReactNode }[] = [
-  { level: 'high',   content: <>ставтеся до Claude Code як до <Emphasis color="orange">дуже талановитого джуна</Emphasis>, якого ви щойно найняли в команду</> },
+  { level: 'high',   content: <>ставтеся до вашого агента як до <Emphasis color="orange">дуже талановитого джуна</Emphasis>, якого ви щойно найняли в команду</> },
   { level: 'high',   content: <>насправді, <Emphasis color="orange">це ціла команда</Emphasis> дуже талановитих джунів</> },
   { level: 'medium', content: <>у них величезні «книжкові» знання, але вони нічого не знають про процеси й кодову базу вашої компанії</> },
   { level: 'high',   content: <>це <Emphasis color="orange">їхній перший день</Emphasis>, а ви — техлід, який має організувати їхню роботу</> },
@@ -53,23 +74,18 @@ export const JuniorEngineerSlide: SlideDefinition = {
   content: ({ revealStage, lang }) => {
     const showInsight = revealStage >= BULLETS_EN.length + 1;
 
-    // Final reveal: drop all the bullets and show only the punchline + the
-    // one screenshot (Slack and Claude Code carrying the same request).
+    // Final reveal: drop the bullets; the same message is typed into a chat and into Claude Code
+    // at once, under the punchline split across the two windows.
     if (showInsight) {
       return (
-        <div className="junior-engineer-final">
-          <div className="key-insight junior-engineer-punchline">
-            {tr(lang, 'що б ви написали людині?', 'what would you write to a human?')}
-            <KeyInsightArrow />
+        <div className="twin">
+          <div className="twin__label">{tr(lang, 'що б ви написали людині?', 'what would you write to a human?')}</div>
+          <div className="twin__label twin__label--agent">
             <Emphasis color="orange">{tr(lang, 'пишіть це Claude Code', 'write it to Claude Code')}</Emphasis>
           </div>
-
-          <img
-            src={chatComparison}
-            alt={tr(lang, 'Той самий запит у Slack і в терміналі Claude Code', 'The same request sent in Slack and in the Claude Code terminal')}
-            className="junior-engineer-combined"
-            loading="lazy"
-          />
+          <TwinShot side="chat" src={twinChat} still={twinChatStill} label={tr(lang, 'чат з колегою', 'a chat with a teammate')} />
+          <KeyInsightArrow />
+          <TwinShot side="agent" src={twinClaude} still={twinClaudeStill} label="Claude Code" />
         </div>
       );
     }
@@ -85,4 +101,7 @@ export const JuniorEngineerSlide: SlideDefinition = {
       </div>
     );
   },
+  notes:
+    'Final reveal: the same message typing into a chat with Mariana and into Claude Code at once — '
+    + 'greeting and thanks included. STAGED scene; the Claude Code screen is a real v2.1.318 capture redrawn.',
 };

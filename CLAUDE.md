@@ -180,6 +180,32 @@ the logged-in browser), saves the image to `public/` (or `src/assets/` if a late
 preloaded) and the prompt to `src/prompts/<name>.json` (`filename`, `prompt`, `ratio`,
 `timestamp`, `model`) so it can be regenerated.
 
+## Remotion videos (`video/`)
+
+The Codex CLI on the «з чого починаємо» / "let's start" slide is a Remotion render, in a separate
+project with its own `package.json` (Vite never sees it). `video/src/codex.tsx` redraws the real
+codex-cli 0.166.0 start screen (captured 2026-11-04; only the working directory is staged). Three
+clips: `CodexIdle` (empty prompt, blinking cursor, loops), `CodexTyping` (types the prompt once)
+and `CodexTyped` (loops after typing ends). Re-render:
+
+```bash
+cd video && bun install
+npx remotion render src/index.ts CodexTyping out/CodexTyping-raw.mp4
+# Remotion writes full-range yuvj420p, which browsers refuse — transcode into the deck:
+ffmpeg -y -i out/CodexTyping-raw.mp4 -vf "scale=in_range=full:out_range=tv,format=yuv420p" \
+  -c:v libx264 -profile:v high -crf 21 -color_range tv -colorspace bt709 -movflags +faststart -an \
+  ../src/assets/codex/codex-typing.mp4
+# stills for the PDF export / posters
+npx remotion still src/index.ts CodexIdle ../src/assets/codex/codex-idle-still.png --frame=0
+npx remotion still src/index.ts CodexTyping ../src/assets/codex/codex-typing-still.png --frame=-1
+```
+
+The final reveal of «що писати в той термінал?» uses two more clips from `video/src/twinTyping.tsx`
+(STAGED): `ChatTwin` (a generic team chat, contact «Mariana Tkachenko», name and photo from the specimen Ukrainian ID card, `video/public/`) and `ClaudeTwin` (Claude Code
+v2.1.318, redrawn from a real capture) type the same message on one timeline; the slide starts both
+together. Render each the same way into `src/assets/twin/twin-{chat,claude}.mp4`, plus
+`--frame=-1` stills `twin-{chat,claude}-still.png`.
+
 ## Troubleshooting
 
 **`bun install` hangs at "Resolving…"** — the lockfile points at a private registry. Diagnose

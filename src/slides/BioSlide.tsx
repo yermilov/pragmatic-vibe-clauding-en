@@ -8,6 +8,7 @@ import grammarlyMark from '../assets/about/grammarly-mark.svg';
 // Ported from loops-skills-artifacts-factory-en (WAWTech 2026) AboutMeSlide: the same three beats
 // and copy, redrawn in this deck's terminal style. The Preply mark is painted through a CSS mask
 // (`.whoami__mark--preply`) so it takes a theme token; the Grammarly mark keeps its brand colours.
+// The photo and LinkedIn QR are always on screen; only the two cards reveal.
 // UA: own translation.
 
 const LINKEDIN_URL = 'https://www.linkedin.com/in/yarik-yermilov/';
@@ -19,7 +20,7 @@ export const BioSlide: SlideDefinition = {
       <span className="text-dim">&gt;</span> whoami
     </>
   ),
-  maxRevealStages: 3,
+  maxRevealStages: 2,
   content: ({ revealStage }) => (
     <div className="whoami">
       <div className="whoami__col">
@@ -30,7 +31,7 @@ export const BioSlide: SlideDefinition = {
           </div>
           <div className="whoami__line">
             <T
-              uk="веду AI / agentic трансформацію всього циклу розробки"
+              uk="займаюся AI/Agentic трансформацією процесів розробки у компанії"
               en="Leading the AI / agentic transformation of the software development lifecycle"
             />
           </div>
@@ -48,7 +49,7 @@ export const BioSlide: SlideDefinition = {
                   9 років: Java backend-інженер, техлід продукту{' '}
                   <em>Writing Assistant for Professionals</em>, торкався персоналізації,
                   server-driven UI, DevX-тулів, MLOps, LLMOps, навіть комп'ютерної лінгвістики — і
-                  проклав шлях до AI-кодингу
+                  був одним із перших, хто розпочав перехід компанії до AI-first розробки
                 </>
               }
               en={
@@ -64,7 +65,7 @@ export const BioSlide: SlideDefinition = {
         </Reveal>
       </div>
 
-      <Reveal show={revealStage >= 3} className="whoami__me">
+      <div className="whoami__me">
         <img className="whoami__photo" src={portrait} alt="Yaroslav Yermilov" />
         <div className="whoami__handle">
           <span className="whoami__in" aria-hidden="true">in</span>
@@ -75,10 +76,10 @@ export const BioSlide: SlideDefinition = {
             <QRCodeSVG value={LINKEDIN_URL} size={440} bgColor="transparent" fgColor="currentColor" level="M" />
           </div>
         </div>
-      </Reveal>
+      </div>
     </div>
   ),
   notes:
-    'Three beats: Preply today (AI/agentic transformation of the SDLC), nine years at Grammarly '
-    + 'behind it, and the QR to LinkedIn for anyone who wants to carry on afterwards.',
+    'Photo and LinkedIn QR are up from the start; two beats: Preply today (AI/agentic '
+    + 'transformation of the SDLC), then nine years at Grammarly behind it.',
 };

@@ -56,7 +56,7 @@ const timelineItems: TimelineItem[] = [
   {
     anchorDate: new Date(2025, 4),
     text: 'Claude Code proof of concept with Anthropic',
-    textUk: 'Claude Code proof of concept with Anthropic',
+    textUk: 'одна з останніх хвиль бета-тесту Claude Code від\u00a0Anthropic', // UA: Yarik's wording
     bullets: [
       'saw the potential and consciously stopped writing code by hand',
       'found my comfortable AI agentic coding workflow',
@@ -66,7 +66,7 @@ const timelineItems: TimelineItem[] = [
     bulletsUk: [
       'побачив потенціал і свідомо більше не писав жодного рядка коду вручну',
       'знайшов свій комфортний AI agentic coding workflow',
-      'просував Claude Code у Superhuman',
+      'просував Claude Code у Grammarly',
       'будував внутрішні інструменти: плагіни, скіли, агенти',
     ],
     image: null,
