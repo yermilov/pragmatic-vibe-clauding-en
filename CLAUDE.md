@@ -141,7 +141,8 @@ Keys (outside the box): → ↓ Space PageDown Enter advance, ← ↑ PageUp Bac
 Home/End. PageDown/PageUp always work (clicker). Swipes on touch.
 
 **`#slide-N` is a STEP of the talk, not a slide index** — every reveal is a step, detours are
-inlined (`utils/traversal.ts`). Adding a slide or a reveal shifts every later step id; say so when
+inlined (`utils/traversal.ts`; a detour target may itself detour, and several detours leaving one
+stage play back to back in the order listed). Adding a slide or a reveal shifts every later step id; say so when
 reporting a structural change.
 
 The timer starts when you leave the title slide, resets when you return to it, survives a reload,

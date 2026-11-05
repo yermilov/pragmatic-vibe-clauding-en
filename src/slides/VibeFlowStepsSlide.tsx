@@ -3,7 +3,8 @@ import { SlideDefinition } from '../types/slides';
 import { Code, Quote, SlideItem } from '../components/SlideElements';
 import { tr } from '../context/LanguageContext';
 
-// UA copy: UA deck VibeFlowSlide, adapted where the EN steps changed (approve-the-plan, /simplify).
+// UA copy: UA deck VibeFlowSlide; the plan / execute steps are Yarik's wording (05.11.2026), the
+// commit step is a prompt. The follow-ups after the commit live in AfterCommitSlides.tsx.
 export const STEPS_UK: ReactNode[] = [
   <><Code variant="orange">/clear</Code> очищуємо context window</>,
   <>описуємо фічу / багу, <span className="vibe-flow__spotlight">формуємо контекст</span></>,

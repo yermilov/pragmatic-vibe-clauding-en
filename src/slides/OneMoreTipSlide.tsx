@@ -16,7 +16,7 @@ const BULLETS_UK: ReactNode[] = [
     або <Emphasis color="orange">швидше</Emphasis> за нього
   </>,
   <>
-    дивитися, як клод працює в терміналі — це{' '}
+    дивитися, як агент працює в терміналі — це{' '}
     <Emphasis color="orange">втрата продуктивності і грошей</Emphasis>
   </>,
   <>
@@ -38,7 +38,7 @@ const BULLETS_EN: ReactNode[] = [
     or <Emphasis color="orange">faster</Emphasis>
   </>,
   <>
-    watching Claude work in the terminal is a{' '}
+    watching the agent work in the terminal is a{' '}
     <Emphasis color="orange">waste of productivity and money</Emphasis>
   </>,
   <>
@@ -81,5 +81,5 @@ export const OneMoreTipSlide: SlideDefinition = {
   },
   maxRevealStages: 4,
   notes:
-    "Reality check with an 8-bit Pac-Man animation. 5 reveal stages: 0 — Claude gives volume, not speed; 1 — on your own it's more effective; 2 — watching = lost productivity; 3 — delegate 2-3, focus on one; 4 — kick it off and take a break.",
+    "Reality check with an 8-bit Pac-Man animation. 5 reveal stages: 0 — agents give volume, not speed; 1 — on your own it's more effective; 2 — watching = lost productivity; 3 — delegate 2-3, focus on one; 4 — kick it off and take a break.",
 };

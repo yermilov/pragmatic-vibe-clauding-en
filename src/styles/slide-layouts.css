@@ -1806,7 +1806,7 @@
   .models-ladder { grid-template-columns: auto auto minmax(0, 1fr); }
   .models-rung { row-gap: var(--space-xs); }
   .models-rung__text { grid-column: 1 / -1; }
-  .models-rung.is-pending .models-rung__text { display: none; }
+  /* pending guidance keeps its space (visibility only), so a reveal never moves the rungs above */
 }
 
 /* === CONTEXT PRINCIPLES: rule directives ================================== */
@@ -2107,6 +2107,10 @@
   color: var(--terminal-green-bright, var(--terminal-green));
   text-decoration: underline;
   outline: none;
+}
+
+.warcraft-fun-copy.is-failed {
+  color: var(--terminal-red);
 }
 
 .warcraft-fun-copy.is-copied {

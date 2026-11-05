@@ -45,8 +45,7 @@ plus neutrals. `--terminal-purple` / `--terminal-red` are for syntax highlightin
 Tints are `color-mix(in srgb, var(--token) N%, transparent)`, never `rgba()`. Drop shadows mix
 from `--terminal-shadow` (black on the CRT, warm umber on paper). Colours that belong to a
 *picture of something else* are tokens with a comment saying so: the macOS traffic lights
-(`--chrome-dot-*`), Claude Code's `ultrathink` rainbow (`--ultrathink-*`), raw browser HTML on the
-for-example slide (`--raw-html-*`). Any new `:root` colour needs its `[data-theme="light"]`
+(`--chrome-dot-*`) and raw browser HTML on the for-example slide (`--raw-html-*`). Any new `:root` colour needs its `[data-theme="light"]`
 mirror unless it is such a fixed picture colour.
 
 ## Primitives (`src/components/SlideElements.tsx`)
