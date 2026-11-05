@@ -1,58 +1,36 @@
 import { ReactNode } from 'react';
 import { SlideDefinition } from '../types/slides';
-import { Code, SlideItem } from '../components/SlideElements';
+import { Code, Quote, SlideItem } from '../components/SlideElements';
 import { tr } from '../context/LanguageContext';
 
 // UA copy: UA deck VibeFlowSlide, adapted where the EN steps changed (approve-the-plan, /simplify).
-const STEPS_UK: ReactNode[] = [
+export const STEPS_UK: ReactNode[] = [
   <><Code variant="orange">/clear</Code> очищуємо context window</>,
   <>описуємо фічу / багу, <span className="vibe-flow__spotlight">формуємо контекст</span></>,
-  <>ітеруємося по плану</>,
-  <>затверджуємо план — Claude Code його виконує</>,
-  <><Code variant="orange">/commit-push-pr</Code></>,
-  <><Code variant="orange">/clear</Code></>,
-  <><Code variant="orange">/simplify</Code> або <Code variant="orange">/review</Code></>,
+  // UA: Yarik's wording (05.11.2026); EN: own translation
+  <>попросіть агента спочатку підготувати план, як він буде реалізовувати вашу задачу (можливо, з використанням більш потужної моделі)</>,
+  <>як тільки ви задоволені планом — просіть агента виконати його (можливо, з меншим effort чи навіть простішою моделлю)</>,
+  <><Quote>please commit, push, create pr</Quote></>,
 ];
 
-const STEPS_EN: ReactNode[] = [
+export const STEPS_EN: ReactNode[] = [
   <><Code variant="orange">/clear</Code> clear the context window</>,
   <>describe the feature / bug, <span className="vibe-flow__spotlight">build the context</span></>,
-  <>iterate on the plan</>,
-  <>approve the plan — Claude Code executes it</>,
-  <><Code variant="orange">/commit-push-pr</Code></>,
-  <><Code variant="orange">/clear</Code></>,
-  <><Code variant="orange">/simplify</Code> or <Code variant="orange">/review</Code></>,
+  <>ask the agent to first prepare a plan for how it will implement your task (possibly with a more powerful model)</>,
+  <>once you're happy with the plan — ask the agent to execute it (possibly with lower effort or even a simpler model)</>,
+  <><Quote>please commit, push, create pr</Quote></>,
 ];
-
-// Contextual asides, keyed by the reveal stage they belong to. They share
-// ONE slot under the steps (stacked in the same grid cell), so the space is
-// reserved from stage 0 and the steps never move when an aside comes or goes.
-// UA: own translation
-const HINTS_UK: Record<number, ReactNode> = {
-  4: (
-    <>
-      що таке <Code variant="orange">/commit-push-pr</Code>? скіл з{' '}
-      <span className="text-orange">Anthropic plugin marketplace</span>
-    </>
-  ),
-};
-
-const HINTS_EN: Record<number, ReactNode> = {
-  4: (
-    <>
-      what is <Code variant="orange">/commit-push-pr</Code>? a skill defined in the{' '}
-      <span className="text-orange">Anthropic plugin marketplace</span>
-    </>
-  ),
-};
 
 export const VibeFlowStepsSlide: SlideDefinition = {
   id: 'vibe-flow-steps',
-  // After "build the context" (stage 1) detour into the context-gathering
-  // deep-dive; after "/commit-push-pr" (stage 4) detour into marketplaces.
+  // After "build the context" (stage 1): the context-gathering deep-dive. After the commit
+  // prompt (stage 4, the last step): "learn to trust your agents" (which detours into "have
+  // some fun" and "how do I create a skill?"), then "avoid code slop" (which detours into
+  // marketplaces). The flow then continues on the five after-commit slides.
   detours: [
     { atStage: 1, toId: 'context-advice', returnStage: 2 },
-    { atStage: 4, toId: 'marketplaces', returnStage: 5 },
+    { atStage: 4, toId: 'launch', returnStage: 5 },
+    { atStage: 4, toId: 'code-slop', returnStage: 5 },
   ],
   title: (
     <>
@@ -68,24 +46,11 @@ export const VibeFlowStepsSlide: SlideDefinition = {
           {step}
         </SlideItem>
       ))}
-
-      <div className="vibe-flow__hints">
-        {Object.entries(tr(lang, HINTS_UK, HINTS_EN)).map(([stage, hint]) => {
-          const shown = revealStage === Number(stage);
-          return (
-            <div
-              key={stage}
-              className={`vibe-flow__hint ${shown ? 'reveal-enter' : 'is-unrevealed'}`}
-              aria-hidden={!shown || undefined}
-            >
-              {hint}
-            </div>
-          );
-        })}
-      </div>
     </div>
   ),
   maxRevealStages: STEPS_EN.length - 1,
   notes:
-    'Workflow: clear the session, describe the problem, iterate on the plan, approve and let it execute, commit',
+    'Workflow: clear the session, describe the problem and build the context, ask for a plan, '
+    + 'execute it, commit/push/PR. The follow-ups (simplify, review, proofs, CI, feedback loop) are '
+    + 'the next five slides.',
 };

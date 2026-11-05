@@ -8,10 +8,10 @@ const REPO_URL = 'https://github.com/yermilov/pragmatic-vibe-clauding-en';
 const REPO_LABEL = 'github.com/yermilov/pragmatic-vibe-clauding-en';
 
 const TASKS: ReactNode[] = [
-  <Quote>hey claude, build static web site from scratch and deploy on github pages</Quote>,
-  <Quote>hey claude, use /frontend-design skill to come up with terminal inspired design system</Quote>,
-  <Quote>hey claude, generate qr code from link</Quote>,
-  <Quote>hey claude, generate images using Gemini</Quote>,
+  <Quote>hey how r u, build static web site from scratch and deploy on github pages</Quote>,
+  <Quote>hey how r u, use /frontend-design skill to come up with terminal inspired design system</Quote>,
+  <Quote>hey how r u, generate qr code from link</Quote>,
+  <Quote>hey how r u, research prompting techniques to generate images using Gemini, and generate for me ..</Quote>,
 ];
 
 const QR_REVEAL_STAGE = 2;

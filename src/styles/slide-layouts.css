@@ -1239,13 +1239,6 @@
 
 .final-slide__qr {
   flex-shrink: 0;
-  max-width: 600px;
-  width: 100%;
-  height: auto;
-  object-fit: contain;
-  border-radius: var(--input-border-radius);
-  border: 2px solid color-mix(in srgb, var(--terminal-purple) 55%, transparent);
-  box-shadow: 0 8px 32px color-mix(in srgb, var(--terminal-bg) 70%, transparent);
   opacity: 0;
   animation: slideItemFadeIn 0.5s ease-out forwards;
   animation-delay: 0.1s;
@@ -1359,6 +1352,21 @@
   border-radius: var(--input-border-radius);
   border: 1px solid var(--terminal-border);
   box-shadow: 0 12px 40px color-mix(in srgb, var(--terminal-black) 55%, transparent);
+}
+
+/* The chad fades in slowly WHILE the prompt types itself (the typing clip runs ~4.4s), so the
+ * two land as one beat instead of a separate reveal. */
+.billion-dollar__chad--in {
+  animation: billionDollarChadIn 3.2s ease-out 0.6s both;
+}
+
+@keyframes billionDollarChadIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .billion-dollar__chad--in { animation: none; }
 }
 
 .overlay-gif {
@@ -1544,6 +1552,18 @@
   color: var(--terminal-white-muted);
 }
 
+/* Short laptops (1280×720): the UA title wraps to two lines and eight rows no longer fit
+ * with the default gaps — tighten the rhythm, never the type. */
+@media (max-height: 800px) {
+  .agenda-section {
+    margin-bottom: var(--space-md);
+  }
+
+  .agenda-slide .level-item {
+    margin-bottom: var(--space-xs);
+  }
+}
+
 /* === JUNIOR ENGINEER: the punchline arrow ================================ */
 .key-insight-arrow {
   display: inline-flex;
@@ -1585,20 +1605,85 @@
   text-align: left;
 }
 
-.models-ladder {
+/* the board: a vertical axis arrow + the ladder of four rungs */
+.models-board {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
-  column-gap: var(--space-xl);
-  row-gap: var(--space-md);
-  align-items: baseline;
-  padding-left: var(--space-lg);
-  border-left: 2px solid var(--terminal-border-bright);
+  column-gap: var(--space-lg);
   font-size: var(--font-size-body);
   line-height: var(--slide-line-height-normal);
 }
 
+/* the axis: a double-headed arrow down the left of the ladder; its ends are captioned
+ * horizontally above the top rung and below the bottom one */
+.models-axis {
+  grid-column: 1;
+  grid-row: 1 / span 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--terminal-white-dim);
+}
+
+.models-axis__head {
+  line-height: 1;
+}
+
+.models-axis__line {
+  flex: 1;
+  width: 2px;
+  background: var(--terminal-border-bright);
+}
+
+.models-axis__caption {
+  grid-column: 2;
+  padding-left: calc(var(--space-lg) + 4px);
+  color: var(--terminal-white-dim);
+}
+
+.models-board > .models-ladder {
+  grid-column: 2;
+  margin: var(--space-sm) 0;
+}
+
+.models-ladder {
+  display: grid;
+  grid-template-columns: auto auto minmax(0, 1fr);
+  row-gap: var(--space-sm);
+}
+
+/* each rung is a card on the ladder's shared columns */
 .models-rung {
-  display: contents;
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: subgrid;
+  column-gap: var(--space-lg);
+  align-items: center;
+  padding: var(--space-sm) var(--space-lg);
+  border-left: 4px solid var(--tier);
+  border-radius: 0 var(--radius-card) var(--radius-card) 0;
+  background: var(--terminal-bg-elevated);
+  transition: opacity 300ms var(--ease), box-shadow 300ms var(--ease), background 300ms var(--ease);
+}
+
+.models-rung.is-current {
+  background: color-mix(in srgb, var(--tier) 12%, var(--terminal-bg-elevated));
+  box-shadow: -4px 0 20px var(--tier-glow);
+}
+
+/* not reached yet: the chip and meter wait, dimmed, so the ladder is a picture from step 0 */
+.models-rung.is-pending {
+  background: transparent;
+  border-left-color: color-mix(in srgb, var(--tier) 40%, transparent);
+}
+
+.models-rung.is-pending .models-rung__pair,
+.models-rung.is-pending .models-rung__meter {
+  opacity: 0.45;
+}
+
+.models-rung.is-pending .models-rung__pair {
+  text-shadow: none;
 }
 
 .models-rung__pair {
@@ -1615,19 +1700,73 @@
   font-weight: 400;
 }
 
+.models-rung__meter {
+  display: inline-flex;
+  gap: 4px;
+  align-items: flex-end;
+}
+
+.models-rung__meter > span {
+  width: 0.5em;
+  height: 0.9em;
+  border: 2px solid color-mix(in srgb, var(--tier) 45%, transparent);
+  border-radius: 2px;
+}
+
+.models-rung__meter > span.is-on {
+  background: var(--tier);
+  border-color: var(--tier);
+  box-shadow: 0 0 8px var(--tier-glow);
+}
+
 .models-rung__text {
   color: var(--terminal-white);
 }
 
-.models-rung.is-unrevealed > * { visibility: hidden; animation: none; }
-
-.models-ladder__axis {
-  grid-column: 1 / -1;
-  color: var(--terminal-white-dim);
+/* guidance and effort dial share one cell, so the dial lands on top of the ladder without
+ * moving it */
+.models-rung__cell {
+  display: grid;
+  align-items: center;
 }
 
-.models-extras {
-  min-width: 0;
+.models-rung__cell > * {
+  grid-area: 1 / 1;
+}
+
+.models-dial {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.models-dial__level {
+  padding: 0 var(--space-sm);
+  border: 2px solid var(--terminal-border-bright);
+  border-radius: var(--radius-card);
+  color: var(--terminal-white-muted);
+  transition: background 300ms var(--ease), color 300ms var(--ease), border-color 300ms var(--ease);
+}
+
+.models-dial__level.is-on {
+  background: var(--tier);
+  border-color: var(--tier);
+  color: var(--terminal-bg);
+  font-weight: 700;
+  box-shadow: 0 0 14px var(--tier-glow);
+}
+
+/* sonnet/terra: no single pick, every level is fair game */
+.models-dial--guess .models-dial__level {
+  border-style: dashed;
+  border-color: var(--tier);
+  color: var(--tier);
+}
+
+.models-dial__note {
+  color: var(--tier);
+  font-weight: 600;
 }
 
 .models-point {
@@ -1658,10 +1797,16 @@
   text-shadow: 0 0 8px var(--terminal-orange-glow);
 }
 
-/* narrow screens: the pair goes above its guidance */
+/* narrow screens: pair + meter on one line, the guidance below it; the axis steps aside */
 @media (max-width: 900px) {
-  .models-ladder { grid-template-columns: minmax(0, 1fr); row-gap: 0; }
-  .models-rung__text { margin-bottom: var(--space-sm); }
+  .models-board { grid-template-columns: minmax(0, 1fr); }
+  .models-axis { display: none; }
+  .models-axis__caption,
+  .models-board > .models-ladder { grid-column: 1; }
+  .models-ladder { grid-template-columns: auto auto minmax(0, 1fr); }
+  .models-rung { row-gap: var(--space-xs); }
+  .models-rung__text { grid-column: 1 / -1; }
+  .models-rung.is-pending .models-rung__text { display: none; }
 }
 
 /* === CONTEXT PRINCIPLES: rule directives ================================== */
@@ -1940,7 +2085,33 @@
   flex-shrink: 0;
 }
 .warcraft-fun-panel__chrome--top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   border-bottom: 1px solid color-mix(in srgb, var(--terminal-green) 22%, transparent);
+}
+
+.warcraft-fun-copy {
+  font: inherit;
+  letter-spacing: inherit;
+  color: var(--terminal-green);
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-shadow: 0 0 8px var(--terminal-green-glow);
+}
+
+.warcraft-fun-copy:hover,
+.warcraft-fun-copy:focus-visible {
+  color: var(--terminal-green-bright, var(--terminal-green));
+  text-decoration: underline;
+  outline: none;
+}
+
+.warcraft-fun-copy.is-copied {
+  color: var(--terminal-orange);
+  text-shadow: 0 0 8px var(--terminal-orange-glow);
 }
 .warcraft-fun-panel__chrome--bottom {
   border-top: 1px solid color-mix(in srgb, var(--terminal-green) 22%, transparent);
@@ -1960,13 +2131,19 @@
   margin: 0;
   padding: var(--space-md) var(--space-lg);
   font-family: var(--font-mono);
-  font-size: var(--font-size-code);
+  /* deck-lint-allow font-size: fit-to-panel for the copyable prompt — Yarik (05.11.2026) prefers a smaller font over cutting the prompt; --prompt-fit ≤ 1 is set by useFitText, so it only ever scales DOWN from the code tier */
+  font-size: calc(var(--font-size-code) * var(--prompt-fit, 1));
   line-height: 1.45;
   color: var(--terminal-white);
   white-space: pre-wrap;
   word-break: normal;
   overflow-wrap: anywhere;
-  overflow: auto;
+  overflow: hidden;
+}
+
+/* phones: too long to fit even at the floor size — scroll it (and the copy button still works) */
+.warcraft-fun-prompt.is-scrolling {
+  overflow-y: auto;
 }
 
 .warcraft-fun-peasant {
@@ -2074,25 +2251,6 @@
     0 0 40px color-mix(in srgb, var(--terminal-orange) 30%, transparent);
 }
 
-/* every hint sits in the same cell: the slot is as tall as the tallest */
-.vibe-flow__hints {
-  display: grid;
-  margin-top: var(--space-lg);
-}
-
-.vibe-flow__hint {
-  grid-area: 1 / 1;
-  max-width: 1000px;
-  padding: var(--space-sm) var(--space-lg);
-  border-left: 3px solid var(--terminal-cyan);
-  background: color-mix(in srgb, var(--terminal-cyan) 6%, transparent);
-  border-radius: 0 var(--radius-card) var(--radius-card) 0;
-  color: var(--terminal-white-dim);
-  font-style: italic;
-  font-size: var(--font-size-body);
-  line-height: 1.5;
-}
-
 /* === MARKETPLACES ========================================================== */
 .marketplaces {
   text-align: left;
@@ -2112,12 +2270,39 @@
   margin: var(--space-sm) 0 0 2.5rem;
 }
 
+/* install commands: one column per agent */
 .marketplaces__install {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-lg);
+  margin: var(--space-md) 0 0 2.5rem;
+}
+
+.marketplaces__agent {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: var(--space-sm);
-  margin: var(--space-md) 0 0 2.5rem;
+  min-width: 0;
+}
+
+.marketplaces__agent-name {
+  font-size: var(--font-size-body);
+  color: var(--terminal-blue);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* commands are code: the code tier, wrapping inside their column */
+.marketplaces .marketplaces__agent .code-inline {
+  font-size: var(--font-size-code);
+  white-space: normal;
+  overflow-wrap: anywhere;
+  max-width: 100%;
+}
+
+@media (max-width: 900px) {
+  .marketplaces__install { grid-template-columns: minmax(0, 1fr); }
 }
 
 /* === LAUNCH / LEARN TO TRUST =============================================== */
@@ -2128,6 +2313,36 @@
   margin: 0 auto;
 }
 
+/* === AFTER COMMIT: /clear + one follow-up prompt per slide ================= */
+/* the same column as .vibe-flow, so the list visibly carries on */
+.after-commit {
+  text-align: left;
+  max-width: 1100px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* the command is a label here, not inline prose: body tier */
+.after-commit .code-inline { font-size: var(--font-size-body); }
+
+/* the end of the vibe-flow list, dimmed: these slides continue it */
+.after-commit__tail {
+  opacity: 0.4;
+}
+
+.after-commit__ellipsis {
+  padding-left: 0.6rem;
+  color: var(--terminal-white-dim);
+  font-size: var(--font-size-body);
+  line-height: 1;
+  margin-bottom: var(--space-xs);
+}
+
+/* landscape phones: no room for the context line */
+@media (max-height: 500px) {
+  .after-commit__tail { display: none; }
+}
+
 /* === CODE SLOP ============================================================= */
 .code-slop {
   text-align: left;
@@ -2135,19 +2350,6 @@
   width: 100%;
   margin: 0 auto;
 }
-
-.code-slop__struck {
-  text-decoration: line-through;
-  opacity: 0.6;
-}
-
-.ultrathink span:nth-child(7n + 1){ color: var(--ultrathink-1); }
-.ultrathink span:nth-child(7n + 2){ color: var(--ultrathink-2); }
-.ultrathink span:nth-child(7n + 3){ color: var(--ultrathink-3); }
-.ultrathink span:nth-child(7n + 4){ color: var(--ultrathink-4); }
-.ultrathink span:nth-child(7n + 5){ color: var(--ultrathink-5); }
-.ultrathink span:nth-child(7n + 6){ color: var(--ultrathink-6); }
-.ultrathink span:nth-child(7n + 7){ color: var(--ultrathink-7); }
 
 /* === TWO LISTS (not-just-coding: concepts | example prompts) =============== */
 .two-lists {
@@ -2289,9 +2491,15 @@
   min-height: 0;
 }
 
-.final-slide__qr .split__media {
-  max-width: min(36vw, 600px);
-  border-width: 2px;
+/* the «whoami» photo + live QR (WhoamiMe), sized to the right column */
+.final-slide__qr {
+  width: min(36vw, 600px);
+  flex-shrink: 0;
+}
+
+.final-slide__qr .whoami__me {
+  width: 100%;
+  height: 100%;
 }
 
 /* === ONE MORE TIP (Pac-Man) =============================================== */
@@ -2326,11 +2534,17 @@
 /* === LANDSCAPE PHONES: decorative visuals step aside ======================= */
 @media (max-height: 500px) {
   /* models: only the newest step is on screen */
-  .models-slide .is-unrevealed,
-  .models-slide .is-past,
-  .models-ladder__axis { display: none; }
-  .models-slide:has(.models-extras .reveal-enter:not(.is-past)) .models-ladder { display: none; }
-  .models-ladder { padding-left: var(--space-md); }
+  .models-slide .models-point.is-unrevealed,
+  .models-axis,
+  .models-axis__caption,
+  .models-rung.is-pending .models-rung__text { display: none; }
+  .models-board > .models-ladder { grid-column: 1; margin: 0; }
+  .models-ladder:has(.is-current) .models-rung:not(.is-current) { display: none; }
+  /* effort scene: the intro alone first, then only the rung(s) whose pick just lit up */
+  .models-slide--effort:not(:has(.is-current)) .models-board,
+  .models-slide--effort:has(.is-current) .models-point { display: none; }
+  .models-board { grid-template-columns: minmax(0, 1fr); }
+  .models-rung { padding: var(--space-xs) var(--space-md); }
 
   .vs-fighter {
     display: none;
@@ -2362,4 +2576,8 @@
   .marketplaces__chips:has(~ .marketplaces__install.reveal-enter) { display: none; }
   .marketplaces__chips:not(:has(.reveal-enter)),
   .marketplaces__install.is-unrevealed { display: none; }
+  /* the install step stands alone: two agents' commands need the whole height */
+  .marketplaces:has(.marketplaces__install.reveal-enter) > .slide-item { display: none; }
+  .marketplaces__install { gap: var(--space-sm); margin-top: 0; }
+  .marketplaces__agent { gap: var(--space-xs); }
 }

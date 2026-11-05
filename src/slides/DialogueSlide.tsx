@@ -1,6 +1,6 @@
 import { SlideDefinition } from '../types/slides';
 import { Quote, revealWindow, SlideItem } from '../components/SlideElements';
-import { T, tr } from '../context/LanguageContext';
+import { tr } from '../context/LanguageContext';
 import dialogueFlow from '/dialogue-flow.png?url';
 import dialogueMemory from '/dialogue-memory.png?url';
 
@@ -10,7 +10,7 @@ const DIALOGUE_BULLETS_UK: React.ReactNode[] = [
     використовуйте принцип <Quote>сім раз відмір — один раз відріж</Quote>
   </>,
   <>
-    за допомогою покрокового діалогу направляйте клод у правильний напрямок
+    за допомогою покрокового діалогу направляйте агента у правильний напрямок
   </>,
   <>
     <Quote>а подумай про ...</Quote>, <Quote>почитай тут ...</Quote>,{' '}
@@ -28,7 +28,7 @@ const DIALOGUE_BULLETS_EN: React.ReactNode[] = [
     follow the principle <Quote>measure twice, cut once</Quote>
   </>,
   <>
-    steer Claude in the right direction with a step-by-step dialogue
+    steer the agent in the right direction with a step-by-step dialogue
   </>,
   <>
     <Quote>now think about ...</Quote>, <Quote>read this ...</Quote>,{' '}
@@ -43,11 +43,6 @@ const DIALOGUE_BULLETS_EN: React.ReactNode[] = [
 
 export const DialogueSlide: SlideDefinition = {
   id: 'dialogue',
-  title: (
-    <>
-      <span className="text-dim">&gt;</span> <T uk="діалог" en="have a dialogue" />
-    </>
-  ),
   maxRevealStages: DIALOGUE_BULLETS_EN.length,
   content: ({ revealStage, lang }) => (
     // sliding window: three bullets beside the visuals (the two-column cap)

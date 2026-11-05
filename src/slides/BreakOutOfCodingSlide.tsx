@@ -9,7 +9,7 @@ const LEFT_BULLETS_UK: ReactNode[] = [
   <>поставте собі ціль: робити <Emphasis color="green">все</Emphasis> за допомогою Claude Code</>,
   <>пріоритизуйте <Emphasis color="green">feedback loops</Emphasis></>,
   <>встановіть <Emphasis color="green">CLI</Emphasis> (не MCP!) для всього, чим користуєтеся</>,
-  <>використовуйте <Emphasis color="green">Claude Chrome extension</Emphasis>, коли CLI немає</>,
+  <>там, де CLI немає, — просіть агента <Emphasis color="green">відкрити браузер і скористатися web UI</Emphasis></>,
 ];
 
 const LEFT_BULLETS_EN: ReactNode[] = [
@@ -17,15 +17,15 @@ const LEFT_BULLETS_EN: ReactNode[] = [
   <>set yourself a goal: do <Emphasis color="green">everything</Emphasis> with Claude Code</>,
   <>prioritize <Emphasis color="green">feedback loops</Emphasis></>,
   <>install a <Emphasis color="green">CLI</Emphasis> (not MCP!) for everything you use</>,
-  <>use the <Emphasis color="green">Claude Chrome extension</Emphasis> when there's no CLI</>,
+  <>where there's no CLI, ask the agent to <Emphasis color="green">open a browser and use the web UI</Emphasis></>,
 ];
 
 // Prompts stay English in both languages — they are what you type to Claude.
 const PROMPTS: ReactNode[] = [
-  <Quote>hey claude, open github in chrome and generate ssh key for me</Quote>,
-  <Quote>hey claude, configure dev environment for me</Quote>,
-  <Quote>hey claude, here is a bug report I've received mycompany.slack.com/archives/p1778239</Quote>,
-  <Quote>hey claude, monitor CI jobs in my PR and fix failing tests until pipeline is green</Quote>,
+  <Quote>hey how r u, open github in chrome and generate ssh key for me</Quote>,
+  <Quote>hey how r u, read our onboarding docs and configure dev environment for me</Quote>,
+  <Quote>hey how r u, here is a bug report I've received mycompany.slack.com/archives/p1778239</Quote>,
+  <Quote>hey how r u, research this topic and help me to prepare a presentation</Quote>,
 ];
 
 export const BreakOutOfCodingSlide: SlideDefinition = {
@@ -60,5 +60,5 @@ export const BreakOutOfCodingSlide: SlideDefinition = {
   ),
   maxRevealStages: LEFT_BULLETS_EN.length + PROMPTS.length - 1,
   notes:
-    'One point per reveal. Left column: coding is autocomplete; goal — do everything with Claude Code; feedback loops; CLI instead of MCP; Chrome extension as the escape hatch. Right column: concrete prompt examples across SDLC stages.',
+    'One point per reveal. Left column: coding is autocomplete; goal — do everything with Claude Code; feedback loops; CLI instead of MCP; where there is no CLI, the agent drives the web UI in a browser. Right column: concrete prompt examples beyond coding (ssh key, onboarding, bug report, research + presentation).',
 };

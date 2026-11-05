@@ -4,8 +4,8 @@ import { T, tr } from '../context/LanguageContext';
 import mcpToolCallFlow from '/mcp-tool-call-flow.png?url';
 import mcpContextPollution from '/mcp-context-pollution.png?url';
 
-// UA copy: the UA deck's McpSlide; the Chrome-extension bullet and the Slack-connector
-// aside are newer than the UA deck — UA: own translation for those two.
+// UA copy: the UA deck's McpSlide; the connectors aside is Yarik's wording (05.11.2026),
+// EN: own translation.
 const MCP_BULLETS_UK: React.ReactNode[] = [
   <>
     <Code>MCP</Code> (Model Context Protocol) — стандарт інтеграції LLM з тулами
@@ -18,19 +18,16 @@ const MCP_BULLETS_UK: React.ReactNode[] = [
     але насправді MCP — доволі контроверсійна технологія, оскільки вона має багато проблем і обмежень
   </>,
   <>
-    для Claude Desktop чи ChatGPT альтернатив їй немає, а от для Claude Code варто завжди в першу чергу використовувати CLI
+    для Claude Desktop чи ChatGPT альтернатив їй немає, а от для кодінг агентів варто завжди в першу чергу використовувати CLI
   </>,
   <>
     приклад: замість GitHub MCP використовуйте <Code>gh</Code> CLI
   </>,
   <>
-    в деяких випадках можна використати Claude Chrome extension
-  </>,
-  <>
     єдиний MCP сервер, який майже без вагань можу порекомендувати, — це{' '}
     <SlideLink href="https://github.com/ChromeDevTools/chrome-devtools-mcp">
       chrome-devtools-mcp
-    </SlideLink> (і певною мірою Slack connector)
+    </SlideLink> (а також коннектори — Slack, Google Docs, Google Calendar, …)
   </>,
   <>
     не забувайте підказувати агенту, що ви би хотіли, щоб він використав певний MCP
@@ -49,19 +46,16 @@ const MCP_BULLETS_EN: React.ReactNode[] = [
     but in reality MCP is a fairly controversial technology, since it has plenty of problems and limitations
   </>,
   <>
-    for Claude Desktop or ChatGPT there's no alternative, but for Claude Code you should always reach for the CLI first
+    for Claude Desktop or ChatGPT there's no alternative, but for coding agents you should always reach for the CLI first
   </>,
   <>
     for example: instead of the GitHub MCP, use the <Code>gh</Code> CLI
   </>,
   <>
-    in some cases, you can use the Claude Chrome extension
-  </>,
-  <>
     the one MCP server I can recommend almost without hesitation is{' '}
     <SlideLink href="https://github.com/ChromeDevTools/chrome-devtools-mcp">
       chrome-devtools-mcp
-    </SlideLink> (and the Slack connector, to some extent)
+    </SlideLink> (plus connectors — Slack, Google Docs, Google Calendar, …)
   </>,
   <>
     don't forget to hint to the agent that you'd like it to use a particular MCP

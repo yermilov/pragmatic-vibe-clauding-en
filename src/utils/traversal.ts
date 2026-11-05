@@ -28,18 +28,27 @@ export function deckPath(slides: SlideDefinition[]): Step[] {
     steps.push({ index, revealStage });
   };
 
-  slides.forEach((slide, index) => {
-    if (detourTargets.has(slide.id)) return;
+  // Plays one slide's reveals; a detour target is played the same way, so a detour may
+  // itself detour (nested). `seen` stops a cycle from looping forever.
+  const play = (index: number) => {
+    const slide = slides[index];
     const max = slide.maxRevealStages ?? 0;
     for (let stage = 0; stage <= max; stage++) {
       visit(index, stage);
-      const detour = slide.detours?.find((d) => d.atStage === stage);
-      if (!detour) continue;
-      const target = slides.findIndex((s) => s.id === detour.toId);
-      if (target < 0) continue;
-      for (let t = 0; t <= (slides[target].maxRevealStages ?? 0); t++) visit(target, t);
-      stage = detour.returnStage - 1; // the loop's ++ lands on returnStage
+      // Several detours may leave from the same stage: their targets play back to back,
+      // in the order listed, and the origin resumes at the last one's returnStage.
+      const detours = (slide.detours ?? []).filter((d) => d.atStage === stage);
+      for (const detour of detours) {
+        const target = slides.findIndex((s) => s.id === detour.toId);
+        if (target < 0 || seen.has(`${target}:0`)) continue;
+        play(target);
+        stage = detour.returnStage - 1; // the loop's ++ lands on returnStage
+      }
     }
+  };
+
+  slides.forEach((slide, index) => {
+    if (!detourTargets.has(slide.id)) play(index);
   });
 
   return steps;

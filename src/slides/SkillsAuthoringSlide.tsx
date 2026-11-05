@@ -8,7 +8,7 @@ import { T, tr } from '../context/LanguageContext';
 // SkillMarketplaceSlide; bullet 6 — UA: own translation.
 const BULLETS_UK: ReactNode[] = [
   <>
-    якщо ви бачите, що інструктуєте клод робити одне і те саме раз за разом
+    якщо ви бачите, що інструктуєте агента робити одне і те саме раз за разом
     (пошук в логах, дебагінг проблем, перформенс оптимізації, генерація картинок,
     написання документації, ...) — навчіть його цьому <Emphasis color="green">скілу</Emphasis>
   </>,
@@ -39,7 +39,7 @@ const BULLETS_UK: ReactNode[] = [
 
 const BULLETS_EN: ReactNode[] = [
   <>
-    if you catch yourself instructing Claude to do the same thing over and over
+    if you catch yourself instructing the agent to do the same thing over and over
     (searching logs, debugging issues, optimizing performance, generating images,
     writing documentation, ...) — teach it that <Emphasis color="green">skill</Emphasis>
   </>,
@@ -74,7 +74,7 @@ export const SkillsAuthoringSlide: SlideDefinition = {
     <>
       {/* UA: own translation */}
       <span className="text-dim">&gt;</span>{' '}
-      <T uk="про що поговоримо наступного разу?" en="what we will talk about next time?" />
+      <T uk="тізер: командна продуктивність" en="teaser: team productivity" />
     </>
   ),
   maxRevealStages: BULLETS_EN.length,

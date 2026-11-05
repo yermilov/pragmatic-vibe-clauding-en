@@ -8,7 +8,7 @@ import { T, tr } from '../context/LanguageContext';
 // condensed and reordered in EN — the EN meaning wins).
 const BULLETS_UK: ReactNode[] = [
   <>
-    Claude Code підвищує <Emphasis>об'єми</Emphasis> вашої роботи, а не{' '}
+    агенти підвищують <Emphasis>об'єми</Emphasis> вашої роботи, а не{' '}
     <Emphasis color="orange">швидкість</Emphasis>
   </>,
   <>
@@ -20,17 +20,17 @@ const BULLETS_UK: ReactNode[] = [
     <Emphasis color="orange">втрата продуктивності і грошей</Emphasis>
   </>,
   <>
-    знайдіть 2–3 задачі, які можна дати клоду з мінімальним наглядом, і{' '}
+    знайдіть 2–3 задачі, які можна дати агенту з мінімальним наглядом, і{' '}
     <Emphasis color="orange">переключіться на задачу, яка потребує вашої повної уваги</Emphasis>
   </>,
   <>
-    або просто запустіть клода і <Emphasis>зробіть перерву</Emphasis>
+    або просто запустіть агента і <Emphasis>зробіть перерву</Emphasis>
   </>,
 ];
 
 const BULLETS_EN: ReactNode[] = [
   <>
-    Claude Code increases the <Emphasis>volume</Emphasis> of work, not the{' '}
+    agents increase the <Emphasis>volume</Emphasis> of work, not the{' '}
     <Emphasis color="orange">speed</Emphasis>
   </>,
   <>
@@ -42,11 +42,11 @@ const BULLETS_EN: ReactNode[] = [
     <Emphasis color="orange">waste of productivity and money</Emphasis>
   </>,
   <>
-    find 2–3 tasks you can hand to Claude with minimal supervision, and{' '}
+    find 2–3 tasks you can hand to the agent with minimal supervision, and{' '}
     <Emphasis color="orange">switch yourself to the task that needs your full attention</Emphasis>
   </>,
   <>
-    or just kick off Claude and <Emphasis>take a break</Emphasis>
+    or just kick off the agent and <Emphasis>take a break</Emphasis>
   </>,
 ];
 

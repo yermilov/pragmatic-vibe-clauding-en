@@ -1,8 +1,7 @@
-import { QRCodeSVG } from 'qrcode.react';
 import { SlideDefinition } from '../types/slides';
 import { Reveal } from '../components/SlideElements';
+import { WhoamiMe } from '../components/WhoamiMe';
 import { T } from '../context/LanguageContext';
-import portrait from '../assets/about/yaroslav.jpg';
 import grammarlyMark from '../assets/about/grammarly-mark.svg';
 
 // Ported from loops-skills-artifacts-factory-en (WAWTech 2026) AboutMeSlide: the same three beats
@@ -10,8 +9,6 @@ import grammarlyMark from '../assets/about/grammarly-mark.svg';
 // (`.whoami__mark--preply`) so it takes a theme token; the Grammarly mark keeps its brand colours.
 // The photo and LinkedIn QR are always on screen; only the two cards reveal.
 // UA: own translation.
-
-const LINKEDIN_URL = 'https://www.linkedin.com/in/yarik-yermilov/';
 
 export const BioSlide: SlideDefinition = {
   id: 'bio',
@@ -65,18 +62,7 @@ export const BioSlide: SlideDefinition = {
         </Reveal>
       </div>
 
-      <div className="whoami__me">
-        <img className="whoami__photo" src={portrait} alt="Yaroslav Yermilov" />
-        <div className="whoami__handle">
-          <span className="whoami__in" aria-hidden="true">in</span>
-          <span>yarik-yermilov</span>
-        </div>
-        <div className="whoami__qr-slot">
-          <div className="whoami__qr">
-            <QRCodeSVG value={LINKEDIN_URL} size={440} bgColor="transparent" fgColor="currentColor" level="M" />
-          </div>
-        </div>
-      </div>
+      <WhoamiMe />
     </div>
   ),
   notes:

@@ -6,12 +6,15 @@ import { T, tr } from '../context/LanguageContext';
 // fable/astra · opus/sol · sonnet/terra · haiku/luna. Each pair owns one of the deck's four accents.
 type Tier = 'fable' | 'opus' | 'sonnet' | 'haiku';
 
-type Rung = { tier: Tier; claude: string; codex: string; uk: ReactNode; en: ReactNode };
+type Effort = 'medium' | 'high' | 'experiment';
+
+type Rung = { tier: Tier; effort: Effort; claude: string; codex: string; uk: ReactNode; en: ReactNode };
 
 // UA: own translation of Yarik's English guidance
 const LADDER: Rung[] = [
   {
     tier: 'fable',
+    effort: 'medium',
     claude: 'fable',
     codex: 'astra',
     uk: 'надскладні, відкриті задачі: дайте проблему, рішення якої ви не знаєте',
@@ -19,6 +22,7 @@ const LADDER: Rung[] = [
   },
   {
     tier: 'opus',
+    effort: 'medium',
     claude: 'opus',
     codex: 'sol',
     uk: 'основна модель, якщо готові платити більше; оркестратор, якщо хочете заощадити',
@@ -26,6 +30,7 @@ const LADDER: Rung[] = [
   },
   {
     tier: 'sonnet',
+    effort: 'experiment',
     claude: 'sonnet',
     codex: 'terra',
     uk: 'імплементує специфікацію; агент для некодінгових задач (браузер, письмо, …)',
@@ -33,6 +38,7 @@ const LADDER: Rung[] = [
   },
   {
     tier: 'haiku',
+    effort: 'high',
     claude: 'haiku',
     codex: 'luna',
     uk: "рев'юер, дослідник коду, дуже малі сфокусовані задачі",
@@ -40,38 +46,31 @@ const LADDER: Rung[] = [
   },
 ];
 
-function Pair({ tier, children }: { tier: Tier; children: ReactNode }) {
-  return <span className={`models-accent models-tier--${tier}`}>{children}</span>;
+const LEVELS = ['low', 'medium', 'high'] as const;
+
+// Stages: 1–4 reveal the rungs top-down. 5 brings in effort: every guidance cell turns into an
+// effort dial (nothing picked yet). Then the picks light up in the order Yarik says them:
+// 6 fable/astra + opus/sol → medium, 7 haiku/luna → high, 8 sonnet/terra → experiment.
+const EFFORT_INTRO = LADDER.length + 1;
+const EFFORT_PICK: Record<Effort, number> = { medium: EFFORT_INTRO + 1, high: EFFORT_INTRO + 2, experiment: EFFORT_INTRO + 3 };
+const STAGES = EFFORT_INTRO + 3;
+
+function EffortDial({ effort, picked, lang }: { effort: Effort; picked: boolean; lang: 'uk' | 'en' }) {
+  const guess = picked && effort === 'experiment';
+  return (
+    <span className={`models-dial ${guess ? 'models-dial--guess' : ''}`}>
+      {LEVELS.map((level) => (
+        <span key={level} className={`models-dial__level ${picked && level === effort ? 'is-on' : ''}`}>
+          {level}
+        </span>
+      ))}
+      <span className={`models-dial__note ${guess ? 'reveal-enter' : 'is-unrevealed'}`}>
+        {/* UA: Yarik's wording; EN: own translation */}
+        {tr(lang, '← експериментуйте', '← experiment')}
+      </span>
+    </span>
+  );
 }
-
-function TokenNum({ children }: { children: string }) {
-  return <code className="code-inline">{children}</code>;
-}
-
-// After the four rungs: the effort knob, then context length. UA: Yarik's wording.
-const EXTRA_UK: ReactNode[] = [
-  <>
-    <span className="models-knob">effort</span> — друга ручка: та сама модель думає довше; для <Pair tier="fable">fable/astra</Pair>, <Pair tier="opus">opus/sol</Pair> використовуйте <span className="models-knob">medium</span>; для <Pair tier="haiku">haiku/luna</Pair> — <span className="models-knob">high</span>; для <Pair tier="sonnet">sonnet/terra</Pair> — експериментуйте
-  </>,
-  <>
-    у OpenAI моделей перформанс падає на відмітці <TokenNum>250_000</TokenNum>–<TokenNum>300_000</TokenNum> токенів; Anthropic моделі непогано працюють на будь-якій довжині контексту
-  </>,
-];
-
-// EN: own translation
-const EXTRA_EN: ReactNode[] = [
-  <>
-    <span className="models-knob">effort</span> is the second knob: the same model thinks longer; use <span className="models-knob">medium</span> for <Pair tier="fable">fable/astra</Pair> and <Pair tier="opus">opus/sol</Pair>, <span className="models-knob">high</span> for <Pair tier="haiku">haiku/luna</Pair>, and experiment with <Pair tier="sonnet">sonnet/terra</Pair>
-  </>,
-  <>
-    OpenAI models' performance drops around the <TokenNum>250_000</TokenNum>–<TokenNum>300_000</TokenNum> token mark; Anthropic models work pretty well at any context length
-  </>,
-];
-
-const STAGES = LADDER.length + EXTRA_EN.length;
-
-const revealClass = (shown: boolean, newest: boolean) =>
-  `${shown ? 'reveal-enter' : 'is-unrevealed'} ${shown && !newest ? 'is-past' : ''}`;
 
 export const ModelsSlide: SlideDefinition = {
   id: 'models',
@@ -82,49 +81,86 @@ export const ModelsSlide: SlideDefinition = {
   ),
   maxRevealStages: STAGES,
   content: ({ revealStage, lang }) => {
-    const extras = tr(lang, EXTRA_UK, EXTRA_EN);
+    const effortScene = revealStage >= EFFORT_INTRO;
     return (
-      <div className="models-slide">
-        <div className="models-ladder">
-          {LADDER.map((rung, i) => (
-            <div
-              key={rung.tier}
-              className={`models-rung models-tier--${rung.tier} ${revealClass(revealStage > i, revealStage === i + 1)}`}
-              aria-hidden={revealStage > i ? undefined : true}
-            >
-              <span className="models-rung__pair">
-                {rung.claude}
-                <span className="models-rung__slash">/</span>
-                {rung.codex}
-              </span>
-              <span className="models-rung__text">{tr(lang, rung.uk, rung.en)}</span>
-            </div>
-          ))}
-          <div className="models-ladder__axis" aria-hidden="true">
-            <T uk="↑ складніша робота · дорожче" en="↑ harder work · pricier" />
+      <div className={`models-slide ${effortScene ? 'models-slide--effort' : ''}`}>
+        <div className="models-board">
+          {/* the axis: an arrow along the ladder, its two ends captioned (horizontal, readable) */}
+          <div className="models-axis" aria-hidden="true">
+            <span className="models-axis__head">▲</span>
+            <span className="models-axis__line" />
+            <span className="models-axis__head">▼</span>
+          </div>
+          <div className="models-axis__caption">
+            <T uk="складніша робота · дорожче" en="harder work · pricier" />
+          </div>
+
+          <div className="models-ladder">
+            {LADDER.map((rung, i) => {
+              const shown = revealStage > i;
+              const picked = revealStage >= EFFORT_PICK[rung.effort];
+              const current = effortScene ? revealStage === EFFORT_PICK[rung.effort] : revealStage === i + 1;
+              const state = !shown ? 'is-pending' : current ? 'is-current' : 'is-done';
+              return (
+                <div key={rung.tier} className={`models-rung models-tier--${rung.tier} ${state}`}>
+                  <span className="models-rung__pair">
+                    {rung.claude}
+                    <span className="models-rung__slash">/</span>
+                    {rung.codex}
+                  </span>
+                  {/* power / price: 4 cells at the top rung, 1 at the bottom */}
+                  <span className="models-rung__meter" aria-hidden="true">
+                    {[0, 1, 2, 3].map((c) => (
+                      <span key={c} className={c < LADDER.length - i ? 'is-on' : ''} />
+                    ))}
+                  </span>
+                  {/* one cell, two layers: the guidance, then (effort scene) the effort dial on top */}
+                  <span className="models-rung__cell">
+                    <span
+                      className={`models-rung__text ${shown && !effortScene ? 'reveal-enter' : 'is-unrevealed'}`}
+                      aria-hidden={shown && !effortScene ? undefined : true}
+                    >
+                      {tr(lang, rung.uk, rung.en)}
+                    </span>
+                    <span
+                      className={`models-rung__effort ${effortScene ? 'reveal-enter' : 'is-unrevealed'}`}
+                      aria-hidden={effortScene ? undefined : true}
+                    >
+                      <EffortDial effort={rung.effort} picked={picked} lang={lang} />
+                    </span>
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+
+          <div className="models-axis__caption">
+            {/* UA/EN: own wording, the lower end of the same axis */}
+            <T uk="простіша робота · дешевше" en="simpler work · cheaper" />
           </div>
         </div>
 
-        <div className="models-extras">
-          {extras.map((content, k) => {
-            const stage = LADDER.length + k + 1;
-            return (
-              <div
-                key={k}
-                className={`models-point ${revealClass(revealStage >= stage, revealStage === stage)}`}
-                aria-hidden={revealStage >= stage ? undefined : true}
-              >
-                <span className="models-point__prefix">&gt;</span>
-                <span>{content}</span>
-              </div>
-            );
-          })}
+        {/* laid out from stage 0 so its arrival moves nothing. UA: Yarik's wording */}
+        <div
+          className={`models-point ${effortScene ? 'reveal-enter' : 'is-unrevealed'}`}
+          aria-hidden={effortScene ? undefined : true}
+        >
+          <span className="models-point__prefix">&gt;</span>
+          <span>
+            <T
+              uk={<><span className="models-knob">effort</span> — друга ручка: та сама модель думає довше</>}
+              en={<><span className="models-knob">effort</span> is the second knob: the same model thinks longer</>}
+            />
+          </span>
         </div>
       </div>
     );
   },
   notes:
-    'Ladder, top to bottom: fable/astra → opus/sol → sonnet/terra → haiku/luna (Claude / OpenAI). '
-    + 'Reveal order is top-down. The Max-plan / pay-per-token advice is folded into the opus/sol '
-    + 'line: main driver if you spend more, orchestrator over cheaper agents if you save.',
+    'Ladder, top to bottom (the meter is relative power / price): fable/astra → opus/sol → '
+    + 'sonnet/terra → haiku/luna (Claude / OpenAI). Reveal order is top-down. The Max-plan / '
+    + 'pay-per-token advice is folded into the opus/sol line: main driver if you spend more, '
+    + 'orchestrator over cheaper agents if you save. Then effort: each guidance cell becomes a '
+    + 'low/medium/high dial; picks light up — fable/astra + opus/sol medium, haiku/luna high, '
+    + 'sonnet/terra experiment.',
 };

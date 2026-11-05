@@ -18,8 +18,8 @@ import chad from '../assets/billion-dollar-chad.jpg';
 
 const IS_EXPORT = new URLSearchParams(window.location.search).has('export');
 
-/** Stage 0: empty prompt, cursor blinking. Stage 1: the prompt types itself once, then the
- *  typed prompt keeps blinking. Later stages keep the typed loop without replaying the typing. */
+/** Stage 0: empty prompt, cursor blinking. Stage 1: the prompt types itself once (while the chad
+ *  fades in beside it), then the typed prompt keeps blinking. Stage 2 keeps the typed loop. */
 function CodexTerminal({ stage }: { stage: number }) {
   const [typingDone, setTypingDone] = useState(false);
   const label = 'Codex CLI';
@@ -56,16 +56,16 @@ export const BillionDollarSlide: SlideDefinition = {
       <span className="text-dim">&gt;</span> <T uk="з чого починаємо" en="let's start" />
     </>
   ),
-  maxRevealStages: 3,
+  maxRevealStages: 2,
   content: ({ revealStage, lang }) => (
     <div className="billion-dollar">
       <CodexTerminal stage={revealStage} />
       <img
-        className={`billion-dollar__chad ${revealStage >= 2 ? 'reveal-enter' : 'is-unrevealed'}`}
+        className={`billion-dollar__chad ${revealStage >= 1 ? 'billion-dollar__chad--in' : 'is-unrevealed'}`}
         src={chad}
         alt={tr(lang, 'чоловік за столом з ноутбуком і монітором', 'a man at a desk with a laptop and a monitor')}
       />
-      {revealStage >= 3 && (
+      {revealStage >= 2 && (
         <video
           src={peterMobile}
           poster={peterMobilePoster}
@@ -80,7 +80,7 @@ export const BillionDollarSlide: SlideDefinition = {
     </div>
   ),
   notes:
-    'Codex with an empty prompt → type «please generate billion dollar app» → the chad from the '
-    + '@amritwt tweet (Jul 2025) → Peter Griffin. The Codex screen is a Remotion redraw of a real '
+    'Codex with an empty prompt → «please generate billion dollar app» types itself while the chad '
+    + 'from the @amritwt tweet (Jul 2025) fades in → Peter Griffin. The Codex screen is a Remotion redraw of a real '
     + 'codex-cli 0.166.0 start screen; only the working directory is staged.',
 };

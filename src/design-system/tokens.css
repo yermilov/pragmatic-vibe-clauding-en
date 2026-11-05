@@ -53,16 +53,6 @@
   --chrome-dot-yellow: #ffbd2e;
   --chrome-dot-green: #27c93f;
 
-  /* The rainbow Claude Code paints `ultrathink` in — quoted UI, not palette
-   * (code-slop slide). Kept as a picture's own colours in both themes. */
-  --ultrathink-1: #ff6b6b;
-  --ultrathink-2: #ffa94d;
-  --ultrathink-3: #ffe066;
-  --ultrathink-4: #8ce99a;
-  --ultrathink-5: #74c0fc;
-  --ultrathink-6: #b197fc;
-  --ultrathink-7: #f783ac;
-
   /* "No design system" — raw browser-default HTML, quoted on the for-example
    * slide before the terminal design system snaps in. A picture of
    * something else, so it keeps its own colours in both themes. */

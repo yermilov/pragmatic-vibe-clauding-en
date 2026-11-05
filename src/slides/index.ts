@@ -20,6 +20,8 @@ import { InstallStatusLineSlide } from './InstallStatusLineSlide';
 import { VibeFlowStepsSlide } from './VibeFlowStepsSlide';
 import { ContextAdviceSlide } from './ContextAdviceSlide';
 import { MarketplacesSlide } from './MarketplacesSlide';
+import { SkillCreationSlide } from './SkillCreationSlide';
+import { AfterCommitSlides } from './AfterCommitSlides';
 import { BreakOutOfCodingSlide } from './BreakOutOfCodingSlide';
 import { ClaudeCodeSlide } from './ClaudeCodeSlide';
 import { UltimateExampleSlide } from './UltimateExampleSlide';
@@ -32,4 +34,4 @@ import { LifeAfterCommitSlide } from './LifeAfterCommitSlide';
 import { SkillsAuthoringSlide } from './SkillsAuthoringSlide';
 import { FinalSlide } from './FinalSlide';
 
-export const slides = [TitleSlide, BioSlide, TimelineSlide, AgendaSlide, BadWeekSlide, BillionDollarSlide, JuniorEngineerSlide, DisclaimerSlide, TheorySlide, ModelsSlide, ContextPrinciplesSlide, ContextSlide, SystemPromptSlide, McpSlide, ClaudeMdSlide, DialogueSlide, PromptsCommandsSubagentsSlide, WhatIsSkillSlide, TheoryCompleteSlide, InstallStatusLineSlide, VibeFlowStepsSlide, ContextAdviceSlide, MarketplacesSlide, LaunchSlide, WarcraftFunSlide, CodeSlopSlide, BreakOutOfCodingSlide, LifeAfterCommitSlide, ClaudeCodeSlide, UltimateExampleSlide, OneMoreTipSlide, SkillsAuthoringSlide, FinalSlide];
+export const slides = [TitleSlide, BioSlide, TimelineSlide, AgendaSlide, BadWeekSlide, BillionDollarSlide, JuniorEngineerSlide, DisclaimerSlide, TheorySlide, ModelsSlide, ContextPrinciplesSlide, ContextSlide, SystemPromptSlide, McpSlide, ClaudeMdSlide, DialogueSlide, PromptsCommandsSubagentsSlide, WhatIsSkillSlide, TheoryCompleteSlide, InstallStatusLineSlide, VibeFlowStepsSlide, ContextAdviceSlide, LaunchSlide, WarcraftFunSlide, SkillCreationSlide, CodeSlopSlide, MarketplacesSlide, ...AfterCommitSlides, BreakOutOfCodingSlide, LifeAfterCommitSlide, ClaudeCodeSlide, UltimateExampleSlide, OneMoreTipSlide, SkillsAuthoringSlide, FinalSlide];

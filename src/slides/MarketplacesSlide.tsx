@@ -9,7 +9,6 @@ const PLUGINS = [
   'claude-code-setup',
   'claude-md-management',
   'code-simplifier',
-  'commit-commands',
   'frontend-design',
   'pr-review-toolkit',
   'skill-creator',
@@ -67,13 +66,25 @@ export const MarketplacesSlide: SlideDefinition = {
           ))}
         </div>
 
+        {/* how to install, per agent. Codex column verified 05.11.2026 on codex-cli 0.166.0 in a
+            throwaway CODEX_HOME: it adds anthropics/claude-plugins-official as a marketplace and
+            installs commit-commands, frontend-design, pr-review-toolkit and skill-creator from it.
+            The example plugin is frontend-design (Yarik's favourites list, 05.11.2026) */}
         <Reveal show={revealStage >= installStage} className="marketplaces__install">
-          <Code variant="orange">/plugin marketplace add anthropics/claude-code</Code>
-          <Code variant="orange">/plugin install commit-commands@claude-plugins-official</Code>
+          <div className="marketplaces__agent">
+            <div className="marketplaces__agent-name">Claude Code</div>
+            <Code variant="orange">/plugin marketplace add anthropics/claude-plugins-official</Code>
+            <Code variant="orange">/plugin install frontend-design@claude-plugins-official</Code>
+          </div>
+          <div className="marketplaces__agent">
+            <div className="marketplaces__agent-name">Codex</div>
+            <Code variant="orange">codex plugin marketplace add anthropics/claude-plugins-official</Code>
+            <Code variant="orange">codex plugin add frontend-design@claude-plugins-official</Code>
+          </div>
         </Reveal>
       </div>
     );
   },
   notes:
-    'Marketplaces: third-party skills/commands/subagents ship as plugins; the official one is claude-plugins-official; recommended plugins revealed one at a time; finally the install commands — /plugin marketplace add and /plugin install.',
+    'Marketplaces: third-party skills/commands/subagents ship as plugins; the official one is claude-plugins-official; recommended plugins revealed one at a time; finally the install commands side by side — Claude Code (/plugin marketplace add, /plugin install) and Codex (codex plugin marketplace add, codex plugin add), which reads the same claude-plugins-official marketplace.',
 };

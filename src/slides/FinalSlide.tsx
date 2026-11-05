@@ -1,8 +1,8 @@
 import { ReactNode } from 'react';
 import { SlideDefinition } from '../types/slides';
-import { Code, Emphasis, Reveal, revealWindow, SlideItem, SlideLink } from '../components/SlideElements';
+import { Emphasis, Reveal, revealWindow, SlideItem, SlideLink } from '../components/SlideElements';
 import { tr } from '../context/LanguageContext';
-import linkedinQr from '/linkedin-qr.jpeg?url';
+import { WhoamiMe } from '../components/WhoamiMe';
 
 const FOLLOW_LINKS = (
   <>
@@ -29,9 +29,9 @@ const BULLETS_UK: ReactNode[] = [
     АІ-інженерами: {FOLLOW_LINKS} — але фільтруйте хайп і пустий трьоп
   </>,
   <>пробуйте нові підходи, але адаптуйте їх до своїх потреб</>,
-  <>не впевнені в чомусь? просто спитайте <Code>@claude-code-guide</Code></>,
+  <>не впевнені в чомусь? просто спитайте самого агента</>,
   <>
-    використовуйте клод код щоб збільшити свій <Emphasis color="green">throughput</Emphasis>,
+    використовуйте агентів, щоб збільшити свій <Emphasis color="green">throughput</Emphasis>,
     а не <Emphasis color="orange">latency</Emphasis>
   </>,
   <>
@@ -57,9 +57,9 @@ const BULLETS_EN: ReactNode[] = [
     — but filter out the hype and the empty noise
   </>,
   <>try new approaches, but adapt them to your own needs</>,
-  <>not sure about something? just ask <Code>@claude-code-guide</Code></>,
+  <>not sure about something? just ask the agent itself</>,
   <>
-    use Claude Code to boost your <Emphasis color="green">throughput</Emphasis>,
+    use agents to boost your <Emphasis color="green">throughput</Emphasis>,
     not your <Emphasis color="orange">latency</Emphasis>
   </>,
   <>
@@ -96,11 +96,8 @@ export const FinalSlide: SlideDefinition = {
       </div>
 
       <Reveal show={revealStage >= BULLETS_EN.length} className="final-slide__qr">
-        <img
-          src={linkedinQr}
-          alt={tr(lang, 'LinkedIn QR-код — Ярік Єрмілов', 'LinkedIn QR code - Yarik Yermilov')}
-          className="split__media"
-        />
+        {/* the same photo + live LinkedIn QR as on «whoami» */}
+        <WhoamiMe />
       </Reveal>
     </div>
   ),

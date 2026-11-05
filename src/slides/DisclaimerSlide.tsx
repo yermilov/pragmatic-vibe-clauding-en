@@ -13,7 +13,7 @@ const BULLETS_UK: { level: Level; content: ReactNode }[] = [
     content: (
       <>
         персонально для мене найкраще заходить флоу, у якому я працюю з{' '}
-        <Emphasis color="orange">Claude Code повністю в терміналі</Emphasis>
+        <Emphasis color="orange">агентом повністю в терміналі</Emphasis>
       </>
     ),
   },
@@ -71,7 +71,7 @@ const BULLETS_EN: { level: Level; content: ReactNode }[] = [
     content: (
       <>
         personally, the flow that works best for me is working with{' '}
-        <Emphasis color="orange">Claude Code entirely in the terminal</Emphasis>
+        <Emphasis color="orange">an agent entirely in the terminal</Emphasis>
       </>
     ),
   },

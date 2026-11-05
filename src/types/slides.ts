@@ -28,7 +28,8 @@ export interface SlideDefinition {
    * on this slide, navigation jumps to the slide with id `toId` (at reveal 0);
    * once that slide is fully revealed, it returns here at `returnStage`. Detour
    * targets are skipped on the subsequent linear pass. Multiple detours from
-   * one slide should list their target slides consecutively right after it.
+   * one slide should list their target slides consecutively right after it;
+   * detours sharing an `atStage` play back to back in the order listed.
    */
   detours?: { atStage: number; toId: string; returnStage: number }[];
   /**

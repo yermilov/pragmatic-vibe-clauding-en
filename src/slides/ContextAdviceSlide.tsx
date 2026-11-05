@@ -14,11 +14,11 @@ const ADVICE_UK: ReactNode[] = [
   </>,
   <>
     якщо задача складна — спочатку обговоріть її з <Code>Deep Research</Code>{' '}
-    агентом (ChatGPT чи Gemini), а потім додайте ріпорт до Claude Code
+    агентом (ChatGPT чи Gemini) і скопіюйте ріпорт в Codex / Claude Code
   </>,
   <>
     намалюйте схему чи дизайн на листочку, дошці чи в редакторі — сфоткайте
-    або зробіть скріншот і додайте до Claude Code
+    або зробіть скріншот і відправте агенту
   </>,
   <>
     пошукайте опен-сорс проєкти зі схожими задачами, попросіть клода{' '}
@@ -39,11 +39,11 @@ const ADVICE_EN: ReactNode[] = [
   </>,
   <>
     if the task is complex — first discuss it with a <Code>Deep Research</Code>{' '}
-    agent (ChatGPT or Gemini), then add the report into Claude Code
+    agent (ChatGPT or Gemini) and copy the report into Codex / Claude Code
   </>,
   <>
     sketch a diagram or design on paper, a whiteboard, or in an editor — take a
-    photo or screenshot and add it into Claude Code
+    photo or screenshot and send it to the agent
   </>,
   <>
     find open-source projects with similar tasks, ask Claude{' '}

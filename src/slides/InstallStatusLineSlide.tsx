@@ -40,7 +40,7 @@ export const InstallStatusLineSlide: SlideDefinition = {
   title: (
     <>
       <span className="text-dim">&gt;</span>{' '}
-      <T uk="якщо ви працюєте в Claude Code — встановіть status line" en="if you work in Claude Code, install a status line" />
+      <T uk="якщо ви працюєте в Claude Code" en="if you work in Claude Code" />
     </>
   ),
   maxRevealStages: BULLETS_EN.length - 1,

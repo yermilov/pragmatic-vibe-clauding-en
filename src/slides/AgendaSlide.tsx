@@ -25,15 +25,18 @@ export const AgendaSlide: SlideDefinition = {
   maxRevealStages: 3,
   content: ({ revealStage, lang }) => (
     <div className="agenda-slide">
-      <AgendaSection title="tools" hidden={revealStage < 1}>
-        <LevelItem level="high" aside={tr(lang, 'будемо багато', 'a lot')}>claude code</LevelItem>
-        <LevelItem level="medium" aside={tr(lang, 'будемо мало', 'a little')}>codex, cursor</LevelItem>
-        <LevelItem level="low" aside={tr(lang, 'майже не будемо', 'barely at all')}>{tr(lang, 'інші тули', 'everything else')}</LevelItem>
+      <AgendaSection title="scope" hidden={revealStage < 1}>
+        <LevelItem level="high" aside={tr(lang, 'будемо', 'yes')}>{tr(lang, 'як стати продуктивнішими з Claude Code?', 'how to become more productive with Claude Code?')}</LevelItem>
+        <LevelItem level="medium" aside={tr(lang, 'може іншим разом', 'maybe another time')}>{tr(lang, 'як зробити вашу команду AI-first?', 'how to make your team AI-first?')}</LevelItem>
+        {/* UA: Yarik's wording; EN: own translation */}
+        <LevelItem level="low" aside={tr(lang, 'може іншим разом', 'maybe another time')}>{tr(lang, 'як зробити вашу організацію AI-first?', 'how to make your organization AI-first?')}</LevelItem>
       </AgendaSection>
 
-      <AgendaSection title="scope" hidden={revealStage < 2}>
-        <LevelItem level="high" aside={tr(lang, 'будемо', 'yes')}>{tr(lang, 'як стати продуктивнішими з Claude Code?', 'how to become more productive with Claude Code?')}</LevelItem>
-        <LevelItem level="medium" aside={tr(lang, 'наступного разу', 'next time')}>{tr(lang, 'як зробити вашу команду AI-first?', 'how to make your team AI-first?')}</LevelItem>
+      {/* UA: Yarik's wording (05.11.2026); EN: own translation */}
+      <AgendaSection title="tools" hidden={revealStage < 2}>
+        <LevelItem level="high" aside={tr(lang, 'рідний для мене', 'my home tool')}>claude code</LevelItem>
+        <LevelItem level="medium" aside={tr(lang, 'також користуюся', 'I use it too')}>codex</LevelItem>
+        <LevelItem level="low" aside={tr(lang, 'щось чув', "heard of them")}>{tr(lang, 'інші тули', 'other tools')}</LevelItem>
       </AgendaSection>
 
       <AgendaSection title="audience" hidden={revealStage < 3}>

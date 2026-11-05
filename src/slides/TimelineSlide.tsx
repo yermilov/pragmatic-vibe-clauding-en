@@ -5,7 +5,7 @@ import cursorFrontend from '/timeline-cursor-frontend.png?url';
 import mentoringLlm from '/timeline-mentoring-llm.png?url';
 import aiTechDebt from '/timeline-ai-tech-debt.png?url';
 
-import { T, tr, type Lang } from '../context/LanguageContext';
+import { tr, type Lang } from '../context/LanguageContext';
 
 interface TimelineItem {
   anchorDate: Date | null;
@@ -79,11 +79,6 @@ const lastBulletsCount = timelineItems[lastIdx].bullets?.length ?? 0;
 export const TimelineSlide: SlideDefinition = {
   id: 'timeline',
   maxRevealStages: lastIdx + lastBulletsCount,
-  title: (
-    <>
-      <span className="text-dim">&gt;</span> <T uk="AI-first таймлайн" en="AI-first timeline" />
-    </>
-  ),
   content: ({ revealStage, lang }) => {
     const currentStage = Math.min(revealStage, lastIdx);
     const currentItem = timelineItems[currentStage];
