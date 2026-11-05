@@ -16,13 +16,13 @@ const DEVTOOLS_MCP_LINK = (
 const BULLETS_UK: ReactNode[] = [
   <>поясніть агенту, як запускати тести і стартувати ваш застосунок локально</>,
   <>
-    попросіть клод завжди додавати багато логів і поясніть, як отримати доступ до локального лог-файлу
+    попросіть агента завжди додавати багато логів і поясніть, як отримати доступ до локального лог-файлу
   </>,
   <>
-    поясніть клоду, як "проклацати ваш сервіс", щоб він міг його потестувати
+    поясніть агенту, як "проклацати ваш сервіс", щоб він міг його потестувати
   </>,
   <>
-    {DEVTOOLS_MCP_LINK} — дає клоду користуватися Chrome DevTools, але потребує складного
+    {DEVTOOLS_MCP_LINK} — дає агенту користуватися Chrome DevTools, але потребує складного
     налаштування і має серйозні обмеження
   </>,
   <>
@@ -33,14 +33,14 @@ const BULLETS_UK: ReactNode[] = [
 const BULLETS_EN: ReactNode[] = [
   <>explain to the agent how to run tests and start your app locally</>,
   <>
-    ask Claude to always add lots of logging, and explain how to access the local log file
+    ask the agent to always add lots of logging, and explain how to access the local log file
   </>,
   <>
-    explain to Claude how to "click through your service" so it can test it
+    explain to the agent how to "click through your service" so it can test it
   </>,
   <>
     {DEVTOOLS_MCP_LINK}{' '}
-    — lets Claude use Chrome DevTools, but requires a complicated setup and has serious limitations
+    — lets the agent use Chrome DevTools, but requires a complicated setup and has serious limitations
   </>,
   <>
     teach the agent where it can find logs, metrics, and traces from your different environments (including production)

@@ -21,7 +21,7 @@ const ADVICE_UK: ReactNode[] = [
     або зробіть скріншот і відправте агенту
   </>,
   <>
-    пошукайте опен-сорс проєкти зі схожими задачами, попросіть клода{' '}
+    пошукайте опен-сорс проєкти зі схожими задачами, попросіть агента{' '}
     <Quote>browse these repos via gh cli for inspiration</Quote>
   </>,
   <>
@@ -46,7 +46,7 @@ const ADVICE_EN: ReactNode[] = [
     photo or screenshot and send it to the agent
   </>,
   <>
-    find open-source projects with similar tasks, ask Claude{' '}
+    find open-source projects with similar tasks, ask the agent{' '}
     <Quote>browse these repos via gh cli for inspiration</Quote>
   </>,
   <>
@@ -79,5 +79,5 @@ export const ContextAdviceSlide: SlideDefinition = {
     );
   },
   notes:
-    'Building context, one piece of advice at a time: detailed task description, Deep Research, articles/PDFs, open-source repos, diagrams/screenshots, CLI/skills instead of MCP, frontend-design skill for UI, ask questions first in CLAUDE.md',
+    'Building context, one piece of advice at a time: detailed task description, Deep Research, articles/PDFs, open-source repos, diagrams/screenshots, CLI/skills instead of MCP, frontend-design skill for UI, ask questions first in AGENTS.md',
 };

@@ -26,7 +26,7 @@ export const AgendaSlide: SlideDefinition = {
   content: ({ revealStage, lang }) => (
     <div className="agenda-slide">
       <AgendaSection title="scope" hidden={revealStage < 1}>
-        <LevelItem level="high" aside={tr(lang, 'будемо', 'yes')}>{tr(lang, 'як стати продуктивнішими з Claude Code?', 'how to become more productive with Claude Code?')}</LevelItem>
+        <LevelItem level="high" aside={tr(lang, 'будемо', 'yes')}>{tr(lang, 'як стати продуктивнішими з агентами?', 'how to become more productive with agents?')}</LevelItem>
         <LevelItem level="medium" aside={tr(lang, 'може іншим разом', 'maybe another time')}>{tr(lang, 'як зробити вашу команду AI-first?', 'how to make your team AI-first?')}</LevelItem>
         {/* UA: Yarik's wording; EN: own translation */}
         <LevelItem level="low" aside={tr(lang, 'може іншим разом', 'maybe another time')}>{tr(lang, 'як зробити вашу організацію AI-first?', 'how to make your organization AI-first?')}</LevelItem>

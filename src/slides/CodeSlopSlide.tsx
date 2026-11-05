@@ -7,7 +7,7 @@ import { T, tr } from '../context/LanguageContext';
 // EN: own translation); the ultrathink / effort bullet is gone.
 const BULLETS_UK: ReactNode[] = [
   <>
-    якщо робите зміни в web ui: клод справляється з ними набагато краще, особливо якщо додасте{' '}
+    якщо робите зміни в web ui: агент справляється з ними набагато краще, особливо якщо додасте{' '}
     <Quote>use frontend-design skill to create well-crafted ui/ux</Quote>
   </>,
   <>
@@ -19,13 +19,13 @@ const BULLETS_UK: ReactNode[] = [
   </>,
   <>
     <Emphasis>repeat after me:</Emphasis> напишіть стаб фічі вручну і
-    попросіть клод закінчити
+    попросіть агента закінчити
   </>,
 ];
 
 const BULLETS_EN: ReactNode[] = [
   <>
-    making changes to your web UI? Claude handles them much better, especially if you add{' '}
+    making changes to your web UI? the agent handles them much better, especially if you add{' '}
     <Quote>use frontend-design skill to create well-crafted ui/ux</Quote>
   </>,
   <>
@@ -37,7 +37,7 @@ const BULLETS_EN: ReactNode[] = [
   </>,
   <>
     <Emphasis>repeat after me:</Emphasis> write a stub of the feature by hand and
-    ask Claude to finish it
+    ask the agent to finish it
   </>,
 ];
 
